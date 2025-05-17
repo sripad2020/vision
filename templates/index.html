@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisioNR: Vision Assistance System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #121212;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            opacity: 0.4;
+        }
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .hero {
+            margin-bottom: 60px;
+        }
+        .hero h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1.5s ease-in;
+        }
+        .hero p {
+            font-size: 1.3em;
+            color: #ccc;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 2s ease-in;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            color: #fff;
+            background: #d32f2f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: box-shadow 0.3s;
+        }
+        .button:hover {
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.7);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            animation: slideUp 1s ease-in;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        .feature-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #d32f2f;
+        }
+        .feature-card p {
+            color: #bbb;
+            font-size: 1em;
+        }
+        #camera-feed {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            height: 240px;
+            border: 3px solid #d32f2f;
+            border-radius: 12px;
+            z-index: 4;
+        }
+        #alerts {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 300px;
+            z-index: 4;
+        }
+        #alerts p {
+            margin: 5px 0;
+            color: #d32f2f;
+            font-size: 0.9em;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            .hero p {
+                font-size: 1em;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            #camera-feed {
+                width: 240px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <canvas id="three-canvas"></canvas>
+    <div class="container">
+        <div class="hero">
+            <h1>VisioNR: Empowering Vision</h1>
+            <p>Advanced navigation and assistance for the visually impaired, with real-time object detection, voice interaction, and caregiver support.</p>
+        </div>
+        <div class="buttons">
+            <a href="/login.html" class="button" id="login-btn">Login</a>
+            <a href="/signup.html" class="button" id="signup-btn">Signup</a>
+        </div>
+        <div class="features">
+            <div class="feature-card">
+                <h3>Real-Time Object Detection</h3>
+                <p>Detects 15 obstacles like cars, potholes, and stairs using YOLOv8, with distance estimation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Text Reading</h3>
+                <p>Reads signs and billboards aloud using Tesseract OCR for real-world text recognition.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Voice Assistant</h3>
+                <p>Ask “What’s in front of me?” or “How far is the exit?” for natural language responses.</p>
+            </div>
+            <div class="feature-card">
+                <h3>AR Navigation</h3>
+                <p>Simulated AR overlays with directional arrows on roads, guiding you step-by-step.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Emergency Alerts</h3>
+                <p>Instant alerts to caregivers for safety, with voice-activated emergency calls.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Caregiver Dashboard</h3>
+                <p>Live monitoring of user activity, location, and alerts via a web interface.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Context-Aware Routes</h3>
+                <p>Landmark-based directions like “Walk past the tall tree” for intuitive navigation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Indoor Navigation</h3>
+                <p>Guides through static floor plans (e.g., hospitals) with dynamic overlays.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Safe Zone Alerts</h3>
+                <p>Notifies when entering/leaving safe zones like home or school.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Behavior Analysis</h3>
+                <p>Tracks 10 behaviors (e.g., looking left, crouching) for enhanced safety.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="alerts"></div>
+
+    <!-- Particle.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <!-- Kute.js -->
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/kute.min.js"></script>
+    <script>
+        // Particle.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 120, density: { enable: true, value_area: 1000 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.6, random: true },
+                size: { value: 4, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 3, direction: 'none', random: true, out_mode: 'out' }
+            },
+            interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false } } },
+            retina_detect: true
+        });
+
+        // Three.js Configuration
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.SphereGeometry(5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        camera.position.z = 10;
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            sphere.rotation.x += 0.005;
+            sphere.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animateThree();
+
+        // Kute.js Animations
+        const loginTween = KUTE.fromTo('#login-btn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+        const signupTween = KUTE.fromTo('#signup-btn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+
+        document.getElementById('login-btn').addEventListener('mouseenter', () => loginTween.start());
+        document.getElementById('login-btn').addEventListener('mouseleave', () => loginTween.reverse().start());
+        document.getElementById('signup-btn').addEventListener('mouseenter', () => signupTween.start());
+        document.getElementById('signup-btn').addEventListener('mouseleave', () => signupTween.reverse().start());
+
+        // Camera Activation and Feature Integration
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                const video = document.getElementById('camera-feed');
+                video.srcObject = stream;
+
+                // Mock backend integration (WebSocket for demo)
+                const alertsDiv = document.getElementById('alerts');
+                const socket = new WebSocket('ws://localhost:5005'); // Replace with actual backend
+
+                socket.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    // Update alerts
+                    alertsDiv.innerHTML = data.alerts.map(alert => `<p>${alert}</p>`).join('');
+                    // Log objects and behaviors (mock AR rendering)
+                    data.overlays.objects.forEach(obj => {
+                        console.log(`Object: ${obj.label}, Distance: ${obj.distance}m`);
+                    });
+                    if (data.overlays.navigation.length > 0 && data.road_context) {
+                        console.log('Navigation arrow:', data.overlays.navigation);
+                    }
+                    console.log('User behavior:', data.user_behavior);
+                };
+
+                // Voice command processing
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.continuous = true;
+                recognition.onresult = (event) => {
+                    const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
+                    console.log('Voice command:', command);
+                    if (command.includes('settings')) {
+                        alert('Settings: Say 1 for navigation, 2 for caregiver update, 3 for logout');
+                        socket.send(JSON.stringify({ command: 'settings' }));
+                    } else if (command.includes('grocery store')) {
+                        socket.send(JSON.stringify({ command: 'navigate', destination: 'grocery store' }));
+                    } else if (command.includes('park')) {
+                        socket.send(JSON.stringify({ command: 'navigate', destination: 'park' }));
+                    } else if (command.includes('what') || command.includes('how far')) {
+                        socket.send(JSON.stringify({ command: 'query', query: command }));
+                    }
+                };
+                recognition.start();
+
+                // Emergency button (mock)
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'e') {
+                        socket.send(JSON.stringify({ command: 'emergency' }));
+                        alert('Emergency alert sent to caregiver');
+                    }
+                });
+            } catch (error) {
+                console.error('Camera access error:', error);
+                alert('Failed to access camera. Please allow camera and microphone permissions.');
+            }
+        }
+
+        // Start camera and features on page load
+        window.onload = startCamera;
+
+        // Accessibility: Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                document.getElementById('login-btn').focus();
+            }
+        });
+    </script>
+</body>
+</html>

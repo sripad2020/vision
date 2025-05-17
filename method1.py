@@ -247,7 +247,6 @@ last_announce_time = time.time()
 
 
 def estimate_distance(object_width_pixels, object_type):
-    """Estimate distance to object using pixel width"""
     if object_type not in KNOWN_WIDTHS:
         return None
     real_width = KNOWN_WIDTHS[object_type]
@@ -380,7 +379,7 @@ def user_camera_loop(user, stop_event):
         # Announce detections
         last_announce_time = announce_detections(detection_result, user.preferences, last_announce_time)
 
-        # Put frame in queue for caregiver
+        # Put frame in queue for caregive   r
         if user.camera_feed_queue.qsize() < 3:  # Keep queue size manageable
             user.camera_feed_queue.put(frame.copy())
 
@@ -627,7 +626,6 @@ def main_menu():
         return False
 
     return True
-
 
 if __name__ == "__main__":
     while main_menu():
