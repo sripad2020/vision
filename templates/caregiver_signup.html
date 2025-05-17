@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration | Assistive Vision</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <style>
+        :root {
+            --primary: #ff7b25;
+            --secondary: #ffffff;
+            --accent: #4a90e2;
+            --dark: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8d6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: transparent;
+        }
+
+        #three-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            opacity: 0.3;
+        }
+
+        .register-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+        }
+
+        .register-container h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+
+        .form-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus {
+            box-shadow: 0 5px 15px rgba(255, 123, 37, 0.3);
+        }
+
+        .input-group label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: #777;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:valid + label,
+        .input-group select:focus + label,
+        .input-group select:valid + label {
+            top: -10px;
+            left: 15px;
+            font-size: 12px;
+            background: white;
+            padding: 0 5px;
+            color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 123, 37, 0.4);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #ff6a0d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 123, 37, 0.6);
+        }
+
+        .links {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px 0;
+        }
+
+        .links a:hover {
+            color: #ff6a0d;
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff4757;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            color: #2ed573;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .star {
+            position: absolute;
+            background-color: var(--accent);
+            border-radius: 50%;
+            z-index: 3;
+            animation: twinkle 2s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .password-strength {
+            height: 5px;
+            background: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-meter {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .register-container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+
+            .register-container h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .input-group input,
+            .input-group select {
+                padding: 12px 15px;
+            }
+        }
+
+        /* Accessibility enhancements */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        input:focus, select:focus, button:focus {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div id="three-container"></div>
+
+    <div class="register-wrapper">
+        <div class="register-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="logo">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2>User Registration</h2>
+            <div class="error-message" id="error-message"></div>
+            <div class="success-message" id="success-message"></div>
+            <form id="registerForm">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+                    <div class="input-group">
+                        <input type="text" id="name" required aria-describedby="name-help">
+                        <label for="name">Full Name</label>
+                    </div>
+                    <span id="name-help" class="sr-only">Please enter your full name</span>
+
+                    <div class="input-group">
+                        <input type="email" id="email" required aria-describedby="email-help">
+                        <label for="email">Email Address</label>
+                    </div>
+                    <span id="email-help" class="sr-only">Please enter a valid email address</span>
+
+                    <div class="input-group">
+                        <input type="tel" id="phone" required aria-describedby="phone-help">
+                        <label for="phone">Phone Number</label>
+                    </div>
+                    <span id="phone-help" class="sr-only">Please enter your phone number</span>
+                </div>
+
+                <!-- Account Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Account Information</h3>
+                    <div class="input-group">
+                        <input type="text" id="username" required aria-describedby="username-help">
+                        <label for="username">Username</label>
+                    </div>
+                    <span id="username-help" class="sr-only">Choose a username for your account</span>
+
+                    <div class="input-group">
+                        <input type="password" id="password" required aria-describedby="password-help">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-meter" id="strength-meter"></div>
+                    </div>
+                    <span id="password-help" class="sr-only">Create a strong password with at least 8 characters</span>
+
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" required aria-describedby="confirm-help">
+                        <label for="confirm-password">Confirm Password</label>
+                    </div>
+                    <span id="confirm-help" class="sr-only">Please re-enter your password</span>
+                </div>
+
+                <!-- Caregiver Information Section -->
+                <div class="form-section">
+                    <h3 class="section-title">Caregiver Information</h3>
+                    <div class="input-group">
+                        <input type="text" id="caregiver-name" aria-describedby="caregiver-name-help">
+                        <label for="caregiver-name">Caregiver Name (Optional)</label>
+                    </div>
+                    <span id="caregiver-name-help" class="sr-only">Enter the name of your caregiver if applicable</span>
+
+                    <div class="input-group">
+                        <input type="email" id="caregiver-email" aria-describedby="caregiver-email-help">
+                        <label for="caregiver-email">Caregiver Email (Optional)</label>
+                    </div>
+                    <span id="caregiver-email-help" class="sr-only">Enter the email of your caregiver if applicable</span>
+                </div>
+
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <div class="links">
+                <a href="/login">Already have an account? Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Tilt.js
+        VanillaTilt.init(document.querySelector(".register-container"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            gyroscope: true
+        });
+
+        // Create blue stars
+        function createStars() {
+            const starCount = 30;
+            const container = document.body;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                // Random position
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 2}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        // Initialize Three.js scene
+        function initThreeJS() {
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.getElementById('three-container').appendChild(renderer.domElement);
+
+            // Create a subtle grid
+            const gridHelper = new THREE.GridHelper(20, 20, 0xffffff, 0xffffff);
+            gridHelper.position.z = -5;
+            scene.add(gridHelper);
+
+            camera.position.z = 5;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Initialize Particles.js with visible settings
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 120,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ff7b25"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.8,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": false
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "repulse": {
+                            "distance": 100,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+
+        // Password strength indicator
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            const meter = document.getElementById('strength-meter');
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            const colors = ['#ff4757', '#ffa502', '#eccc68', '#2ed573', '#1dd1a1'];
+            const width = (strength / 5) * 100;
+
+            meter.style.width = `${width}%`;
+            meter.style.background = colors[strength];
+        }
+
+        // Form submission with AJAX
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const caregiverName = document.getElementById('caregiver-name').value;
+            const caregiverEmail = document.getElementById('caregiver-email').value;
+
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+
+            // Hide previous messages
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+
+            // Validate form
+            if (!name || !email || !phone || !username || !password || !confirmPassword) {
+                errorMessage.textContent = "Please fill in all required fields";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords do not match";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            if (password.length < 8) {
+                errorMessage.textContent = "Password must be at least 8 characters";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Show loading state
+            const btn = document.querySelector('.btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+
+            // AJAX request to Flask backend
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    username: username,
+                    password: password,
+                    caregiver_name: caregiverName,
+                    caregiver_email: caregiverEmail
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Registration successful
+                    successMessage.textContent = "Registration successful! Redirecting to login...";
+                    successMessage.style.display = "block";
+
+                    // Clear form
+                    document.getElementById('registerForm').reset();
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    // Show error message
+                    errorMessage.textContent = data.message || "Registration failed. Please try again.";
+                    errorMessage.style.display = "block";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = "An error occurred. Please try again.";
+                errorMessage.style.display = "block";
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = "Register";
+            });
+        });
+
+        // Password strength check
+        document.getElementById('password').addEventListener('input', function(e) {
+            checkPasswordStrength(e.target.value);
+        });
+
+        // Initialize everything when page loads
+        window.onload = function() {
+            createStars();
+            initThreeJS();
+            initParticles();
+
+            // Add slight float animation to register container
+            KUTE.to(
+                document.querySelector('.register-container'),
+                { y: -5 },
+                {
+                    duration: 3000,
+                    yoyo: true,
+                    repeat: Infinity,
+                    easing: 'easingSineInOut'
+                }
+            ).start();
+
+            // Focus on first input field for screen readers
+            document.getElementById('name').focus();
+        };
+    </script>
+</body>
+</html>
