@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        #video {
+            width: 640px;
+            height: 360px;
+            border: 2px solid #333;
+            margin: 10px;
+        }
+        #info, #alerts {
+            width: 640px;
+            margin: 10px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #info p, #alerts p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        #alerts p {
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caregiver Dashboard</h1>
+    <img id="video" src="/caregiver_video_feed">
+    <div id="info">
+        <p>User ID: <span id="user_id">N/A</span></p>
+        <p>Location: <span id="location">N/A</span></p>
+        <p>Destination: <span id="destination">N/A</span></p>
+        <p>Behavior: <span id="behavior">N/A</span></p>
+    </div>
+    <div id="alerts"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const userId = document.getElementById('user_id');
+        const location = document.getElementById('location');
+        const destination = document.getElementById('destination');
+        const behavior = document.getElementById('behavior');
+        const alertsDiv = document.getElementById('alerts');
+
+        const socket = io.connect('http://localhost:5001/caregiver_data', {
+            transports: ['websocket'],
+            reconnection: true,
+            reconnectionAttempts: Infinity,
+            reconnectionDelay: 1000
+        });
+
+        socket.on('connect', () => {
+            alertsDiv.innerHTML = '<p>Connected to server</p>';
+        });
+
+        socket.on('data', (data) => {
+            userId.textContent = data.user_id || 'N/A';
+            location.textContent = data.location ? `[${data.location[0].toFixed(2)}, ${data.location[1].toFixed(2)}]` : 'N/A';
+            destination.textContent = data.destination || 'N/A';
+            behavior.textContent = data.behavior || 'N/A';
+            alertsDiv.innerHTML = data.alerts ? data.alerts.map(alert => `<p>${alert}</p>`).join('') : '';
+        });
+
+        socket.on('disconnect', () => {
+            alertsDiv.innerHTML = '<p>Connection lost. Reconnecting...</p>';
+        });
+
+        setInterval(() => {
+            video.src = `/caregiver_video_feed?${new Date().getTime()}`;
+        }, 100);
+    </script>
+</body>
+</html>

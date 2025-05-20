@@ -1,0 +1,4 @@
+2025-05-21 01:34:28,079 - Imported existing <module 'comtypes.gen' from 'F:\\3.12.5\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-05-21 01:34:28,079 - Using writeable comtypes cache directory: 'F:\3.12.5\Lib\site-packages\comtypes\gen'
+2025-05-21 01:34:29,606 - Failed to download cone.png: HTTP Error 403: Forbidden
+2025-05-21 01:34:38,101 - http://127.0.0.1:5000 is not an accepted origin. (further occurrences of this error will be logged with level INFO)

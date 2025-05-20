@@ -1,0 +1,3 @@
+2025-05-21 01:33:15,647 - Imported existing <module 'comtypes.gen' from 'F:\\3.12.5\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-05-21 01:33:15,648 - Using writeable comtypes cache directory: 'F:\3.12.5\Lib\site-packages\comtypes\gen'
+2025-05-21 01:33:17,720 - Failed to download cone.png: HTTP Error 403: Forbidden

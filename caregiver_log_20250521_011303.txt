@@ -1,0 +1,3 @@
+2025-05-21 01:13:04,335 - Imported existing <module 'comtypes.gen' from 'F:\\3.12.5\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-05-21 01:13:04,336 - Using writeable comtypes cache directory: 'F:\3.12.5\Lib\site-packages\comtypes\gen'
+2025-05-21 01:13:06,443 - Failed to download cone.png: HTTP Error 404: Not Found

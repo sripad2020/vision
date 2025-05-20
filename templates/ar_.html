@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Navigation Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        #video, #canvas {
+            width: 640px;
+            height: 360px;
+            border: 2px solid #333;
+            margin: 10px;
+        }
+        #startButton {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        #startButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #alerts {
+            width: 640px;
+            margin: 10px;
+            font-size: 16px;
+            color: #d32f2f;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>AR Navigation Assistant</h1>
+    <button id="startButton">Start</button>
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+    <div id="alerts"></div>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const startButton = document.getElementById('startButton');
+        const alertsDiv = document.getElementById('alerts');
+
+        canvas.width = 640;
+        canvas.height = 360;
+
+        let socket;
+        function connectWebSocket() {
+            socket = io.connect('http://localhost:5000/video_feed', {
+                transports: ['websocket'],
+                reconnection: true,
+                reconnectionAttempts: Infinity,
+                reconnectionDelay: 1000
+            });
+
+            socket.on('connect', () => {
+                console.log('WebSocket connected');
+                alertsDiv.textContent = 'Connected to server';
+                sendFrame();
+            });
+
+            socket.on('frame', (data) => {
+                if (data.image) {
+                    const img = new Image();
+                    img.src = 'data:image/jpeg;base64,' + data.image;
+                    img.onload = () => {
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    };
+                }
+                if (data.alerts) {
+                    alertsDiv.textContent = data.alerts.join(' | ');
+                }
+            });
+
+            socket.on('error', (data) => {
+                alertsDiv.textContent = 'Error: ' + data.message;
+            });
+
+            socket.on('logout', () => {
+                alertsDiv.textContent = 'Logged out. Please refresh the page.';
+                socket.disconnect();
+            });
+
+            socket.on('disconnect', () => {
+                console.log('WebSocket disconnected');
+                alertsDiv.textContent = 'Connection lost. Reconnecting...';
+            });
+        }
+
+        startButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 640, height: 360 }
+                });
+                video.srcObject = stream;
+                startButton.disabled = true;
+                connectWebSocket();
+            } catch (err) {
+                console.error('Error accessing camera:', err);
+                alertsDiv.textContent = 'Error: Could not access camera. Please allow camera access.';
+            }
+        });
+
+        function sendFrame() {
+            if (video.videoWidth > 0 && socket && socket.connected) {
+                const tempCanvas = document.createElement('canvas');
+                tempCanvas.width = video.videoWidth;
+                tempCanvas.height = video.videoHeight;
+                tempCanvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+                const frame = tempCanvas.toDataURL('image/jpeg', 0.5);
+                socket.emit('message', frame);
+            }
+            requestAnimationFrame(sendFrame);
+        }
+    </script>
+</body>
+</html>
