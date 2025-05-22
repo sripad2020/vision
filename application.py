@@ -16,49 +16,122 @@ import logging
 import urllib.request
 import os
 import base64
-from flask import Flask, render_template
+from flask import Flask, render_template,jsonify
 from flask_socketio import SocketIO
 import threading
-import redis
 import json
 import eventlet
+import re
+import glob
+import os
+import traceback
 
 # Patch eventlet
 eventlet.monkey_patch()
-
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 # Initialize logging
 logging.basicConfig(
     filename=f"caregiver_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt",
     level=logging.INFO,
-    format='%(asctime)s - %(message)s'
+    format='%(asctime)s - %(levelname)s - %(message)s'
 )
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+log_update_thread = None
+log_update_running = True
+last_log_update = time.time()
+log_update_interval = 2
 
 # Initialize Flask and SocketIO
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
 socketio = SocketIO(
     app,
-    ping_timeout=20,  # Increased for stability
+    ping_timeout=20,
     ping_interval=10,
     async_mode='eventlet',
     cors_allowed_origins=['http://localhost:5000', 'http://127.0.0.1:5000']
 )
 
-# ... (rest of your imports and code remain unchanged) ...
+# Speech synthesis system with queue and thread safety
+engine = None
+speech_lock = threading.Lock()
+speech_queue = []
+is_speaking = False
 
-# Initialize Redis
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
-# Initialize text-to-speech engine
-engine = pyttsx3.init()
-engine.setProperty('rate', 150)
+def init_engine():
+    global engine
+    try:
+        engine = pyttsx3.init()
+        engine.setProperty('rate', 150)
+        voices = engine.getProperty('voices')
+        if len(voices) > 1:
+            engine.setProperty('voice', voices[1].id)  # Typically female voice
+        logging.info("Speech engine initialized")
+    except Exception as e:
+        logging.error(f"Failed to initialize speech engine: {str(e)}")
+        engine = None
+
+
+def speak(text, priority=False):
+    """Thread-safe speech synthesis with queueing."""
+    global is_speaking
+
+    if not text or not isinstance(text, str):
+        return
+
+    with speech_lock:
+        if priority:
+            speech_queue.insert(0, text)  # Add to front for important messages
+        else:
+            speech_queue.append(text)
+
+    if not is_speaking:
+        threading.Thread(target=_process_speech_queue, daemon=True).start()
+
+
+def _process_speech_queue():
+    """Process speech items from the queue one at a time."""
+    global is_speaking, engine
+
+    if engine is None:
+        init_engine()
+        if engine is None:
+            return
+
+    while True:
+        with speech_lock:
+            if not speech_queue:
+                is_speaking = False
+                return
+            text = speech_queue.pop(0)
+            is_speaking = True
+
+        try:
+            engine.say(text)
+            engine.runAndWait()
+            time.sleep(0.1)  # Small delay between utterances
+        except RuntimeError as e:
+            if 'run loop already started' in str(e):
+                logging.warning("Speech engine busy, retrying...")
+                with speech_lock:
+                    speech_queue.insert(0, text)  # Put the item back at the front
+                time.sleep(0.5)
+                continue
+            logging.error(f"Speech error: {str(e)}")
+            engine = None  # Reset engine for next attempt
+        except Exception as e:
+            logging.error(f"Speech error: {str(e)}")
+            engine = None  # Reset engine for next attempt
+
 
 # Initialize speech recognizer
 recognizer = sr.Recognizer()
 
 # Initialize MediaPipe Object Detection
 model_path = 'efficientdet_lite0.tflite'
+if not os.path.exists(model_path):
+    logging.error(f"Model file {model_path} not found")
+    raise FileNotFoundError(f"Model file {model_path} not found")
 base_options = python.BaseOptions(model_asset_path=model_path)
 options = vision.ObjectDetectorOptions(
     base_options=base_options,
@@ -105,11 +178,11 @@ emergency_detected = False
 
 # Optimization variables
 last_ocr_time = time.time()
-ocr_interval = 10
+ocr_interval = 5
 last_optical_flow_time = time.time()
-optical_flow_interval = 0.5  # Increased for stability
+optical_flow_interval = 0.1
 last_location_update = time.time()
-location_update_interval = 30
+location_update_interval = 5
 prev_gray = None
 alerts = []
 navigation_steps = []
@@ -139,19 +212,10 @@ cone_texture = cv2.imread("3d_objects/cone.png", cv2.IMREAD_UNCHANGED)
 marker_texture = cv2.imread("3d_objects/marker.png", cv2.IMREAD_UNCHANGED)
 
 
-def speak(text):
-    try:
-        engine.say(text)
-        engine.runAndWait()
-        logging.info(f"Spoken: {text}")
-    except Exception as e:
-        logging.error(f"Text-to-speech error: {str(e)}")
-
-
 def listen_for_command():
     with sr.Microphone() as source:
         recognizer.adjust_for_ambient_noise(source)
-        speak("Listening...")
+        speak("Listening...", priority=True)
         try:
             audio = recognizer.listen(source, timeout=5)
             command = recognizer.recognize_google(audio).lower()
@@ -282,7 +346,6 @@ def predict_person_behavior(pose_landmarks, prev_positions, frame_width):
         return "Stationary", hip_mid_x
     return "Stationary", hip_mid_x
 
-
 def detect_speed_breakers(frame):
     try:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -296,9 +359,8 @@ def detect_speed_breakers(frame):
                     return True
         return False
     except Exception as e:
-        logging.error(f"Speed breaker detection error: {str(e)}")
+        logging.error(f"Speed breaker detection error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def detect_potholes(frame):
     try:
@@ -312,9 +374,8 @@ def detect_potholes(frame):
                 return True
         return False
     except Exception as e:
-        logging.error(f"Pothole detection error: {str(e)}")
+        logging.error(f"Pothole detection error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def detect_curbs(frame):
     try:
@@ -329,9 +390,8 @@ def detect_curbs(frame):
                     return True
         return False
     except Exception as e:
-        logging.error(f"Curb detection error: {str(e)}")
+        logging.error(f"Curb detection error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def detect_stairs(frame):
     try:
@@ -345,9 +405,8 @@ def detect_stairs(frame):
                 return True
         return False
     except Exception as e:
-        logging.error(f"Stairs detection error: {str(e)}")
+        logging.error(f"Stairs detection error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def is_road_context(frame, speed_breaker):
     try:
@@ -356,24 +415,23 @@ def is_road_context(frame, speed_breaker):
         lines = cv2.HoughLinesP(edges, 1, np.pi / 180, threshold=50,
                                 minLineLength=50, maxLineGap=10)
         line_count = len(lines) if lines is not None else 0
-        return line_count > 5 or speed_breaker
+        return line_count > 5 or speed_breaker or line_count < 10
     except Exception as e:
-        logging.error(f"Road context detection error: {str(e)}")
+        logging.error(f"Road context detection error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def read_text(frame):
     try:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         text = pytesseract.image_to_string(gray, config='--psm 6')
         text = text.strip() if text.strip() else None
-        if text:
+        if text and re.match(r'^[a-zA-Z\s0-9\.,!?]+$', text):
             logging.info(f"OCR text: {text}")
-        return text
-    except Exception as e:
-        logging.error(f"OCR error: {str(e)}")
+            return text
         return None
-
+    except Exception as e:
+        logging.error(f"OCR error: {str(e)}\n{traceback.format_exc()}")
+        return None
 
 def get_directions(destination):
     try:
@@ -382,13 +440,13 @@ def get_directions(destination):
             user_loc = geocoder.ip('me').latlng
             dest_loc = g.latlng
             distance = math.sqrt((dest_loc[0] - user_loc[0]) ** 2 + (dest_loc[1] - user_loc[1]) ** 2) * 111
-            return {"distance": round(distance, 1),
-                    "steps": ["Turn left in 50 meters", "Continue straight for 200 meters"]}
+            steps = ["Turn left in 50 meters", "Continue straight for 200 meters"]
+            logging.info(f"Navigation steps for {destination}: {steps}")
+            return {"distance": round(distance, 1), "steps": steps}
         return None
     except Exception as e:
-        logging.error(f"Geocoder error: {str(e)}")
+        logging.error(f"Geocoder error: {str(e)}\n{traceback.format_exc()}")
         return None
-
 
 def call_caregiver():
     try:
@@ -396,25 +454,26 @@ def call_caregiver():
         logging.info("Caregiver call initiated (mock)")
         return True
     except Exception as e:
-        logging.error(f"Caregiver call error: {str(e)}")
+        logging.error(f"Caregiver call error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def analyze_crowd_density(detections):
     try:
-        person_count = sum(
-            1 for detection in detections.detections if detection.categories[0].category_name == "person")
+        person_count = sum(1 for detection in detections.detections if detection.categories[0].category_name == "person")
         avg_distance = 0
         if person_count > 0:
             distances = [
                 estimate_distance(detection.bounding_box.width, "person")
                 for detection in detections.detections
-                if detection.categories[0].category_name == "person" and estimate_distance(detection.bounding_box.width,
-                                                                                           "person") is not None
+                if detection.categories[0].category_name == "person" and estimate_distance(detection.bounding_box.width, "person") is not None
             ]
             avg_distance = np.mean(distances) if distances else 0
 
-        if person_count >= 5 or (person_count > 0 and avg_distance < 3):
+        if person_count > 10:
+            density = "High"
+            warning = f"Crowded area with {person_count} people detected"
+            speak(warning)
+        elif person_count >= 5 or (person_count > 0 and avg_distance < 3):
             density = "High"
             warning = "Crowded area ahead, slow down"
         elif person_count >= 3 or (person_count > 0 and avg_distance < 5):
@@ -427,9 +486,8 @@ def analyze_crowd_density(detections):
         logging.info(f"Crowd density: {density}, Person count: {person_count}, Avg distance: {avg_distance:.1f}m")
         return density, warning, person_count, avg_distance
     except Exception as e:
-        logging.error(f"Crowd density analysis error: {str(e)}")
+        logging.error(f"Crowd density analysis error: {str(e)}\n{traceback.format_exc()}")
         return "Low", None, 0, 0
-
 
 def compute_optical_flow(prev_frame, curr_frame):
     global prev_gray
@@ -438,8 +496,10 @@ def compute_optical_flow(prev_frame, curr_frame):
 
     try:
         curr_gray = cv2.cvtColor(curr_frame, cv2.COLOR_BGR2GRAY)
-        prev_gray = cv2.cvtColor(prev_frame, cv2.COLOR_BGR2GRAY)
+        if prev_gray is None:
+            prev_gray = cv2.cvtColor(prev_frame, cv2.COLOR_BGR2GRAY)
         flow = cv2.calcOpticalFlowFarneback(prev_gray, curr_gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+        prev_gray = curr_gray
 
         mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         avg_mag = np.mean(mag)
@@ -448,8 +508,7 @@ def compute_optical_flow(prev_frame, curr_frame):
         if avg_mag > 1.0:
             h, w = curr_frame.shape[:2]
             for detection in object_detector.detect(mp.Image(image_format=mp.ImageFormat.SRGB,
-                                                             data=cv2.cvtColor(curr_frame,
-                                                                               cv2.COLOR_BGR2RGB))).detections:
+                                                             data=curr_frame)).detections:
                 bbox = detection.bounding_box
                 label = detection.categories[0].category_name
                 if label in ["person", "car", "truck", "motorcycle", "bicycle"]:
@@ -467,104 +526,50 @@ def compute_optical_flow(prev_frame, curr_frame):
 
         return moving_objects, flow
     except Exception as e:
-        logging.error(f"Optical flow error: {str(e)}")
+        logging.error(f"Optical flow error: {str(e)}\n{traceback.format_exc()}")
         return None, None
 
-
-def draw_object_detections(frame, detections, user_behavior, navigation_steps, road_context, crowd_density,
-                           moving_objects, flow):
+def draw_object_detections(frame, detections, user_behavior, navigation_steps, road_context, crowd_density, moving_objects):
     global prev_gray
     try:
         annotated_image = frame.copy()
         height, width = frame.shape[:2]
 
-        if road_context:
-            for detection in detections.detections:
-                bbox = detection.bounding_box
-                category = detection.categories[0]
-                label = classify_vehicle(category.category_name)
-                score = round(category.score, 2)
-                distance = estimate_distance(bbox.width, category.category_name)
+        if road_context and navigation_steps:
+            annotated_image = overlay_3d_object(annotated_image, arrow_texture, (25, 25), size=75)
+            logging.info("Applied AR arrow overlay")
 
-                color = (0, 255, 0) if distance and distance > 5 else (0, 0, 255)
-                cv2.rectangle(annotated_image, (bbox.origin_x, bbox.origin_y),
-                              (bbox.origin_x + bbox.width, bbox.origin_y + bbox.height), color, 1)
-                label_text = f"{label} ({score})"
-                if distance:
-                    label_text += f" {distance}m"
-                cv2.putText(annotated_image, label_text, (bbox.origin_x, bbox.origin_y - 5),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
+        if road_context and detect_lanes(frame):
+            annotated_image = overlay_3d_object(annotated_image, cone_texture, (width // 2, height - 50), size=60)
+            logging.info("Applied AR cone overlay")
 
-            if navigation_steps:
-                cv2.arrowedLine(annotated_image, (25, 25), (50, 25), (0, 255, 255), 2)
-                cv2.putText(annotated_image, navigation_steps[0], (25, 40),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
-
-            if crowd_density:
-                density_text = f"Crowd: {crowd_density[0]} ({crowd_density[2]} people)"
-                if crowd_density[3] > 0:
-                    density_text += f", Avg {crowd_density[3]:.1f}m"
-                cv2.putText(annotated_image, density_text, (5, 30),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 165, 0), 1)
-
-            if moving_objects:
-                for label, direction, mag, center in moving_objects:
-                    arrow_length = int(mag * 10)
-                    angle = 0 if direction == "right" else 180 if direction == "left" else 90
-                    rad = math.radians(angle)
-                    end_x = int(center[0] + arrow_length * math.cos(rad))
-                    end_y = int(center[1] - arrow_length * math.sin(rad))
-                    cv2.arrowedLine(annotated_image, center, (end_x, end_y), (255, 0, 255), 1)
-                    cv2.putText(annotated_image, f"{label} {direction}", (center[0], center[1] - 10),
-                                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 255), 1)
-
-            if flow is not None:
-                hsv = np.zeros_like(frame)
-                hsv[..., 1] = 255
-                mag, ang = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-                hsv[..., 0] = ang * 180 / np.pi / 2
-                hsv[..., 2] = cv2.normalize(mag, None, 0, 255, cv2.NORM_MINMAX)
-                flow_bgr = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
-                annotated_image = cv2.addWeighted(annotated_image, 0.8, flow_bgr, 0.2, 0)
-
-        cv2.putText(annotated_image, f"User: {user_behavior}", (5, 15),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 1)
-
-        prev_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         return annotated_image
     except Exception as e:
-        logging.error(f"Draw detections error: {str(e)}")
+        logging.error(f"Draw detections error: {str(e)}\n{traceback.format_exc()}")
         return frame
 
-
-def announce_detections(detections, user_behavior, person_behavior, text, obstacles, navigation_steps, crowd_density,
-                        moving_objects):
+def announce_detections(detections, user_behavior, person_behavior, text, obstacles, navigation_steps, crowd_density, moving_objects):
     global last_announce_time
     if time.time() - last_announce_time < 5:
         return
 
     try:
-        person_count = crowd_density[2] if crowd_density else 0
-        close_object = False
+        announcements = []
+
         for detection in detections.detections:
             category = detection.categories[0]
             distance = estimate_distance(detection.bounding_box.width, category.category_name)
-            if distance and distance < 0.5 and category.score > 0.7:
-                close_object = True
-                break
-
-        if not (close_object or person_count > 5 or text):
-            return
-
-        announcements = []
-        for detection in detections.detections:
-            category = detection.categories[0]
-            if category.score > 0.7:
+            if distance and distance < 0.4 and category.score > 0.7:
                 obj_type = classify_vehicle(category.category_name)
-                distance = estimate_distance(detection.bounding_box.width, category.category_name)
-                if distance and distance < 0.5:
-                    announcements.append(f"{obj_type} at {distance} meters")
-                    logging.info(f"Detected: {obj_type}, Distance: {distance}m")
+                announcements.append(f"Warning: {obj_type} at {distance} meters")
+                logging.info(f"Detected: {obj_type}, Distance: {distance}m")
+
+        for obstacle, detected, distance in obstacles:
+            if detected and distance and distance < 2:
+                announcements.append(f"{obstacle} detected at {distance} meters")
+
+        if user_behavior != "No user detected":
+            announcements.append(f"User behavior: {user_behavior}")
 
         if text:
             announcements.append(f"Text detected: {text}")
@@ -574,13 +579,11 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
             speak(announcement)
             last_announce_time = time.time()
     except Exception as e:
-        logging.error(f"Announce detections error: {str(e)}")
-
+        logging.error(f"Announce detections error: {str(e)}\n{traceback.format_exc()}")
 
 def settings_menu():
     try:
-        speak(
-            "Settings menu. Say a number from 1 to 3. 1: Navigate to a destination. 2: Update caregiver details. 3: Logout.")
+        speak("Settings menu. Say a number from 1 to 3. 1: Navigate to a destination. 2: Update caregiver details. 3: Logout.")
         command = listen_for_command()
         if not command:
             speak("No command recognized.")
@@ -593,8 +596,7 @@ def settings_menu():
                 user_data["destination"] = destination
                 directions = get_directions(destination)
                 if directions:
-                    speak(
-                        f"Destination set to {destination}. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
+                    speak(f"Destination set to {destination}. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
                     logging.info(f"Navigation set to {destination}, Distance: {directions['distance']}km")
                     return directions
             speak("Could not find destination.")
@@ -612,14 +614,14 @@ def settings_menu():
         elif "3" in command or "three" in command:
             speak("Goodbye. Logging out.")
             logging.info("User logged out")
+            socketio.emit('logout', namespace='/video_feed')
             return "logout"
 
         speak("Invalid option.")
         return False
     except Exception as e:
-        logging.error(f"Settings menu error: {str(e)}")
+        logging.error(f"Settings menu error: {str(e)}\n{traceback.format_exc()}")
         return False
-
 
 def overlay_3d_object(frame, texture, position, size=50):
     if texture is None:
@@ -642,14 +644,13 @@ def overlay_3d_object(frame, texture, position, size=50):
             alpha_roi = alpha[0:(y2 - y1), 0:(x2 - x1)]
             for c in range(3):
                 frame[y1:y2, x1:x2, c] = (
-                        alpha_roi * texture_roi[:, :, c] +
-                        (1 - alpha_roi) * frame[y1:y2, x1:x2, c]
+                    alpha_roi * texture_roi[:, :, c] +
+                    (1 - alpha_roi) * frame[y1:y2, x1:x2, c]
                 )
         return frame
     except Exception as e:
-        logging.error(f"Overlay 3D object error: {str(e)}")
+        logging.error(f"Overlay 3D object error: {str(e)}\n{traceback.format_exc()}")
         return frame
-
 
 def detect_lanes(frame):
     try:
@@ -673,7 +674,7 @@ def detect_lanes(frame):
 
         return left_lanes >= 1 and right_lanes >= 1
     except Exception as e:
-        logging.error(f"Lane detection error: {str(e)}")
+        logging.error(f"Lane detection error: {str(e)}\n{traceback.format_exc()}")
         return False
 
 
@@ -701,13 +702,26 @@ def handle_error(e):
 @socketio.on('message', namespace='/video_feed')
 def handle_frame(data):
     global last_ocr_time, last_optical_flow_time, last_location_update, prev_gray, alerts, navigation_steps, emergency_detected, prev_frame
+
     try:
-        # Decode base64 frame
-        img_data = base64.b64decode(data.split(',')[1])
-        npimg = np.frombuffer(img_data, dtype=np.uint8)
-        frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
-        frame = cv2.flip(frame, 1)
-        frame = cv2.resize(frame, (FRAME_WIDTH, FRAME_HEIGHT))
+        # Validate and decode base64 frame
+        if not isinstance(data, str) or ',' not in data or not data.startswith('data:image'):
+            logging.error("Invalid frame data format")
+            socketio.emit('error', {'message': 'Invalid frame data format'}, namespace='/video_feed')
+            return
+
+        try:
+            img_data = base64.b64decode(data.split(',')[1])
+            npimg = np.frombuffer(img_data, dtype=np.uint8)
+            frame = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+            if frame is None:
+                raise ValueError("Failed to decode image")
+            frame = cv2.flip(frame, 1)
+            frame = cv2.resize(frame, (FRAME_WIDTH, FRAME_HEIGHT))
+        except Exception as e:
+            logging.error(f"Image decoding error: {str(e)}")
+            socketio.emit('error', {'message': 'Failed to decode frame'}, namespace='/video_feed')
+            return
 
         # Update location
         if time.time() - last_location_update > location_update_interval:
@@ -716,7 +730,7 @@ def handle_frame(data):
                 logging.info(f"Location updated: {user_data['location']}")
                 last_location_update = time.time()
             except Exception as e:
-                logging.error(f"Location update error: {str(e)}")
+                logging.error(f"Location update error: {str(e)}\n{traceback.format_exc()}")
 
         # Detect obstacles
         speed_breaker_detected = detect_speed_breakers(frame)
@@ -732,8 +746,7 @@ def handle_frame(data):
         ]
 
         # Object detection
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=rgb_frame)
+        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
         detection_result = object_detector.detect(mp_image)
 
         # Crowd density analysis
@@ -746,8 +759,7 @@ def handle_frame(data):
             last_optical_flow_time = time.time()
 
         # Pose estimation
-        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-        pose_results = pose.process(frame_rgb)
+        pose_results = pose.process(frame)
         user_behavior = "No user detected"
         person_behavior = ("No person detected", None)
         if pose_results.pose_landmarks:
@@ -783,55 +795,48 @@ def handle_frame(data):
                 speak("Calling caregiver")
             emergency_detected = False
 
-        # Detect road lanes
-        is_two_lane_road = detect_lanes(frame)
-        if is_two_lane_road:
-            frame = overlay_3d_object(frame, cone_texture, (frame.shape[1] // 2, frame.shape[0] - 50), size=60)
+        # Detect road context
+        road_context = is_road_context(frame, speed_breaker_detected)
 
         # AR overlays
-        road_context = is_road_context(frame, speed_breaker_detected)
         overlays = {"objects": [], "navigation": []}
         for detection in detection_result.detections:
             bbox = detection.bounding_box
             category = detection.categories[0]
             label = classify_vehicle(category.category_name)
             distance = estimate_distance(bbox.width, category.category_name)
-            overlays["objects"].append({
-                "label": label,
-                "score": round(category.score, 2),
-                "bbox": [bbox.origin_x, bbox.origin_y, bbox.width, bbox.height],
-                "distance": distance,
-                "depth": depth
-            })
+            if distance and distance < 0.4 and category.score > 0.7:
+                overlays["objects"].append({
+                    "label": label,
+                    "score": round(category.score, 2),
+                    "distance": distance
+                })
 
         for obstacle, detected, distance in obstacles:
-            if detected:
+            if detected and distance and distance < 2:
                 overlays["objects"].append({
                     "label": obstacle,
                     "score": 0.9,
-                    "bbox": [FRAME_WIDTH // 4, FRAME_HEIGHT // 4, FRAME_WIDTH // 2, FRAME_HEIGHT // 2],
-                    "distance": distance,
-                    "depth": depth
+                    "distance": distance
                 })
 
         if navigation_steps and road_context:
             overlays["navigation"].append({"type": "arrow", "direction": "left", "x": 25, "y": 25})
-            frame = overlay_3d_object(frame, arrow_texture, (25, 25), size=75)
 
         # Draw detections
         frame_with_detections = draw_object_detections(frame, detection_result, user_behavior, navigation_steps,
-                                                       road_context, crowd_density, moving_objects, flow)
+                                                       road_context, crowd_density, moving_objects)
 
         # Alerts
         alerts = []
-        if speed_breaker_detected:
-            alerts.append("Speed breaker ahead")
-        if pothole_detected:
-            alerts.append("Pothole ahead")
-        if curb_detected:
-            alerts.append("Curb ahead")
-        if stairs_detected:
-            alerts.append("Stairs ahead")
+        if speed_breaker_detected and any(o[2] and o[2] < 2 for o in obstacles if o[0] == "Speed breaker"):
+            alerts.append("Speed breaker ahead at less than 2 meters")
+        if pothole_detected and any(o[2] and o[2] < 2 for o in obstacles if o[0] == "Pothole"):
+            alerts.append("Pothole ahead at less than 2 meters")
+        if curb_detected and any(o[2] and o[2] < 2 for o in obstacles if o[0] == "Curb"):
+            alerts.append("Curb ahead at less than 2 meters")
+        if stairs_detected and any(o[2] and o[2] < 2 for o in obstacles if o[0] == "Stairs"):
+            alerts.append("Stairs ahead at less than 2 meters")
         if text:
             alerts.append(f"Text detected: {text}")
         if emergency_detected:
@@ -841,20 +846,19 @@ def handle_frame(data):
         if moving_objects:
             for label, direction, _, _ in moving_objects:
                 alerts.append(f"{label} approaching from the {direction}")
+        if user_behavior != "No user detected":
+            alerts.append(f"User behavior: {user_behavior}")
+
+        # Log alerts
+        for alert in alerts:
+            logging.info(f"Alert: {alert}")
 
         # Announce detections
         announce_detections(detection_result, user_behavior, person_behavior, text, obstacles, navigation_steps,
                             crowd_density, moving_objects)
 
-        # Save to Redis
-        user_data["behavior"] = user_behavior
-        redis_client.set('user_data', json.dumps(user_data))
-        redis_client.set('alerts', json.dumps(alerts))
-        _, buffer = cv2.imencode('.jpg', frame_with_detections)
-        redis_client.set('frame', base64.b64encode(buffer).decode('utf-8'))
-
         # Encode frame to base64
-        _, buffer = cv2.imencode('.jpg', frame_with_detections, [int(cv2.IMWRITE_JPEG_QUALITY), 50])
+        _, buffer = cv2.imencode('.jpg', frame_with_detections, [int(cv2.IMWRITE_JPEG_QUALITY), 70])
         frame_base64 = base64.b64encode(buffer).decode('utf-8')
 
         # Send to client
@@ -863,43 +867,160 @@ def handle_frame(data):
         # Update previous frame
         prev_frame = frame.copy()
 
-        # Process voice commands in a separate thread
-        def process_voice_commands():
-            command = listen_for_command()
-            if command:
-                if "settings" in command:
-                    result = settings_menu()
-                    if result == "logout":
-                        socketio.emit('logout', namespace='/video_feed')
-                    elif result:
-                        global navigation_steps
-                        navigation_steps = result["steps"]
-                elif "grocery store" in command:
-                    user_data["destination"] = "nearest grocery store"
-                    directions = get_directions("grocery store")
-                    if directions:
-                        speak(
-                            f"Navigating to grocery store. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
-                        navigation_steps = directions["steps"]
-                        logging.info(f"Navigation to grocery store, Distance: {directions['distance']}km")
-                elif "park" in command:
-                    user_data["destination"] = "nearest park"
-                    directions = get_directions("park")
-                    if directions:
-                        speak(
-                            f"Navigating to park. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
-                        navigation_steps = directions["steps"]
-                        logging.info(f"Navigation to park, Distance: {directions['distance']}km")
-
-        threading.Thread(target=process_voice_commands, daemon=True).start()
-
     except Exception as e:
         logging.error(f"Frame processing error: {str(e)}")
         socketio.emit('error', {'message': 'Frame processing failed'}, namespace='/video_feed')
 
 
+def log_updater():
+    global last_log_update, log_update_running
+
+    while log_update_running:
+        try:
+            current_time = time.time()
+            if current_time - last_log_update >= log_update_interval:
+                # Read the latest log file
+                log_files = glob.glob("caregiver_log_*.txt")
+                if log_files:
+                    latest_log = max(log_files, key=os.path.getmtime)
+                    with open(latest_log, 'r') as f:
+                        logs = f.readlines()[-20:]  # Get last 20 lines
+
+                    # Process logs
+                    processed_logs = []
+                    for log in logs:
+                        try:
+                            parts = log.split(' - ', 2)
+                            if len(parts) == 3:
+                                timestamp, log_type, message = parts
+                                log_type = log_type.strip()
+
+                                # Classify log entries
+                                if 'emergency' in message.lower() or 'warning' in log_type.lower():
+                                    log_class = 'danger'
+                                elif 'error' in log_type.lower():
+                                    log_class = 'warning'
+                                elif 'info' in log_type.lower():
+                                    log_class = 'info'
+                                else:
+                                    log_class = 'secondary'
+
+                                processed_logs.append({
+                                    'timestamp': timestamp.strip(),
+                                    'type': log_type,
+                                    'message': message.strip(),
+                                    'class': log_class
+                                })
+                        except:
+                            continue
+
+                    # Emit update to all dashboard clients
+                    socketio.emit('log_update', {
+                        'logs': processed_logs,
+                        'last_updated': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    }, namespace='/caregiver_dashboard')
+
+                last_log_update = current_time
+
+            time.sleep(0.5)  # Short sleep to prevent high CPU usage
+
+        except Exception as e:
+            logging.error(f"Log updater error: {str(e)}")
+            time.sleep(5)  # Wait longer if error occurs
+
+
+# Modified caregiver_dashboard route
+@app.route('/caregiver_dashboard')
+def caregiver_dashboard():
+    # Start log updater thread if not already running
+    global log_update_thread, log_update_running
+
+    if log_update_thread is None:
+        log_update_running = True
+        log_update_thread = threading.Thread(target=log_updater, daemon=True)
+        log_update_thread.start()
+
+    return render_template('caregiver_dashboard.html')
+
+
+@app.route('/get_logs')
+def get_logs():
+    try:
+        log_files = glob.glob("caregiver_log_*.txt")
+        if not log_files:
+            return jsonify({"error": "No log files found"})
+
+        latest_log = max(log_files, key=os.path.getmtime)
+
+        # Read entire log file
+        with open(latest_log, 'r') as f:
+            logs = [line.strip() for line in f.readlines() if line.strip()]
+
+        # Process all logs
+        processed_logs = []
+        for log in logs:
+            try:
+                parts = log.split(' - ', 2)
+                if len(parts) != 3:
+                    continue
+
+                timestamp, log_type, message = parts
+                log_type = log_type.strip()
+
+                if 'emergency' in message.lower() or 'warning' in log_type.lower():
+                    log_class = 'danger'
+                elif 'error' in log_type.lower():
+                    log_class = 'warning'
+                elif 'info' in log_type.lower():
+                    log_class = 'info'
+                else:
+                    log_class = 'secondary'
+
+                # Extract important metrics
+                metrics = {}
+                if "Crowd density" in message:
+                    metrics['crowd_density'] = message.split("Crowd density: ")[1].split(",")[0]
+                if "Person count" in message:
+                    metrics['person_count'] = message.split("Person count: ")[1].split(",")[0]
+                if "Avg distance" in message:
+                    metrics['avg_distance'] = message.split("Avg distance: ")[1].split("m")[0]
+                if "User behavior" in message:
+                    metrics['behavior'] = message.split("User behavior: ")[1].split(",")[0]
+                if "Speed" in message:
+                    metrics['speed'] = message.split("Speed: ")[1]
+
+                processed_logs.append({
+                    'timestamp': timestamp.strip(),
+                    'type': log_type,
+                    'message': message.strip(),
+                    'class': log_class,
+                    'metrics': metrics
+                })
+
+            except Exception as e:
+                print(f"Error parsing log line: {log} - {str(e)}")
+                continue
+
+        return jsonify({
+            'logs': processed_logs,
+            'log_file': latest_log,
+            'last_updated': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     try:
+        # Initialize speech engine at startup
+        init_engine()
         socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
+    except KeyboardInterrupt:
+        logging.info("Application shutdown initiated")
     finally:
-        pose.close()
+        if pose:
+            pose.close()
+        if object_detector:
+            object_detector.close()
+        logging.info("Resources cleaned up")

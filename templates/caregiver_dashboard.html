@@ -4,84 +4,396 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caregiver Dashboard</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f0f0;
-            margin: 0;
+            background-color: #f8f9fa;
         }
-        #video {
-            width: 640px;
-            height: 360px;
-            border: 2px solid #333;
-            margin: 10px;
+        .dashboard-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
         }
-        #info, #alerts {
-            width: 640px;
-            margin: 10px;
-            padding: 10px;
+        .log-container {
+            max-height: 70vh;
+            overflow-y: auto;
             background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
-        #info p, #alerts p {
-            margin: 5px 0;
-            font-size: 16px;
+        .log-entry {
+            padding: 0.75rem 1.25rem;
+            border-left: 4px solid;
+            margin-bottom: 0.5rem;
         }
-        #alerts p {
-            color: #d32f2f;
+        .log-entry.info {
+            border-left-color: #0dcaf0;
+            background-color: rgba(13, 202, 240, 0.1);
+        }
+        .log-entry.warning {
+            border-left-color: #ffc107;
+            background-color: rgba(255, 193, 7, 0.1);
+        }
+        .log-entry.danger {
+            border-left-color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        .log-entry.secondary {
+            border-left-color: #6c757d;
+            background-color: rgba(108, 117, 125, 0.1);
+        }
+        .log-timestamp {
+            font-size: 0.8rem;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        .log-type {
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .metrics-badge {
+            font-size: 0.7rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .status-card {
+            border-radius: 0.5rem;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            transition: all 0.3s ease;
+        }
+        .status-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .emergency-alert {
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+        .filter-btn.active {
+            font-weight: bold;
+        }
+        #logFileInfo {
+            font-size: 0.85rem;
         }
     </style>
 </head>
 <body>
-    <h1>Caregiver Dashboard</h1>
-    <img id="video" src="/caregiver_video_feed">
-    <div id="info">
-        <p>User ID: <span id="user_id">N/A</span></p>
-        <p>Location: <span id="location">N/A</span></p>
-        <p>Destination: <span id="destination">N/A</span></p>
-        <p>Behavior: <span id="behavior">N/A</span></p>
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="bi bi-shield-check me-2"></i>Caregiver Dashboard</h1>
+                    <p class="mb-0">Monitoring system for assisted navigation</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div id="lastUpdated" class="text-white-50"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="alerts"></div>
 
+    <div class="container">
+        <!-- Status Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="card status-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-people"></i> Current Crowd</h5>
+                        <div id="currentCrowd" class="display-4">-</div>
+                        <p class="card-text text-muted small">Last updated: <span id="crowdUpdated">-</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card status-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-person-walking"></i> User Activity</h5>
+                        <div id="currentActivity" class="display-4">-</div>
+                        <p class="card-text text-muted small">Speed: <span id="currentSpeed">-</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card status-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-exclamation-triangle"></i> Warnings</h5>
+                        <div id="warningCount" class="display-4">0</div>
+                        <p class="card-text text-muted small">Potential issues detected</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card status-card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title"><i class="bi bi-activity"></i> System Status</h5>
+                        <div id="systemStatus" class="display-4">Active</div>
+                        <p class="card-text text-muted small" id="logFileInfo">Loading log data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Emergency Alert -->
+        <div id="emergencyAlert" class="alert alert-danger emergency-alert d-none mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="alert-heading"><i class="bi bi-exclamation-octagon-fill me-2"></i>Emergency Alert</h4>
+                    <p id="emergencyMessage" class="mb-0">An emergency situation has been detected!</p>
+                </div>
+                <button id="acknowledgeBtn" class="btn btn-light">Acknowledge</button>
+            </div>
+        </div>
+
+        <!-- Log Controls -->
+        <div class="card mb-4">
+            <div class="card-body py-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button id="refreshLogs" class="btn btn-sm btn-outline-primary me-2">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
+                            <button type="button" class="btn btn-outline-info filter-btn" data-filter="info">Info</button>
+                            <button type="button" class="btn btn-outline-warning filter-btn" data-filter="warning">Warnings</button>
+                            <button type="button" class="btn btn-outline-danger filter-btn" data-filter="danger">Emergencies</button>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                        <label class="form-check-label" for="autoRefresh">Auto-refresh (30s)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Display -->
+        <div class="card">
+            <div class="card-body p-0">
+                <div id="logContainer" class="log-container p-3">
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="mt-2">Loading log data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
     <script>
-        const video = document.getElementById('video');
-        const userId = document.getElementById('user_id');
-        const location = document.getElementById('location');
-        const destination = document.getElementById('destination');
-        const behavior = document.getElementById('behavior');
-        const alertsDiv = document.getElementById('alerts');
+        // Connect to WebSocket for real-time updates
+        const socket = io('/video_feed');
 
-        const socket = io.connect('http://localhost:5001/caregiver_data', {
-            transports: ['websocket'],
-            reconnection: true,
-            reconnectionAttempts: Infinity,
-            reconnectionDelay: 1000
+        // DOM elements
+        const logContainer = document.getElementById('logContainer');
+        const lastUpdatedEl = document.getElementById('lastUpdated');
+        const currentCrowdEl = document.getElementById('currentCrowd');
+        const crowdUpdatedEl = document.getElementById('crowdUpdated');
+        const currentActivityEl = document.getElementById('currentActivity');
+        const currentSpeedEl = document.getElementById('currentSpeed');
+        const warningCountEl = document.getElementById('warningCount');
+        const systemStatusEl = document.getElementById('systemStatus');
+        const logFileInfoEl = document.getElementById('logFileInfo');
+        const emergencyAlertEl = document.getElementById('emergencyAlert');
+        const emergencyMessageEl = document.getElementById('emergencyMessage');
+        const acknowledgeBtn = document.getElementById('acknowledgeBtn');
+        const refreshLogsBtn = document.getElementById('refreshLogs');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const autoRefreshToggle = document.getElementById('autoRefresh');
+
+        // State variables
+        let logs = [];
+        let autoRefreshInterval;
+        let currentFilter = 'all';
+        let emergencyActive = false;
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLogs();
+            setupAutoRefresh();
+
+            // Set up filter buttons
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    renderLogs();
+                });
+            });
+
+            // Set up refresh button
+            refreshLogsBtn.addEventListener('click', function() {
+                loadLogs();
+            });
+
+            // Set up acknowledge button
+            acknowledgeBtn.addEventListener('click', function() {
+                emergencyAlertEl.classList.add('d-none');
+                emergencyActive = false;
+                socket.emit('acknowledge_emergency');
+            });
+
+            // Set up auto-refresh toggle
+            autoRefreshToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    setupAutoRefresh();
+                } else {
+                    clearInterval(autoRefreshInterval);
+                }
+            });
+
+            // Handle WebSocket messages
+            socket.on('user_status', function(data) {
+                if (data.emergency) {
+                    emergencyMessageEl.textContent = data.emergency;
+                    emergencyAlertEl.classList.remove('d-none');
+                    emergencyActive = true;
+                }
+
+                if (data.behavior) {
+                    currentActivityEl.textContent = data.behavior;
+                }
+
+                if (data.speed) {
+                    currentSpeedEl.textContent = data.speed;
+                }
+
+                if (data.crowd_density) {
+                    currentCrowdEl.textContent = data.crowd_density;
+                    crowdUpdatedEl.textContent = new Date().toLocaleTimeString();
+                }
+            });
         });
 
-        socket.on('connect', () => {
-            alertsDiv.innerHTML = '<p>Connected to server</p>';
-        });
+        function setupAutoRefresh() {
+            clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(loadLogs, 30000); // 30 seconds
+        }
 
-        socket.on('data', (data) => {
-            userId.textContent = data.user_id || 'N/A';
-            location.textContent = data.location ? `[${data.location[0].toFixed(2)}, ${data.location[1].toFixed(2)}]` : 'N/A';
-            destination.textContent = data.destination || 'N/A';
-            behavior.textContent = data.behavior || 'N/A';
-            alertsDiv.innerHTML = data.alerts ? data.alerts.map(alert => `<p>${alert}</p>`).join('') : '';
-        });
+        function loadLogs() {
+            fetch('/get_logs')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        logContainer.innerHTML = `<div class="alert alert-warning">${data.error}</div>`;
+                        return;
+                    }
 
-        socket.on('disconnect', () => {
-            alertsDiv.innerHTML = '<p>Connection lost. Reconnecting...</p>';
-        });
+                    logs = data.logs;
+                    lastUpdatedEl.textContent = `Last updated: ${data.last_updated}`;
+                    logFileInfoEl.textContent = `Log file: ${data.log_file.split('/').pop()}`;
 
-        setInterval(() => {
-            video.src = `/caregiver_video_feed?${new Date().getTime()}`;
-        }, 100);
+                    // Update status cards
+                    updateStatusCards();
+
+                    // Render logs
+                    renderLogs();
+                })
+                .catch(error => {
+                    console.error('Error loading logs:', error);
+                    logContainer.innerHTML = `<div class="alert alert-danger">Error loading logs: ${error.message}</div>`;
+                });
+        }
+
+        function updateStatusCards() {
+            // Count warnings and errors
+            const warningCount = logs.filter(log => log.class === 'warning' || log.class === 'danger').length;
+            warningCountEl.textContent = warningCount;
+
+            // Find latest crowd info
+            const crowdLog = logs.reverse().find(log => log.metrics && log.metrics.crowd_density);
+            if (crowdLog) {
+                currentCrowdEl.textContent = crowdLog.metrics.crowd_density;
+                crowdUpdatedEl.textContent = crowdLog.timestamp;
+            }
+
+            // Find latest user activity
+            const activityLog = logs.reverse().find(log => log.metrics && log.metrics.behavior);
+            if (activityLog) {
+                currentActivityEl.textContent = activityLog.metrics.behavior;
+                currentSpeedEl.textContent = activityLog.metrics.speed || '-';
+            }
+
+            // Check for active emergency
+            if (!emergencyActive) {
+                const emergencyLog = logs.find(log => log.class === 'danger');
+                if (emergencyLog) {
+                    emergencyMessageEl.textContent = emergencyLog.message;
+                    emergencyAlertEl.classList.remove('d-none');
+                    emergencyActive = true;
+                }
+            }
+        }
+
+        function renderLogs() {
+            if (logs.length === 0) {
+                logContainer.innerHTML = '<div class="text-center py-5 text-muted">No log entries found</div>';
+                return;
+            }
+
+            let html = '';
+            let visibleCount = 0;
+
+            // Process logs in reverse order (newest first)
+            [...logs].reverse().forEach(log => {
+                // Apply filter
+                if (currentFilter !== 'all' && log.class !== currentFilter) {
+                    return;
+                }
+
+                visibleCount++;
+
+                // Create metrics badges if available
+                let metricsHtml = '';
+                if (log.metrics) {
+                    for (const [key, value] of Object.entries(log.metrics)) {
+                        let badgeClass = 'bg-secondary';
+                        if (key === 'crowd_density') {
+                            badgeClass = value === 'High' ? 'bg-danger' : value === 'Medium' ? 'bg-warning' : 'bg-success';
+                        } else if (key === 'speed') {
+                            const speed = parseFloat(value);
+                            badgeClass = speed > 0.5 ? 'bg-primary' : 'bg-info';
+                        }
+
+                        metricsHtml += `<span class="badge ${badgeClass} metrics-badge">${key}: ${value}</span>`;
+                    }
+                }
+
+                // Create log entry HTML
+                html += `
+                    <div class="log-entry ${log.class}" data-type="${log.class}">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <span class="log-timestamp">${log.timestamp}</span>
+                            <span class="badge bg-${log.class} log-type">${log.type}</span>
+                        </div>
+                        <div class="log-message">${log.message}</div>
+                        ${metricsHtml ? `<div class="mt-2">${metricsHtml}</div>` : ''}
+                    </div>
+                `;
+            });
+
+            if (visibleCount === 0) {
+                html = '<div class="text-center py-5 text-muted">No log entries match the current filter</div>';
+            }
+
+            logContainer.innerHTML = html;
+
+            // Scroll to bottom if new logs were added
+            if (currentFilter === 'all') {
+                logContainer.scrollTop = 0;
+            }
+        }
     </script>
 </body>
 </html>

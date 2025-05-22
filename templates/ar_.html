@@ -3,130 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Navigation Assistant</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <title>AR Caregiver Assistance</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f0f0f0;
-            margin: 0;
+            text-align: center;
+            margin: 20px;
         }
-        #video, #canvas {
+        #videoFeed {
             width: 640px;
             height: 360px;
-            border: 2px solid #333;
-            margin: 10px;
+            border: 2px solid #000;
         }
-        #startButton {
-            padding: 10px 20px;
-            font-size: 18px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin: 10px;
-        }
-        #startButton:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
+        #processedFeed {
+            width: 640px;
+            height: 360px;
+            border: 2px solid #000;
+            margin-top: 20px;
         }
         #alerts {
-            width: 640px;
-            margin: 10px;
-            font-size: 16px;
-            color: #d32f2f;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
             text-align: left;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <h1>AR Navigation Assistant</h1>
-    <button id="startButton">Start</button>
-    <video id="video" autoplay playsinline></video>
-    <canvas id="canvas"></canvas>
-    <div id="alerts"></div>
+    <h1>AR Caregiver Assistance System</h1>
+    <video id="videoFeed" autoplay playsinline></video>
+    <br>
+    <button id="startBtn">Start Camera</button>
+    <button id="stopBtn" disabled>Stop Camera</button>
+    <br>
+    <img id="processedFeed" src="" alt="Processed Feed">
+    <div id="alerts">
+        <h3>Alerts</h3>
+        <ul id="alertList"></ul>
+    </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.min.js"></script>
     <script>
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const startButton = document.getElementById('startButton');
-        const alertsDiv = document.getElementById('alerts');
+        const socket = io('/video_feed', {
+            reconnectionAttempts: 5,
+            reconnectionDelay: 1000
+        });
+        const video = document.getElementById('videoFeed');
+        const processedFeed = document.getElementById('processedFeed');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const alertList = document.getElementById('alertList');
+        let stream = null;
+        let isStreaming = false;
 
-        canvas.width = 640;
-        canvas.height = 360;
+        socket.on('connect', () => {
+            console.log('WebSocket connected');
+            addAlert('System: WebSocket connected');
+        });
 
-        let socket;
-        function connectWebSocket() {
-            socket = io.connect('http://localhost:5000/video_feed', {
-                transports: ['websocket'],
-                reconnection: true,
-                reconnectionAttempts: Infinity,
-                reconnectionDelay: 1000
-            });
+        socket.on('disconnect', () => {
+            console.log('WebSocket disconnected');
+            addAlert('System: WebSocket disconnected');
+            stopCamera();
+        });
 
-            socket.on('connect', () => {
-                console.log('WebSocket connected');
-                alertsDiv.textContent = 'Connected to server';
-                sendFrame();
-            });
+        socket.on('status', (data) => {
+            console.log('Status:', data.message);
+            addAlert(`System: ${data.message}`);
+        });
 
-            socket.on('frame', (data) => {
-                if (data.image) {
-                    const img = new Image();
-                    img.src = 'data:image/jpeg;base64,' + data.image;
-                    img.onload = () => {
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    };
-                }
-                if (data.alerts) {
-                    alertsDiv.textContent = data.alerts.join(' | ');
-                }
-            });
-
-            socket.on('error', (data) => {
-                alertsDiv.textContent = 'Error: ' + data.message;
-            });
-
-            socket.on('logout', () => {
-                alertsDiv.textContent = 'Logged out. Please refresh the page.';
-                socket.disconnect();
-            });
-
-            socket.on('disconnect', () => {
-                console.log('WebSocket disconnected');
-                alertsDiv.textContent = 'Connection lost. Reconnecting...';
-            });
-        }
-
-        startButton.addEventListener('click', async () => {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 640, height: 360 }
-                });
-                video.srcObject = stream;
-                startButton.disabled = true;
-                connectWebSocket();
-            } catch (err) {
-                console.error('Error accessing camera:', err);
-                alertsDiv.textContent = 'Error: Could not access camera. Please allow camera access.';
+        socket.on('frame', (data) => {
+            processedFeed.src = 'data:image/jpeg;base64,' + data.image;
+            if (data.alerts && data.alerts.length > 0) {
+                data.alerts.forEach(alert => addAlert(alert));
             }
         });
 
-        function sendFrame() {
-            if (video.videoWidth > 0 && socket && socket.connected) {
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = video.videoWidth;
-                tempCanvas.height = video.videoHeight;
-                tempCanvas.getContext('2d').drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-                const frame = tempCanvas.toDataURL('image/jpeg', 0.5);
-                socket.emit('message', frame);
+        socket.on('error', (data) => {
+            console.error('Error:', data.message);
+            addAlert(`Error: ${data.message}`);
+        });
+
+        socket.on('logout', () => {
+            addAlert('System: Logged out');
+            stopCamera();
+        });
+
+        function addAlert(message) {
+            const li = document.createElement('li');
+            li.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            alertList.prepend(li);
+            while (alertList.children.length > 20) {
+                alertList.removeChild(alertList.lastChild);
             }
-            requestAnimationFrame(sendFrame);
         }
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { width: 640, height: 360 },
+                    audio: false
+                });
+                video.srcObject = stream;
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                isStreaming = true;
+                // Wait for video metadata to load
+                video.onloadedmetadata = () => {
+                    console.log('Video metadata loaded, starting frame sending');
+                    sendFrames();
+                };
+                addAlert('System: Camera started');
+            } catch (err) {
+                console.error('Camera access error:', err);
+                addAlert(`Error: Failed to access camera: ${err.message}`);
+            }
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            video.srcObject = null;
+            processedFeed.src = '';
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            isStreaming = false;
+            addAlert('System: Camera stopped');
+        }
+
+        function sendFrames() {
+            if (!isStreaming || !video.videoWidth || !video.videoHeight) {
+                console.warn('Not streaming or video not ready, skipping frame');
+                setTimeout(sendFrames, 100);
+                return;
+            }
+
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const data = canvas.toDataURL('image/jpeg', 0.7);
+
+                // Validate data format
+                if (!data.startsWith('data:image/jpeg;base64,')) {
+                    console.error('Invalid canvas data:', data.substring(0, 50));
+                    addAlert('Error: Invalid frame data generated');
+                    setTimeout(sendFrames, 100);
+                    return;
+                }
+
+                console.debug('Sending frame:', data.substring(0, 50));
+                socket.emit('message', data);
+                setTimeout(sendFrames, 100);
+            } catch (err) {
+                console.error('Error sending frame:', err);
+                addAlert(`Error: Failed to send frame: ${err.message}`);
+                setTimeout(sendFrames, 100);
+            }
+        }
+
+        startBtn.addEventListener('click', startCamera);
+        stopBtn.addEventListener('click', stopCamera);
     </script>
 </body>
 </html>

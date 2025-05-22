@@ -1,9 +1,0 @@
-2025-05-21 01:21:06,373 - Imported existing <module 'comtypes.gen' from 'F:\\3.12.5\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
-2025-05-21 01:21:06,375 - Using writeable comtypes cache directory: 'F:\3.12.5\Lib\site-packages\comtypes\gen'
-2025-05-21 01:21:08,181 - Failed to download cone.png: HTTP Error 404: Not Found
-2025-05-21 01:21:08,203 - Werkzeug appears to be used in a production deployment. Consider switching to a production web server instead.
-2025-05-21 01:21:08,236 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on all addresses (0.0.0.0)
- * Running on http://127.0.0.1:5000
- * Running on http://10.78.137.17:5000
-2025-05-21 01:21:08,237 - [33mPress CTRL+C to quit[0m
