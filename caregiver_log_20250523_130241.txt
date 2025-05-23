@@ -1,0 +1,1202 @@
+2025-05-23 13:02:44,630 - ERROR - Failed to download cone.png: HTTP Error 403: Forbidden
+2025-05-23 13:02:45,024 - INFO - Imported existing <module 'comtypes.gen' from 'F:\\3.12.5\\Lib\\site-packages\\comtypes\\gen\\__init__.py'>
+2025-05-23 13:02:45,032 - INFO - Using writeable comtypes cache directory: 'F:\3.12.5\Lib\site-packages\comtypes\gen'
+2025-05-23 13:02:46,012 - INFO - Speech engine initialized
+2025-05-23 13:02:46,356 - INFO - WebSocket client connected
+2025-05-23 13:02:52,162 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:52,163 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:52,274 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:52,321 - INFO - User behavior: Looking forward, Speed: 0.00
+2025-05-23 13:02:52,356 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:52,357 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:52,358 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:52,359 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:52,606 - INFO - OCR text: le
+2025-05-23 13:02:52,606 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:52,612 - INFO - Alert: Text detected: le
+2025-05-23 13:02:52,612 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:52,612 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:52,613 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:02:52,675 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:52,677 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:52,786 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:52,839 - INFO - User behavior: Looking forward and Slowing down, Speed: 4.51
+2025-05-23 13:02:52,839 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:52,844 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:52,844 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:02:52,906 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:52,942 - INFO - User behavior: Looking forward and Slowing down, Speed: 3.28
+2025-05-23 13:02:52,943 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:52,948 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:52,948 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:02:53,029 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,073 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.61
+2025-05-23 13:02:53,073 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,078 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,078 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:02:53,141 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,167 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.16
+2025-05-23 13:02:53,167 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,170 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,170 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:02:53,251 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,292 - INFO - User behavior: Looking forward, Speed: 1.99
+2025-05-23 13:02:53,292 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,296 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,296 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,358 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,390 - INFO - User behavior: Looking forward, Speed: 1.85
+2025-05-23 13:02:53,391 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,396 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,396 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,472 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,512 - INFO - User behavior: Looking forward, Speed: 1.61
+2025-05-23 13:02:53,512 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,516 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,516 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,582 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,606 - INFO - User behavior: Looking forward, Speed: 1.53
+2025-05-23 13:02:53,606 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,610 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,610 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,682 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,707 - INFO - User behavior: Looking forward, Speed: 1.38
+2025-05-23 13:02:53,708 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,712 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,712 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,770 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,809 - INFO - User behavior: Looking forward, Speed: 1.29
+2025-05-23 13:02:53,810 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,814 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,814 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:53,884 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:53,909 - INFO - User behavior: Looking forward, Speed: 0.86
+2025-05-23 13:02:53,909 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:53,913 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:53,913 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:54,015 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:54,054 - INFO - User behavior: Looking forward, Speed: 0.69
+2025-05-23 13:02:54,054 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:54,058 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:54,058 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:54,241 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:54,283 - INFO - User behavior: Looking forward, Speed: 0.59
+2025-05-23 13:02:54,283 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:54,286 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:54,286 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:54,452 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:54,479 - INFO - User behavior: Looking forward, Speed: 0.57
+2025-05-23 13:02:54,479 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:54,482 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:54,482 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:54,669 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:54,708 - INFO - User behavior: Looking forward, Speed: 0.47
+2025-05-23 13:02:54,708 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:54,712 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:54,712 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:54,891 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:54,929 - INFO - User behavior: Looking forward, Speed: 0.39
+2025-05-23 13:02:54,929 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:54,934 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:54,934 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:55,107 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:55,149 - INFO - User behavior: Looking forward, Speed: 0.41
+2025-05-23 13:02:55,149 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:55,153 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:55,153 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:55,313 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:55,341 - INFO - User behavior: Looking forward, Speed: 0.33
+2025-05-23 13:02:55,341 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:55,346 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:55,347 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:55,529 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:55,574 - INFO - User behavior: Looking forward, Speed: 0.32
+2025-05-23 13:02:55,575 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:55,579 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:55,579 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:55,749 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:55,792 - INFO - User behavior: Looking forward, Speed: 0.28
+2025-05-23 13:02:55,792 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:55,796 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:55,797 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:55,953 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:55,980 - INFO - User behavior: Looking forward, Speed: 0.26
+2025-05-23 13:02:55,981 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:55,985 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:55,985 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:56,160 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:56,203 - INFO - User behavior: Looking forward, Speed: 0.24
+2025-05-23 13:02:56,203 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:56,207 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:56,207 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:56,382 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:56,479 - INFO - User behavior: Looking forward, Speed: 0.25
+2025-05-23 13:02:56,479 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:56,482 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:56,482 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:02:56,482 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:56,603 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:56,632 - INFO - User behavior: Looking forward, Speed: 0.27
+2025-05-23 13:02:56,632 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:56,635 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:56,636 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:56,819 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:56,911 - INFO - User behavior: Looking forward, Speed: 0.25
+2025-05-23 13:02:56,912 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:56,916 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:56,916 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:02:56,916 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:57,037 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:57,065 - INFO - User behavior: Looking forward, Speed: 0.23
+2025-05-23 13:02:57,065 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:57,068 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:57,068 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:57,256 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:57,300 - INFO - User behavior: Looking forward, Speed: 0.21
+2025-05-23 13:02:57,301 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:57,303 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:57,304 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:57,473 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:57,516 - INFO - User behavior: Looking forward, Speed: 0.21
+2025-05-23 13:02:57,516 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:57,519 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:57,519 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:57,705 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:57,749 - INFO - User behavior: Looking forward, Speed: 0.20
+2025-05-23 13:02:57,749 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:57,752 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:57,752 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:57,752 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:02:58,486 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:58,487 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:58,552 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:58,593 - INFO - User behavior: Looking forward, Speed: 0.20
+2025-05-23 13:02:58,593 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:58,600 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:58,601 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:58,603 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:58,603 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:58,671 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:58,704 - INFO - User behavior: Looking forward, Speed: 0.20
+2025-05-23 13:02:58,704 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:58,708 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:58,708 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:58,711 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:58,712 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:58,805 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:58,860 - INFO - User behavior: Looking forward, Speed: 0.18
+2025-05-23 13:02:58,860 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:58,863 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:58,863 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:58,915 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:58,939 - INFO - User behavior: Looking forward, Speed: 0.15
+2025-05-23 13:02:58,939 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:58,943 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:58,943 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,015 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,039 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:02:59,039 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,045 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,045 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,068 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:02:59,069 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:02:59,129 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,167 - INFO - User behavior: Looking forward, Speed: 0.11
+2025-05-23 13:02:59,167 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,171 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,171 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,249 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,274 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:02:59,275 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,278 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,278 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,357 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,397 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:02:59,399 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,401 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,401 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,574 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,624 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:02:59,624 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,628 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,628 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,779 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:02:59,804 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:02:59,805 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:02:59,808 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:02:59,808 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:02:59,996 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:00,041 - INFO - User behavior: Looking forward, Speed: 0.11
+2025-05-23 13:03:00,042 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:00,045 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:00,046 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:00,222 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:00,266 - INFO - User behavior: Looking forward, Speed: 0.11
+2025-05-23 13:03:00,266 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:00,270 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:00,270 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:00,438 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:00,481 - INFO - User behavior: Looking forward, Speed: 0.11
+2025-05-23 13:03:00,482 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:00,485 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:00,485 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:00,653 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:00,684 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:03:00,685 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:00,687 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:00,688 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:00,864 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:00,910 - INFO - User behavior: Looking forward, Speed: 0.10
+2025-05-23 13:03:00,910 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:00,915 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:00,915 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:01,075 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:01,101 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:01,101 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:01,104 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:01,104 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:01,277 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:01,319 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:01,320 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:01,323 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:01,323 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:01,482 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:01,515 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:01,515 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:01,519 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:01,519 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:01,696 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:01,737 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:01,737 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:01,740 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:01,740 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:01,918 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:01,960 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:01,960 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:01,964 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:01,965 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:02,133 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:02,157 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:02,157 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:02,160 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:02,160 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:02,349 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:02,395 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:02,395 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:02,399 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:02,399 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:02,574 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:02,618 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:02,851 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:02,853 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:02,853 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:02,853 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:03:02,918 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:02,961 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:02,962 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:02,966 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:02,966 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:03,048 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:03,074 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:03,074 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:03,078 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:03,078 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:03,205 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:03,244 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:03,244 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:03,248 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:03,248 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:03,423 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:03,472 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:03,472 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:03,475 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:03,475 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:03,633 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:03,656 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:03,657 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:03,661 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:03,661 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:03,850 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:03,889 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:03,889 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:03,892 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:03,893 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:04,051 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:04,077 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:04,077 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:04,080 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:04,080 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:04,699 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:04,700 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:04,762 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:04,801 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:04,801 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:04,804 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:04,804 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:04,893 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:04,917 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:04,917 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:04,921 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:04,921 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,015 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:05,017 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:05,080 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,120 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:05,120 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,124 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,125 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,198 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,223 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:05,223 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,227 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,227 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,229 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:05,230 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:05,292 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,315 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:05,315 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,318 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,318 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,391 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,438 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:05,438 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,442 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,442 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,517 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,542 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:05,542 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,545 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,545 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,750 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,792 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:05,792 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,796 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,796 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:05,960 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:05,987 - INFO - User behavior: Looking forward, Speed: 0.03
+2025-05-23 13:03:05,987 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:05,991 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:05,991 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:06,165 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:06,209 - INFO - User behavior: Looking forward, Speed: 0.03
+2025-05-23 13:03:06,209 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:06,213 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:06,213 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:06,381 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:06,407 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:06,407 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:06,410 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:06,411 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:06,605 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:06,650 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:06,650 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:06,655 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:06,655 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:06,822 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:06,866 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:06,866 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:06,870 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:06,870 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,045 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:07,086 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:07,086 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:07,091 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:07,091 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,254 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:07,281 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:07,281 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:07,285 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:07,286 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,473 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:07,513 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:07,513 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:07,516 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:07,516 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,697 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:07,736 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:07,736 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:07,740 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:07,740 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,911 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:07,953 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:07,953 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:07,957 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:07,957 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:07,957 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:03:08,126 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:08,157 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:08,157 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:08,160 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:08,160 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:08,355 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:08,398 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:08,398 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:08,403 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:08,403 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:08,561 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:08,589 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:08,589 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:08,593 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:08,593 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:08,770 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:08,813 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:08,813 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:08,817 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:08,817 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:08,986 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:09,014 - INFO - User behavior: Looking forward, Speed: 0.09
+2025-05-23 13:03:09,015 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:09,018 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:09,018 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:09,206 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:09,250 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:09,250 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:09,253 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:09,253 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:09,427 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:09,471 - INFO - User behavior: Looking forward, Speed: 0.09
+2025-05-23 13:03:09,471 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:09,475 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:09,475 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:09,633 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:09,657 - INFO - User behavior: Looking forward, Speed: 0.09
+2025-05-23 13:03:09,657 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:09,661 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:09,661 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:09,852 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:09,892 - INFO - User behavior: Looking forward, Speed: 0.09
+2025-05-23 13:03:09,892 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:09,896 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:09,896 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:10,065 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:10,091 - INFO - User behavior: Looking forward, Speed: 0.08
+2025-05-23 13:03:10,091 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:10,096 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:10,096 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:10,279 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:10,319 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:10,319 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:10,322 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:10,322 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:11,521 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:11,522 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:11,523 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:11,523 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:11,524 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:11,524 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:11,598 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:11,639 - INFO - User behavior: Looking forward, Speed: 0.07
+2025-05-23 13:03:11,639 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:11,644 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:11,644 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:11,698 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:11,728 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:11,728 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:11,733 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:11,733 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:11,795 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:11,820 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:11,820 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:11,824 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:11,824 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:11,826 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:11,827 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:11,912 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:11,959 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:11,959 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:11,964 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:11,964 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,032 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,059 - INFO - User behavior: Looking forward, Speed: 0.06
+2025-05-23 13:03:12,060 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,064 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,064 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,070 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:12,071 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:12,152 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,191 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:12,191 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,195 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,196 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,260 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,287 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:12,287 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,290 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,290 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,370 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,412 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:12,413 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,416 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,416 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,419 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:12,420 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:12,496 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,522 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:12,522 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,526 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,527 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,594 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,636 - INFO - User behavior: Looking forward, Speed: 0.04
+2025-05-23 13:03:12,637 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,640 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,640 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,709 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,737 - INFO - User behavior: Looking forward, Speed: 0.05
+2025-05-23 13:03:12,737 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:12,740 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:12,740 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:12,844 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:12,936 - INFO - User behavior: Looking forward, Speed: 0.11
+2025-05-23 13:03:13,161 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:13,164 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,164 - INFO - Alert: person approaching from the right
+2025-05-23 13:03:13,164 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:13,164 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:03:13,224 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:13,319 - INFO - User behavior: Looking forward, Speed: 0.44
+2025-05-23 13:03:13,321 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,321 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:13,321 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:13,391 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:13,420 - INFO - User behavior: Looking forward, Speed: 0.59
+2025-05-23 13:03:13,422 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,422 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:13,491 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.2m
+2025-05-23 13:03:13,522 - INFO - User behavior: Looking forward, Speed: 0.78
+2025-05-23 13:03:13,524 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,524 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:13,688 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:13,778 - INFO - User behavior: Looking forward, Speed: 0.87
+2025-05-23 13:03:13,781 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,781 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:13,781 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:13,905 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:13,929 - INFO - User behavior: Looking forward, Speed: 0.94
+2025-05-23 13:03:13,932 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:13,932 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:14,125 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:14,160 - INFO - User behavior: Looking forward, Speed: 1.02
+2025-05-23 13:03:14,164 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:14,164 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:14,336 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:14,365 - INFO - User behavior: Looking forward, Speed: 1.05
+2025-05-23 13:03:14,368 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:14,368 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:14,547 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:14,586 - INFO - User behavior: Looking forward, Speed: 1.06
+2025-05-23 13:03:14,589 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:14,589 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:14,766 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:14,806 - INFO - User behavior: Looking forward, Speed: 1.06
+2025-05-23 13:03:14,809 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:14,809 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:14,980 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:15,004 - INFO - User behavior: Looking forward, Speed: 1.01
+2025-05-23 13:03:15,006 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:15,007 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:15,201 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:15,239 - INFO - User behavior: Looking forward, Speed: 0.70
+2025-05-23 13:03:15,242 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:15,243 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:15,420 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:15,458 - INFO - User behavior: Looking forward, Speed: 0.55
+2025-05-23 13:03:15,461 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:15,461 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:15,632 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:15,655 - INFO - User behavior: Looking forward, Speed: 0.37
+2025-05-23 13:03:15,658 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:15,659 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:15,857 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:15,896 - INFO - User behavior: Looking forward, Speed: 0.34
+2025-05-23 13:03:15,899 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:15,899 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:16,076 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.4m
+2025-05-23 13:03:16,117 - INFO - User behavior: Looking forward, Speed: 0.32
+2025-05-23 13:03:16,120 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:16,120 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:16,289 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:16,317 - INFO - User behavior: Looking forward, Speed: 0.26
+2025-05-23 13:03:16,322 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:16,322 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:16,506 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:16,547 - INFO - User behavior: Looking forward, Speed: 0.24
+2025-05-23 13:03:16,550 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:16,550 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:16,740 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:16,785 - INFO - User behavior: Looking forward, Speed: 0.23
+2025-05-23 13:03:16,788 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:16,788 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:16,958 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-23 13:03:17,050 - INFO - User behavior: Looking forward, Speed: 0.24
+2025-05-23 13:03:17,052 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:17,052 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:17,052 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:17,163 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:17,191 - INFO - User behavior: Looking forward and Pointing, Speed: 0.26
+2025-05-23 13:03:17,191 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:17,194 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:17,194 - INFO - Alert: User behavior: Looking forward and Pointing
+2025-05-23 13:03:17,370 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:17,463 - INFO - User behavior: Looking forward, Speed: 0.26
+2025-05-23 13:03:17,463 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:17,465 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:17,465 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:17,465 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:18,183 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:18,184 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:18,239 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:18,329 - INFO - User behavior: Looking forward and Crouching, Speed: 0.48
+2025-05-23 13:03:18,331 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:18,332 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,333 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:18,333 - INFO - Alert: User behavior: Looking forward and Crouching
+2025-05-23 13:03:18,333 - INFO - detection: person, Distance: 1.7m
+2025-05-23 13:03:18,335 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:18,335 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:18,397 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:18,421 - INFO - User behavior: Looking forward and Crouching, Speed: 1.00
+2025-05-23 13:03:18,422 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:18,423 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,424 - INFO - Alert: User behavior: Looking forward and Crouching
+2025-05-23 13:03:18,491 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:18,516 - INFO - User behavior: Looking forward, Speed: 1.16
+2025-05-23 13:03:18,516 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:18,518 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,518 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:18,660 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:18,747 - INFO - User behavior: Looking forward, Speed: 1.39
+2025-05-23 13:03:18,747 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:18,749 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,749 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:18,749 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:18,751 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:18,751 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:18,752 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:18,752 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:18,818 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:18,846 - INFO - User behavior: Looking forward, Speed: 1.61
+2025-05-23 13:03:18,846 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:18,848 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,848 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:18,902 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:18,927 - INFO - User behavior: Looking forward, Speed: 1.90
+2025-05-23 13:03:18,927 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:18,929 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:18,929 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:19,005 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,047 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.05
+2025-05-23 13:03:19,047 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,048 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,050 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:03:19,112 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,136 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.10
+2025-05-23 13:03:19,136 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,138 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,138 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:03:19,294 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,332 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.17
+2025-05-23 13:03:19,332 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,334 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,334 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:03:19,516 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,557 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.22
+2025-05-23 13:03:19,557 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,559 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,559 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:03:19,739 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,779 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.00
+2025-05-23 13:03:19,780 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,782 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,782 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-23 13:03:19,952 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:19,975 - INFO - User behavior: Looking forward, Speed: 1.51
+2025-05-23 13:03:19,975 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:19,977 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:19,977 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:20,174 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:20,212 - INFO - User behavior: Looking forward, Speed: 1.40
+2025-05-23 13:03:20,212 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:20,214 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:20,214 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:20,390 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:20,432 - INFO - User behavior: Looking forward, Speed: 1.27
+2025-05-23 13:03:20,432 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:20,434 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:20,434 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:20,610 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:20,650 - INFO - User behavior: Looking forward, Speed: 1.03
+2025-05-23 13:03:20,651 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:20,653 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:20,653 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:20,813 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:20,843 - INFO - User behavior: Looking forward, Speed: 0.92
+2025-05-23 13:03:20,843 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:20,845 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:20,845 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:21,026 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:21,116 - INFO - User behavior: Looking forward, Speed: 0.80
+2025-05-23 13:03:21,117 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:21,118 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:21,119 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:21,119 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:21,240 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:21,270 - INFO - User behavior: Looking forward, Speed: 0.98
+2025-05-23 13:03:21,270 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:21,271 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:21,272 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:21,468 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:21,571 - INFO - User behavior: Looking forward, Speed: 1.05
+2025-05-23 13:03:21,571 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:21,573 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:21,573 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:21,573 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:21,673 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:21,704 - INFO - User behavior: Looking forward, Speed: 1.21
+2025-05-23 13:03:21,704 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:21,705 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:21,706 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:21,887 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:21,979 - INFO - User behavior: Looking forward, Speed: 1.24
+2025-05-23 13:03:21,979 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:21,981 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:21,981 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:21,982 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:22,107 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:22,129 - INFO - User behavior: Looking right, Speed: 1.21
+2025-05-23 13:03:22,131 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:22,133 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:22,133 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:22,324 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:22,419 - INFO - User behavior: Looking right, Speed: 1.22
+2025-05-23 13:03:22,420 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:22,422 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:22,422 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:22,422 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:22,526 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:22,549 - INFO - User behavior: Looking right, Speed: 1.13
+2025-05-23 13:03:22,550 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:22,553 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:22,554 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:22,752 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:22,848 - INFO - User behavior: Looking right, Speed: 1.18
+2025-05-23 13:03:22,849 - INFO - Emergency detected: person too close at 1.6m
+2025-05-23 13:03:22,851 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:22,851 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:22,851 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:22,968 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:22,994 - INFO - User behavior: Looking right, Speed: 1.05
+2025-05-23 13:03:22,994 - INFO - Emergency detected: person too close at 1.6m
+2025-05-23 13:03:22,997 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:22,997 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:23,183 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:23,279 - INFO - User behavior: Looking right, Speed: 1.17
+2025-05-23 13:03:23,527 - INFO - OCR text: a
+2025-05-23 13:03:23,527 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:23,530 - INFO - Alert: Text detected: a
+2025-05-23 13:03:23,531 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:23,531 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:23,531 - INFO - detection: person, Distance: 1.7m
+2025-05-23 13:03:23,597 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:23,637 - INFO - User behavior: Looking right, Speed: 0.95
+2025-05-23 13:03:23,637 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:23,640 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:23,640 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:23,712 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:23,737 - INFO - User behavior: Looking right, Speed: 0.78
+2025-05-23 13:03:23,738 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:23,741 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:23,741 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:24,658 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:24,661 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:24,724 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:24,764 - INFO - User behavior: Looking forward, Speed: 0.61
+2025-05-23 13:03:24,764 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:24,767 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:24,767 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:24,837 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:24,838 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:24,899 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:24,928 - INFO - User behavior: Looking forward, Speed: 0.57
+2025-05-23 13:03:24,928 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:24,933 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:24,933 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:24,982 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:25,069 - INFO - User behavior: Looking forward, Speed: 0.71
+2025-05-23 13:03:25,069 - INFO - Emergency detected: person too close at 1.6m
+2025-05-23 13:03:25,072 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,072 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:25,072 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:25,074 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:25,074 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:25,075 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:25,075 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:25,104 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:25,105 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:25,155 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:25,185 - INFO - User behavior: Looking forward, Speed: 0.61
+2025-05-23 13:03:25,185 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:25,189 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,189 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:25,246 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:25,336 - INFO - User behavior: Looking forward, Speed: 0.58
+2025-05-23 13:03:25,337 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:25,340 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,340 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:25,340 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:25,396 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:25,421 - INFO - User behavior: Looking right, Speed: 0.68
+2025-05-23 13:03:25,424 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,424 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:25,494 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:25,519 - INFO - User behavior: Looking right, Speed: 0.69
+2025-05-23 13:03:25,521 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,521 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:25,585 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:25,672 - INFO - User behavior: Looking right, Speed: 0.66
+2025-05-23 13:03:25,675 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,675 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:25,675 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:25,734 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:25,757 - INFO - User behavior: Looking forward, Speed: 0.82
+2025-05-23 13:03:25,760 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,760 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:25,827 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:25,850 - INFO - User behavior: Looking forward, Speed: 0.86
+2025-05-23 13:03:25,854 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:25,854 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:25,959 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:26,056 - INFO - User behavior: Looking forward, Speed: 0.85
+2025-05-23 13:03:26,057 - INFO - Emergency detected: person too close at 1.6m
+2025-05-23 13:03:26,059 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:26,059 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:26,059 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:26,177 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:26,201 - INFO - User behavior: Looking forward, Speed: 0.92
+2025-05-23 13:03:26,203 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:26,203 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:26,399 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:26,500 - INFO - User behavior: Looking right, Speed: 0.79
+2025-05-23 13:03:26,503 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:26,503 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:26,503 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:26,616 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:26,643 - INFO - User behavior: Looking right, Speed: 0.80
+2025-05-23 13:03:26,646 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:26,646 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:26,844 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.2m
+2025-05-23 13:03:26,883 - INFO - User behavior: Looking right, Speed: 0.80
+2025-05-23 13:03:26,888 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:26,888 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:27,054 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.3m
+2025-05-23 13:03:27,079 - INFO - User behavior: Looking right, Speed: 0.65
+2025-05-23 13:03:27,083 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:27,083 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:27,273 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.9m
+2025-05-23 13:03:27,312 - INFO - User behavior: Looking right, Speed: 0.59
+2025-05-23 13:03:27,315 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:27,315 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:27,499 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.0m
+2025-05-23 13:03:27,543 - INFO - User behavior: Looking right, Speed: 0.49
+2025-05-23 13:03:27,547 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:27,547 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:27,701 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.2m
+2025-05-23 13:03:27,724 - INFO - User behavior: Looking right, Speed: 0.35
+2025-05-23 13:03:27,727 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:27,727 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:27,902 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.5m
+2025-05-23 13:03:27,940 - INFO - User behavior: Looking right, Speed: 0.30
+2025-05-23 13:03:27,944 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:27,944 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:28,119 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.4m
+2025-05-23 13:03:28,160 - INFO - User behavior: Looking right, Speed: 0.26
+2025-05-23 13:03:28,163 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:28,163 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:28,331 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.2m
+2025-05-23 13:03:28,355 - INFO - User behavior: Looking right, Speed: 0.19
+2025-05-23 13:03:28,358 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:28,358 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:28,549 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.9m
+2025-05-23 13:03:28,590 - INFO - User behavior: Looking right, Speed: 0.17
+2025-05-23 13:03:28,594 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:28,594 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:28,772 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.2m
+2025-05-23 13:03:28,814 - INFO - User behavior: Looking right, Speed: 0.14
+2025-05-23 13:03:28,817 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:28,817 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:28,990 - INFO - Crowd density: Medium, Person count: 1, Avg distance: 3.0m
+2025-05-23 13:03:29,018 - INFO - User behavior: Looking right, Speed: 0.12
+2025-05-23 13:03:29,021 - INFO - Alert: Moderately crowded area, proceed with caution
+2025-05-23 13:03:29,021 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:29,207 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.8m
+2025-05-23 13:03:29,250 - INFO - User behavior: Looking right, Speed: 0.12
+2025-05-23 13:03:29,253 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:29,254 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:29,411 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:29,440 - INFO - User behavior: Looking right, Speed: 0.12
+2025-05-23 13:03:29,443 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:29,444 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:29,626 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:29,665 - INFO - User behavior: Looking right, Speed: 0.11
+2025-05-23 13:03:29,669 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:29,669 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:29,859 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-23 13:03:29,949 - INFO - User behavior: Looking right, Speed: 0.11
+2025-05-23 13:03:29,949 - INFO - Emergency detected: person too close at 1.6m
+2025-05-23 13:03:29,951 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:29,952 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:29,952 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:30,059 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:30,081 - INFO - User behavior: Looking right, Speed: 0.27
+2025-05-23 13:03:30,081 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:30,084 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:30,084 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:30,733 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:30,734 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:30,789 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:30,885 - INFO - User behavior: Looking right, Speed: 0.71
+2025-05-23 13:03:30,885 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:30,888 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:30,888 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:30,888 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:30,890 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:30,890 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:30,959 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:30,984 - INFO - User behavior: Looking right, Speed: 1.05
+2025-05-23 13:03:30,984 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:30,986 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:30,986 - INFO - Alert: User behavior: Looking right
+2025-05-23 13:03:31,037 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:31,062 - INFO - User behavior: Looking forward, Speed: 1.18
+2025-05-23 13:03:31,064 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,064 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,133 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:31,223 - INFO - User behavior: Looking forward, Speed: 1.43
+2025-05-23 13:03:31,224 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:31,226 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,226 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:31,226 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,228 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:31,229 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:31,284 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:31,312 - INFO - User behavior: Looking forward, Speed: 1.58
+2025-05-23 13:03:31,314 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,314 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,377 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:31,402 - INFO - User behavior: Looking forward, Speed: 1.65
+2025-05-23 13:03:31,402 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:31,404 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,404 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,554 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:31,652 - INFO - User behavior: Looking forward, Speed: 1.73
+2025-05-23 13:03:31,652 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:31,654 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,654 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:31,654 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,767 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:31,793 - INFO - User behavior: Looking forward, Speed: 1.80
+2025-05-23 13:03:31,793 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:31,796 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:31,796 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:31,978 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:32,074 - INFO - User behavior: Looking forward, Speed: 1.80
+2025-05-23 13:03:32,074 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:32,075 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:32,076 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:32,076 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:32,203 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:32,230 - INFO - User behavior: Looking forward, Speed: 1.69
+2025-05-23 13:03:32,230 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:32,233 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:32,233 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:32,432 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-23 13:03:32,520 - INFO - User behavior: Looking forward, Speed: 1.32
+2025-05-23 13:03:32,522 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:32,523 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:32,523 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:32,650 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:32,676 - INFO - User behavior: Looking forward, Speed: 1.06
+2025-05-23 13:03:32,680 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:32,680 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:32,879 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:32,975 - INFO - User behavior: Looking forward, Speed: 1.00
+2025-05-23 13:03:32,975 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:32,978 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:32,978 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:32,978 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:33,071 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:33,095 - INFO - User behavior: Looking forward, Speed: 0.87
+2025-05-23 13:03:33,096 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:33,098 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:33,099 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:33,289 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-23 13:03:33,381 - INFO - User behavior: Looking forward, Speed: 1.02
+2025-05-23 13:03:33,385 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:33,385 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:33,385 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:33,489 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:33,515 - INFO - User behavior: Looking forward, Speed: 1.19
+2025-05-23 13:03:33,518 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:33,518 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:33,710 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:33,799 - INFO - User behavior: Looking forward, Speed: 1.34
+2025-05-23 13:03:34,021 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,022 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:34,022 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:34,022 - INFO - detection: person, Distance: 2.3m
+2025-05-23 13:03:34,083 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.3m
+2025-05-23 13:03:34,124 - INFO - User behavior: Looking forward, Speed: 1.30
+2025-05-23 13:03:34,126 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,127 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:34,197 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-23 13:03:34,226 - INFO - User behavior: Looking forward, Speed: 1.36
+2025-05-23 13:03:34,229 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,230 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:34,373 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-23 13:03:34,467 - INFO - User behavior: Looking forward, Speed: 1.33
+2025-05-23 13:03:34,470 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,470 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:34,470 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:34,588 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-23 13:03:34,614 - INFO - User behavior: Looking forward, Speed: 1.31
+2025-05-23 13:03:34,616 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,616 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:34,798 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:34,886 - INFO - User behavior: Looking forward, Speed: 1.38
+2025-05-23 13:03:34,886 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:34,888 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:34,889 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:34,889 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:35,016 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:35,040 - INFO - User behavior: Looking forward, Speed: 1.56
+2025-05-23 13:03:35,040 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:35,043 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:35,043 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:35,226 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:35,320 - INFO - User behavior: Looking forward, Speed: 1.60
+2025-05-23 13:03:35,320 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:35,322 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:35,322 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:35,322 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:35,438 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:35,463 - INFO - User behavior: Looking forward, Speed: 1.44
+2025-05-23 13:03:35,463 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:35,465 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:35,466 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:35,646 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:35,740 - INFO - User behavior: Looking forward, Speed: 1.35
+2025-05-23 13:03:35,740 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:35,743 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:35,743 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:35,743 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:35,868 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:35,890 - INFO - User behavior: Looking forward, Speed: 1.18
+2025-05-23 13:03:35,890 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:35,893 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:35,893 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:36,098 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-23 13:03:36,189 - INFO - User behavior: Looking forward, Speed: 1.23
+2025-05-23 13:03:36,189 - INFO - Emergency detected: person too close at 1.7m
+2025-05-23 13:03:36,192 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:36,192 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:36,854 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:36,856 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:36,921 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:37,014 - INFO - User behavior: Looking forward, Speed: 1.16
+2025-05-23 13:03:37,015 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:37,017 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,017 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:37,019 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,021 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:37,021 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:37,104 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-23 13:03:37,128 - INFO - User behavior: Looking forward, Speed: 1.15
+2025-05-23 13:03:37,129 - INFO - Emergency detected: person too close at 1.8m
+2025-05-23 13:03:37,131 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,131 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,196 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,295 - INFO - User behavior: Looking forward, Speed: 1.15
+2025-05-23 13:03:37,295 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,299 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,299 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:37,299 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,378 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,402 - INFO - User behavior: Looking forward, Speed: 1.00
+2025-05-23 13:03:37,402 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,405 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,405 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,462 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,487 - INFO - User behavior: Looking forward, Speed: 0.79
+2025-05-23 13:03:37,487 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,491 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,491 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,576 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,679 - INFO - User behavior: Looking forward, Speed: 0.65
+2025-05-23 13:03:37,679 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,682 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,682 - INFO - Alert: person approaching from the towards you
+2025-05-23 13:03:37,682 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,685 - INFO - Requested http://ipinfo.io/json
+2025-05-23 13:03:37,685 - INFO - Location updated: [12.2979, 76.6393]
+2025-05-23 13:03:37,747 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,772 - INFO - User behavior: Looking forward, Speed: 0.51
+2025-05-23 13:03:37,772 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,776 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,776 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,847 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:37,872 - INFO - User behavior: Looking forward, Speed: 0.37
+2025-05-23 13:03:37,872 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:37,875 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:37,876 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:37,998 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:38,044 - INFO - User behavior: Looking forward, Speed: 0.31
+2025-05-23 13:03:38,044 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:38,049 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:38,049 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:38,217 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:38,258 - INFO - User behavior: Looking forward, Speed: 0.24
+2025-05-23 13:03:38,258 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:38,262 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:38,262 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:38,413 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:38,440 - INFO - User behavior: Looking forward, Speed: 0.21
+2025-05-23 13:03:38,440 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:38,444 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:38,444 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:38,642 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:38,688 - INFO - User behavior: Looking forward, Speed: 0.23
+2025-05-23 13:03:38,688 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:38,691 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:38,691 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:38,853 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:38,882 - INFO - User behavior: Looking forward, Speed: 0.21
+2025-05-23 13:03:38,882 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:38,885 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:38,885 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:39,062 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:39,107 - INFO - User behavior: Looking forward, Speed: 0.19
+2025-05-23 13:03:39,107 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:39,112 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:39,112 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:39,112 - INFO - detection: person, Distance: 1.9m
+2025-05-23 13:03:39,262 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:39,289 - INFO - User behavior: Looking forward, Speed: 0.17
+2025-05-23 13:03:39,289 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:39,293 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:39,293 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:39,470 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:39,511 - INFO - User behavior: Looking forward, Speed: 0.16
+2025-05-23 13:03:39,511 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:39,515 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:39,515 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:39,681 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:39,709 - INFO - User behavior: Looking forward, Speed: 0.14
+2025-05-23 13:03:39,709 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:39,713 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:39,713 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:39,890 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-23 13:03:39,931 - INFO - User behavior: Looking forward, Speed: 0.14
+2025-05-23 13:03:39,932 - INFO - Emergency detected: person too close at 1.9m
+2025-05-23 13:03:39,935 - INFO - Alert: Crowded area ahead, slow down
+2025-05-23 13:03:39,935 - INFO - Alert: User behavior: Looking forward
+2025-05-23 13:03:41,826 - ERROR - WebSocket error: handle_disconnect() takes 0 positional arguments but 1 was given
+2025-05-23 13:03:41,847 - INFO - Resources cleaned up

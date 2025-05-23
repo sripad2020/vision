@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Caregiver Assistance</title>
+    <title>AR Assistance System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
+            background-color: #f4f4f4;
         }
         #videoFeed {
             width: 640px;
             height: 360px;
             border: 2px solid #000;
+            background-color: #000;
         }
         #processedFeed {
             width: 640px;
             height: 360px;
             border: 2px solid #000;
             margin-top: 20px;
+            background-color: #000;
         }
         #alerts {
             margin-top: 20px;
@@ -28,23 +31,59 @@
             border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
+            background-color: #fff;
+        }
+        #alertList li.danger {
+            color: #d00;
+            font-weight: bold;
+        }
+        #alertList li.warning {
+            color: #e90;
+        }
+        #alertList li.info {
+            color: #00a;
+        }
+        #alertList li.secondary {
+            color: #555;
         }
         button {
             margin: 10px;
             padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #status {
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        #voiceFeedback {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            min-height: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>AR Caregiver Assistance System</h1>
-    <video id="videoFeed" autoplay playsinline></video>
+    <h1>AR Assistance System</h1>
+    <div id="status" role="status" aria-live="polite">Camera: Stopped</div>
+    <video id="videoFeed" autoplay playsinline aria-label="Live camera feed"></video>
     <br>
-    <button id="startBtn">Start Camera</button>
-    <button id="stopBtn" disabled>Stop Camera</button>
+    <button id="startBtn" aria-label="Start camera feed">Start Camera</button>
+    <button id="stopBtn" disabled aria-label="Stop camera feed">Stop Camera</button>
     <br>
-    <img id="processedFeed" src="" alt="Processed Feed">
-    <div id="alerts">
+    <img id="processedFeed" src="" alt="Processed camera feed with AR overlays">
+    <div id="voiceFeedback" role="status" aria-live="assertive"></div>
+    <div id="alerts" role="log" aria-live="polite">
         <h3>Alerts</h3>
         <ul id="alertList"></ul>
     </div>
@@ -60,49 +99,80 @@
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
         const alertList = document.getElementById('alertList');
+        const statusDiv = document.getElementById('status');
+        const voiceFeedback = document.getElementById('voiceFeedback');
         let stream = null;
         let isStreaming = false;
 
         socket.on('connect', () => {
             console.log('WebSocket connected');
-            addAlert('System: WebSocket connected');
+            addAlert('System: WebSocket connected', 'info');
+            updateStatus('WebSocket connected');
         });
 
         socket.on('disconnect', () => {
             console.log('WebSocket disconnected');
-            addAlert('System: WebSocket disconnected');
+            addAlert('System: WebSocket disconnected', 'warning');
             stopCamera();
+            updateStatus('WebSocket disconnected');
+            if (socket.io.reconnectionAttempts >= 5) {
+                addAlert('System: Failed to reconnect to server after 5 attempts', 'danger');
+            }
         });
 
         socket.on('status', (data) => {
             console.log('Status:', data.message);
-            addAlert(`System: ${data.message}`);
+            addAlert(`System: ${data.message}`, 'info');
+            updateStatus(data.message);
         });
 
         socket.on('frame', (data) => {
             processedFeed.src = 'data:image/jpeg;base64,' + data.image;
             if (data.alerts && data.alerts.length > 0) {
-                data.alerts.forEach(alert => addAlert(alert));
+                data.alerts.forEach(alert => {
+                    let alertType = 'info';
+                    if (alert.includes('Warning') || alert.includes('too close')) {
+                        alertType = 'danger';
+                    } else if (alert.includes('ahead') || alert.includes('approaching')) {
+                        alertType = 'warning';
+                    } else if (alert.includes('User behavior') || alert.includes('Text detected')) {
+                        alertType = 'info';
+                    } else {
+                        alertType = 'secondary';
+                    }
+                    addAlert(alert, alertType);
+                    // Update voice feedback with the latest announcement
+                    if (alert !== voiceFeedback.textContent) {
+                        voiceFeedback.textContent = alert;
+                    }
+                });
             }
         });
 
         socket.on('error', (data) => {
             console.error('Error:', data.message);
-            addAlert(`Error: ${data.message}`);
+            addAlert(`Error: ${data.message}`, 'danger');
+            updateStatus(`Error: ${data.message}`);
         });
 
         socket.on('logout', () => {
-            addAlert('System: Logged out');
+            addAlert('System: Logged out', 'info');
             stopCamera();
+            updateStatus('Logged out');
         });
 
-        function addAlert(message) {
+        function addAlert(message, type = 'secondary') {
             const li = document.createElement('li');
-            li.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            li.textContent = `${new Date().toLocaleString()}: ${message}`;
+            li.className = type;
             alertList.prepend(li);
             while (alertList.children.length > 20) {
                 alertList.removeChild(alertList.lastChild);
             }
+        }
+
+        function updateStatus(message) {
+            statusDiv.textContent = `Camera: ${isStreaming ? 'Running' : 'Stopped'} | ${message}`;
         }
 
         async function startCamera() {
@@ -115,15 +185,16 @@
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
                 isStreaming = true;
-                // Wait for video metadata to load
                 video.onloadedmetadata = () => {
                     console.log('Video metadata loaded, starting frame sending');
                     sendFrames();
                 };
-                addAlert('System: Camera started');
+                addAlert('System: Camera started', 'info');
+                updateStatus('Camera started');
             } catch (err) {
                 console.error('Camera access error:', err);
-                addAlert(`Error: Failed to access camera: ${err.message}`);
+                addAlert(`Error: Failed to access camera: ${err.message}`, 'danger');
+                updateStatus(`Camera error: ${err.message}`);
             }
         }
 
@@ -137,13 +208,15 @@
             startBtn.disabled = false;
             stopBtn.disabled = true;
             isStreaming = false;
-            addAlert('System: Camera stopped');
+            voiceFeedback.textContent = '';
+            addAlert('System: Camera stopped', 'info');
+            updateStatus('Camera stopped');
         }
 
         function sendFrames() {
             if (!isStreaming || !video.videoWidth || !video.videoHeight) {
                 console.warn('Not streaming or video not ready, skipping frame');
-                setTimeout(sendFrames, 100);
+                setTimeout(sendFrames, 200);
                 return;
             }
 
@@ -155,21 +228,20 @@
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                 const data = canvas.toDataURL('image/jpeg', 0.7);
 
-                // Validate data format
                 if (!data.startsWith('data:image/jpeg;base64,')) {
                     console.error('Invalid canvas data:', data.substring(0, 50));
-                    addAlert('Error: Invalid frame data generated');
-                    setTimeout(sendFrames, 100);
+                    addAlert('Error: Invalid frame data generated', 'danger');
+                    setTimeout(sendFrames, 200);
                     return;
                 }
 
                 console.debug('Sending frame:', data.substring(0, 50));
                 socket.emit('message', data);
-                setTimeout(sendFrames, 100);
+                setTimeout(sendFrames, 200);
             } catch (err) {
                 console.error('Error sending frame:', err);
-                addAlert(`Error: Failed to send frame: ${err.message}`);
-                setTimeout(sendFrames, 100);
+                addAlert(`Error: Failed to send frame: ${err.message}`, 'danger');
+                setTimeout(sendFrames, 200);
             }
         }
 
