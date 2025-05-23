@@ -243,7 +243,7 @@ marker_texture = cv2.imread("3d_objects/marker.png", cv2.IMREAD_UNCHANGED)
 # Routes
 @app.route('/')
 def index():
-    return redirect(url_for('signup'))
+    return render_template('index.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -346,16 +346,16 @@ def create_caretaker():
     c.execute('SELECT username FROM users_info')
     caretakers = [row['username'] for row in c.fetchall()]
     conn.close()
-    return render_template('user_signup.html', caretakers=caretakers, current_user=session['username'])
+    return render_template('user_SIgnup.html', caretakers=caretakers, current_user=session['username'])
 
 @app.route('/caretaker_login')
 def care_login():
-    return render_template('caretaker_login.html')
+    return render_template('user_login.html')
 
-@app.route('/login-caretaker', methods=['POST'])
+@app.route('/speech-login', methods=['POST'])
 def login_caretaker():
     if request.method == 'POST':
-        username = request.json.get('username')
+        username = request.json.get('speech-text')
         if not username:
             return jsonify({'message': 'Username is required'}), 400
         conn = get_db_connection()
@@ -366,7 +366,7 @@ def login_caretaker():
             conn.close()
             if user:
                 session['username'] = username
-                return jsonify({'message': 'Login successful', 'redirect': '/vision_nr'}), 200
+                return jsonify({'success': True, 'redirect': '/vision_nr'}), 200  # Return JSON instead of redirect
             else:
                 return jsonify({'message': 'Invalid username'}), 401
         except sqlite3.Error as e:

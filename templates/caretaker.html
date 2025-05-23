@@ -3,304 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caretakers | VisioNR</title>
+    <title>Caretakers | Assistive Vision</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            background: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2;
-            opacity: 0.4;
-        }
-        .container {
-            position: relative;
-            z-index: 3;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: center;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        header {
-            background: #1e1e1e;
-            padding: 15px 20px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 4;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-        }
-        header .inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        header h1 {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: #d32f2f;
-        }
-        header nav a {
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background: #d32f2f;
-            border: none;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: box-shadow 0.3s;
-            margin-left: 10px;
-        }
-        header nav a:hover {
-            box-shadow: 0 0 15px rgba(211, 47, 47, 0.7);
-        }
-        h2 {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #d32f2f;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in;
-        }
-        .flash-message {
-            font-size: 1em;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .flash-error {
-            background: rgba(211, 47, 47, 0.2);
-            color: #d32f2f;
-        }
-        .flash-success {
-            background: rgba(0, 128, 0, 0.2);
-            color: #00ff00;
-        }
-        .caretakers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8d6 100%);
+            font-family: 'Arial', sans-serif;
         }
         .user-card {
-            background: #2a2a2a;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s;
-            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .user-card:hover {
             transform: translateY(-5px);
-        }
-        .user-card i {
-            color: #d32f2f;
-            font-size: 1.5em;
-            margin-right: 10px;
-        }
-        .user-card span {
-            font-size: 1.1em;
-            color: #fff;
+            box-shadow: 0 10px 20px rgba(255, 123, 37, 0.3);
         }
         .no-users {
-            color: #bbb;
+            color: #777;
             text-align: center;
-            font-size: 1em;
-        }
-        footer {
-            background: #1e1e1e;
-            padding: 15px;
-            text-align: center;
-            color: #bbb;
-            font-size: 0.9em;
-            position: relative;
-            z-index: 3;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @media (max-width: 768px) {
-            h2 {
-                font-size: 2em;
-            }
-            header h1 {
-                font-size: 1.5em;
-            }
-            header nav a {
-                font-size: 0.9em;
-                padding: 8px 15px;
-            }
+            font-size: 1.25rem;
         }
     </style>
 </head>
-<body>
-    <div id="particles-js"></div>
-    <canvas id="three-canvas"></canvas>
-    <header>
-        <div class="inner">
-            <h1>VisioNR</h1>
-            <nav>
+<body class="min-h-screen flex flex-col">
+    <!-- Header with Navigation Links -->
+    <header class="bg-white shadow-md p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-orange-500">Assistive Vision</h1>
+            <nav class="flex space-x-4">
                 {% if current_user %}
-                    <a href="{{ url_for('create_caretaker') }}" id="create-btn">Create Caretaker</a>
-                    <a href="{{ url_for('logout') }}" id="logout-btn">Logout</a>
+                    <a href="/create_caretaker" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Create Caretaker</a>
+                    <a href="/logout" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Logout</a>
+                        <a href="/" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Home</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}" id="login-btn">Login</a>
-                    <a href="{{ url_for('signup') }}" id="signup-btn">Sign Up</a>
-                    <a href="/speech-login" id="speech-login-btn">Speech Login</a>
+                    <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Login</a>
+                    <a href="/signup" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Sign Up</a>
+                    <a href="/" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Home</a>
                 {% endif %}
             </nav>
         </div>
     </header>
-    <div class="container">
-        <h2>Registered Caregivers</h2>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <p class="flash-message flash-{{ 'error' if category == 'error' else 'success' }}">{{ message }}</p>
-                {% endfor %}
+
+    <!-- Main Content -->
+    <main class="container mx-auto py-8 flex-grow flex items-center justify-center">
+        <div class="w-full max-w-4xl">
+            <h2 class="text-3xl font-bold text-center text-orange-500 mb-8">Registered Care takers</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <p class="text-center text-{{ 'red-500' if category == 'error' else 'green-500' }} mb-4">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% if users %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {% for user in users %}
+                        <a href="{{ url_for('caregiver_dashboard', username=user) }}" class="user-card bg-white rounded-lg shadow-md p-6 flex items-center space-x-4">
+                            <i class="fas fa-user text-orange-500 text-2xl"></i>
+                            <span class="text-lg font-medium text-gray-800">{{ user }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-users">No caregivers registered</p>
             {% endif %}
-        {% endwith %}
-        {% if users %}
-            <div class="caretakers-grid">
-                {% for user in users %}
-                    <a href="{{ url_for('caregiver_dashboard', username=user) }}" class="user-card">
-                        <i class="fas fa-user"></i>
-                        <span>{{ user }}</span>
-                    </a>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class="no-users">No caregivers registered</p>
-        {% endif %}
-    </div>
-    <footer>
-        <p>© 2025 VisioNR. All rights reserved.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white shadow-inner p-4 text-center">
+        <p class="text-gray-600">© 2025 Assistive Vision. All rights reserved.</p>
     </footer>
-
-    <!-- Particle.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-    <!-- Kute.js -->
-    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/kute.min.js"></script>
-    <!-- Font Awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-    <script>
-        // Particle.js Configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 120, density: { enable: true, value_area: 1000 } },
-                color: { value: '#ffffff' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.6, random: true },
-                size: { value: 4, random: true },
-                line_linked: { enable: false },
-                move: { enable: true, speed: 3, direction: 'none', random: true, out_mode: 'out' }
-            },
-            interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false } } },
-            retina_detect: true
-        });
-
-        // Three.js Configuration
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const geometry = new THREE.SphereGeometry(5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-        camera.position.z = 10;
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-            sphere.rotation.x += 0.005;
-            sphere.rotation.y += 0.005;
-            renderer.render(scene, camera);
-        }
-        animateThree();
-
-        // Kute.js Animation for Buttons
-        const loginTween = KUTE.fromTo('#login-btn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const signupTween = KUTE.fromTo('#signup-btn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const createTween = KUTE.fromTo('#create-btn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const logoutTween = KUTE.fromTo('#logout-btn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const speechLoginTween = KUTE.fromTo('#speech-login-btn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-
-        if (document.getElementById('login-btn')) {
-            document.getElementById('login-btn').addEventListener('mouseenter', () => loginTween.start());
-            document.getElementById('login-btn').addEventListener('mouseleave', () => loginTween.reverse().start());
-        }
-        if (document.getElementById('signup-btn')) {
-            document.getElementById('signup-btn').addEventListener('mouseenter', () => signupTween.start());
-            document.getElementById('signup-btn').addEventListener('mouseleave', () => signupTween.reverse().start());
-        }
-        if (document.getElementById('create-btn')) {
-            document.getElementById('create-btn').addEventListener('mouseenter', () => createTween.start());
-            document.getElementById('create-btn').addEventListener('mouseleave', () => createTween.reverse().start());
-        }
-        if (document.getElementById('logout-btn')) {
-            document.getElementById('logout-btn').addEventListener('mouseenter', () => logoutTween.start());
-            document.getElementById('logout-btn').addEventListener('mouseleave', () => logoutTween.reverse().start());
-        }
-        if (document.getElementById('speech-login-btn')) {
-            document.getElementById('speech-login-btn').addEventListener('mouseenter', () => speechLoginTween.start());
-            document.getElementById('speech-login-btn').addEventListener('mouseleave', () => speechLoginTween.reverse().start());
-        }
-
-        // Accessibility: Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && document.activeElement !== document.querySelector('a')) {
-                document.querySelector('.user-card')?.focus();
-            }
-        });
-    </script>
 </body>
 </html>

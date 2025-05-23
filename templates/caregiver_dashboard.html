@@ -2,346 +2,343 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caregiver Dashboard | VisioNR</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Caregiver Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #ff7b25;
+            --secondary: #ffffff;
+            --accent: #4a90e2;
+            --dark: #1a1a2e;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
+
         body {
-            background: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Arial, sans-serif;
             overflow-x: hidden;
-            overflow-y: auto;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: var(--dark);
         }
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
+
+        .dashboard-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(255, 123, 37, 0.3);
         }
-        #three-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 2;
-            opacity: 0.4;
+
+        .dashboard-header h1 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
+
+        .dashboard-header p {
+            opacity: 0.9;
+        }
+
         .container {
-            position: relative;
-            z-index: 3;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
-            min-height: 100vh;
-        }
-        .dashboard-header {
-            background: #1e1e1e;
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            animation: fadeIn 1.5s ease-in;
         }
-        .dashboard-header h1 {
-            font-size: 2.5em;
-            color: #d32f2f;
-            margin: 0;
-            display: flex;
-            align-items: center;
-        }
-        .dashboard-header p {
-            font-size: 1em;
-            color: #bbb;
-            margin: 5px 0 0;
-        }
-        #lastUpdated {
-            font-size: 0.9em;
-            color: #bbb;
-        }
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+
         .status-card {
-            background: #2a2a2a;
+            background: white;
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 8px;
-            transition: transform 0.3s;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: none;
+            height: 100%;
         }
+
         .status-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
-        .status-card h5 {
-            font-size: 1.2em;
-            color: #d32f2f;
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .status-card h5 i {
-            margin-right: 10px;
-        }
-        .status-card .display-4 {
-            font-size: 2.5em;
-            color: #fff;
-        }
-        .status-card p {
-            font-size: 0.8em;
-            color: #bbb;
-            margin-top: 10px;
-        }
-        #emergencyAlert {
-            background: rgba(211, 47, 47, 0.2);
-            border: 2px solid #d32f2f;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 30px;
-            display: none;
-            animation: pulse 1.5s infinite;
-        }
-        #emergencyAlert h4 {
-            font-size: 1.5em;
-            color: #d32f2f;
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        #emergencyAlert h4 i {
-            margin-right: 10px;
-        }
-        #emergencyAlert p {
-            font-size: 1em;
-            color: #fff;
-            margin: 0;
-        }
-        #acknowledgeBtn, #refreshLogs, #logoutBtn {
-            padding: 10px 20px;
-            font-size: 1em;
-            color: #fff;
-            background: #d32f2f;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: box-shadow 0.3s;
-            margin: 5px;
-        }
-        #acknowledgeBtn:hover, #refreshLogs:hover, #logoutBtn:hover {
-            box-shadow: 0 0 15px rgba(211, 47, 47, 0.7);
-        }
-        .log-controls {
-            background: #1e1e1e;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .filter-btn {
-            padding: 8px 15px;
-            font-size: 0.9em;
-            color: #fff;
-            background: #2a2a2a;
-            border: 2px solid #d32f2f;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 5px;
-            transition: background 0.3s;
-        }
-        .filter-btn.active, .filter-btn:hover {
-            background: #d32f2f;
-        }
-        .auto-refresh {
+
+        .status-card .card-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
-            color: #bbb;
-            font-size: 0.9em;
         }
-        #autoRefresh {
-            cursor: pointer;
+
+        .status-card .display-4 {
+            font-weight: 700;
+            color: var(--dark);
         }
+
+        .status-card .card-text {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
         .log-container {
-            background: #1e1e1e;
-            border-radius: 8px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 0;
             max-height: 70vh;
             overflow-y: auto;
-            padding: 20px;
         }
+
         .log-entry {
-            background: #2a2a2a;
-            padding: 15px;
+            padding: 15px 20px;
             border-left: 4px solid;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            margin-bottom: 0;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-entry:hover {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+
         .log-entry.info {
-            border-left-color: #4caf50;
-            background: rgba(76, 175, 80, 0.1);
+            border-left-color: var(--info);
+            background-color: rgba(23, 162, 184, 0.05);
         }
+
         .log-entry.warning {
-            border-left-color: #ff9800;
-            background: rgba(255, 152, 0, 0.1);
+            border-left-color: var(--warning);
+            background-color: rgba(255, 193, 7, 0.05);
         }
+
         .log-entry.danger {
-            border-left-color: #d32f2f;
-            background: rgba(211, 47, 47, 0.1);
+            border-left-color: var(--danger);
+            background-color: rgba(220, 53, 69, 0.05);
         }
+
         .log-entry.secondary {
-            border-left-color: #bbb;
-            background: rgba(187, 187, 187, 0.1);
+            border-left-color: #6c757d;
+            background-color: rgba(108, 117, 125, 0.05);
         }
-        .log-timestamp, .log-type {
-            font-size: 0.8em;
-            color: #bbb;
+
+        .log-timestamp {
+            font-size: 0.75rem;
+            color: #6c757d;
+            font-weight: 500;
         }
+
         .log-type {
-            background: #d32f2f;
-            padding: 2px 8px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            padding: 3px 8px;
             border-radius: 4px;
-            color: #fff;
         }
-        .log-message {
-            font-size: 1em;
-            color: #fff;
-        }
+
         .metrics-badge {
-            font-size: 0.7em;
+            font-size: 0.7rem;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
             padding: 4px 8px;
             border-radius: 4px;
-            margin: 5px 5px 0 0;
-            display: inline-block;
         }
-        .metrics-badge.bg-secondary { background: #bbb; }
-        .metrics-badge.bg-danger { background: #d32f2f; }
-        .metrics-badge.bg-warning { background: #ff9800; }
-        .metrics-badge.bg-success { background: #4caf50; }
-        .metrics-badge.bg-primary { background: #0288d1; }
-        .metrics-badge.bg-info { background: #4caf50; }
-        #logFileInfo {
-            font-size: 0.8em;
-            color: #bbb;
+
+        .emergency-alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+            animation: pulse 1.5s infinite;
         }
+
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .filter-btn {
+            border-radius: 20px;
+            padding: 5px 15px;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
         }
+
+        .filter-btn.active {
+            font-weight: 600;
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            border-radius: 50px;
+            padding: 8px 20px;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #ff6a0d;
+            border-color: #ff6a0d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 123, 37, 0.4);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .last-updated {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .log-file-info {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        /* Custom badges */
+        .badge-info {
+            background-color: var(--info);
+        }
+        .badge-warning {
+            background-color: var(--warning);
+        }
+        .badge-danger {
+            background-color: var(--danger);
+        }
+        .badge-success {
+            background-color: var(--success);
+        }
+        .badge-primary {
+            background-color: var(--primary);
+        }
+
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
             .dashboard-header h1 {
-                font-size: 2em;
+                font-size: 1.8rem;
             }
-            .dashboard-header p, #lastUpdated {
-                font-size: 0.8em;
+
+            .status-card {
+                margin-bottom: 15px;
             }
-            .status-grid {
-                grid-template-columns: 1fr;
-            }
-            .status-card .display-4 {
-                font-size: 2em;
-            }
-            .log-controls {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            .filter-btn, #refreshLogs, #logoutBtn {
-                font-size: 0.8em;
-                padding: 8px 12px;
+
+            .log-container {
+                max-height: 60vh;
             }
         }
-        @media (max-width: 480px) {
-            .container {
-                padding: 20px 10px;
-            }
-            .log-container {
-                max-height: 50vh;
-            }
-            .log-entry {
-                padding: 10px;
-            }
+
+        /* Accessibility */
+        button:focus, input:focus {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
-    <canvas id="three-canvas"></canvas>
-    <div class="container">
-        <div class="dashboard-header">
-            <div>
-                <h1><i class="bi bi-shield-check"></i> Caregiver Dashboard</h1>
-                <p>Monitoring system for assisted navigation</p>
-            </div>
-            <div id="lastUpdated"></div>
-        </div>
-
-        <div class="status-grid">
-            <div class="status-card">
-                <h5><i class="bi bi-people"></i> Current Crowd</h5>
-                <div id="currentCrowd" class="display-4">-</div>
-                <p>Last updated: <span id="crowdUpdated">-</span></p>
-            </div>
-            <div class="status-card">
-                <h5><i class="bi bi-person-walking"></i> User Activity</h5>
-                <div id="currentActivity" class="display-4">-</div>
-                <p>Speed: <span id="currentSpeed">-</span></p>
-            </div>
-            <div class="status-card">
-                <h5><i class="bi bi-exclamation-triangle"></i> Warnings</h5>
-                <div id="warningCount" class="display-4">0</div>
-                <p>Potential issues detected</p>
-            </div>
-            <div class="status-card">
-                <h5><i class="bi bi-activity"></i> System Status</h5>
-                <div id="systemStatus" class="display-4">Active</div>
-                <p id="logFileInfo">Loading log data...</p>
-            </div>
-        </div>
-
-        <div id="emergencyAlert">
-            <h4><i class="bi bi-exclamation-octagon-fill"></i> Emergency Alert</h4>
-            <p id="emergencyMessage">An emergency situation has been detected!</p>
-            <button id="acknowledgeBtn">Acknowledge</button>
-        </div>
-
-        <div class="log-controls">
-            <div>
-                <button id="refreshLogs"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
-                <button id="logoutBtn">Logout</button>
-                <div class="btn-group">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="info">Info</button>
-                    <button class="filter-btn" data-filter="warning">Warnings</button>
-                    <button class="filter-btn" data-filter="danger">Emergencies</button>
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1><i class="fas fa-shield-alt me-2"></i>Caregiver Dashboard</h1>
+                    <p class="mb-0">Monitoring system for assisted navigation</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div id="lastUpdated" class="last-updated"></div>
                 </div>
             </div>
-            <div class="auto-refresh">
-                <input type="checkbox" id="autoRefresh" checked>
-                <label for="autoRefresh">Auto-refresh (30s)</label>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Status Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="status-card">
+                    <h5 class="card-title"><i class="fas fa-users"></i> Current Crowd</h5>
+                    <div id="currentCrowd" class="display-4">-</div>
+                    <p class="card-text">Last updated: <span id="crowdUpdated">-</span></p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="status-card">
+                    <h5 class="card-title"><i class="fas fa-walking"></i> User Activity</h5>
+                    <div id="currentActivity" class="display-4">-</div>
+                    <p class="card-text">Speed: <span id="currentSpeed">-</span></p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="status-card">
+                    <h5 class="card-title"><i class="fas fa-exclamation-triangle"></i> Warnings</h5>
+                    <div id="warningCount" class="display-4">0</div>
+                    <p class="card-text">Potential issues detected</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="status-card">
+                    <h5 class="card-title"><i class="fas fa-heartbeat"></i> System Status</h5>
+                    <div id="systemStatus" class="display-4">Active</div>
+                    <p class="card-text log-file-info" id="logFileInfo">Loading log data...</p>
+                </div>
             </div>
         </div>
 
-        <div class="log-container">
-            <div id="logContainer">
+        <!-- Emergency Alert -->
+        <div id="emergencyAlert" class="alert alert-danger emergency-alert d-none mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>Emergency Alert</h4>
+                    <p id="emergencyMessage" class="mb-0">An emergency situation has been detected!</p>
+                </div>
+                <button id="acknowledgeBtn" class="btn btn-light">Acknowledge</button>
+            </div>
+        </div>
+
+        <!-- Log Controls -->
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body py-2">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <button id="refreshLogs" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
+                            <button type="button" class="btn btn-outline-info filter-btn" data-filter="info">Info</button>
+                            <button type="button" class="btn btn-outline-warning filter-btn" data-filter="warning">Warnings</button>
+                            <button type="button" class="btn btn-outline-danger filter-btn" data-filter="danger">Emergencies</button>
+                        </div>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                        <label class="form-check-label" for="autoRefresh">Auto-refresh (30s)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Display -->
+        <div class="log-container shadow-sm">
+            <div id="logContainer" class="p-3">
                 <div class="text-center py-5">
-                    <div class="spinner-border" style="color: #d32f2f;" role="status">
+                    <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <p class="mt-2">Loading log data...</p>
@@ -350,77 +347,13 @@
         </div>
     </div>
 
-    <!-- Particle.js -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <!-- Three.js -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-    <!-- Kute.js -->
-    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/kute.min.js"></script>
-    <!-- Socket.IO -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
     <script>
-        // Particle.js Configuration
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 120, density: { enable: true, value_area: 1000 } },
-                color: { value: '#ffffff' },
-                shape: { type: 'circle' },
-                opacity: { value: 0.6, random: true },
-                size: { value: 4, random: true },
-                line_linked: { enable: false },
-                move: { enable: true, speed: 3, direction: 'none', random: true, out_mode: 'out' }
-            },
-            interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false } } },
-            retina_detect: true
-        });
-
-        // Three.js Configuration
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const geometry = new THREE.SphereGeometry(5, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-        camera.position.z = 10;
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-            sphere.rotation.x += 0.005;
-            sphere.rotation.y += 0.005;
-            renderer.render(scene, camera);
-        }
-        animateThree();
-
-        // Kute.js Animation for Buttons
-        const refreshTween = KUTE.fromTo('#refreshLogs',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const logoutTween = KUTE.fromTo('#logoutBtn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-        const acknowledgeTween = KUTE.fromTo('#acknowledgeBtn',
-            { scale: 1, background: '#d32f2f' },
-            { scale: 1.15, background: '#b71c1c' },
-            { duration: 300 }
-        );
-
-        document.getElementById('refreshLogs').addEventListener('mouseenter', () => refreshTween.start());
-        document.getElementById('refreshLogs').addEventListener('mouseleave', () => refreshTween.reverse().start());
-        document.getElementById('logoutBtn').addEventListener('mouseenter', () => logoutTween.start());
-        document.getElementById('logoutBtn').addEventListener('mouseleave', () => logoutTween.reverse().start());
-        document.getElementById('acknowledgeBtn').addEventListener('mouseenter', () => acknowledgeTween.start());
-        document.getElementById('acknowledgeBtn').addEventListener('mouseleave', () => acknowledgeTween.reverse().start());
-
-        // WebSocket and Dashboard Logic
+        // Connect to WebSocket for real-time updates
         const socket = io('/video_feed');
 
+        // DOM elements
         const logContainer = document.getElementById('logContainer');
         const lastUpdatedEl = document.getElementById('lastUpdated');
         const currentCrowdEl = document.getElementById('currentCrowd');
@@ -434,19 +367,21 @@
         const emergencyMessageEl = document.getElementById('emergencyMessage');
         const acknowledgeBtn = document.getElementById('acknowledgeBtn');
         const refreshLogsBtn = document.getElementById('refreshLogs');
-        const logoutBtn = document.getElementById('logoutBtn');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const autoRefreshToggle = document.getElementById('autoRefresh');
 
+        // State variables
         let logs = [];
         let autoRefreshInterval;
         let currentFilter = 'all';
         let emergencyActive = false;
 
+        // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             loadLogs();
             setupAutoRefresh();
 
+            // Set up filter buttons
             filterButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     filterButtons.forEach(b => b.classList.remove('active'));
@@ -456,20 +391,24 @@
                 });
             });
 
+            // Set up refresh button
             refreshLogsBtn.addEventListener('click', function() {
                 loadLogs();
+                // Add visual feedback
+                this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Refreshing';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
+                }, 1000);
             });
 
+            // Set up acknowledge button
             acknowledgeBtn.addEventListener('click', function() {
-                emergencyAlertEl.style.display = 'none';
+                emergencyAlertEl.classList.add('d-none');
                 emergencyActive = false;
                 socket.emit('acknowledge_emergency');
             });
 
-            logoutBtn.addEventListener('click', function() {
-                socket.emit('logout');
-            });
-
+            // Set up auto-refresh toggle
             autoRefreshToggle.addEventListener('change', function() {
                 if (this.checked) {
                     setupAutoRefresh();
@@ -478,10 +417,11 @@
                 }
             });
 
+            // Handle WebSocket messages
             socket.on('user_status', function(data) {
                 if (data.emergency) {
                     emergencyMessageEl.textContent = data.emergency;
-                    emergencyAlertEl.style.display = 'block';
+                    emergencyAlertEl.classList.remove('d-none');
                     emergencyActive = true;
                 }
 
@@ -499,14 +439,15 @@
                 }
             });
 
-            socket.on('logout', () => {
-                window.location.href = '/login';
-            });
+            // Update last updated time every minute
+            setInterval(() => {
+                lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+            }, 60000);
         });
 
         function setupAutoRefresh() {
             clearInterval(autoRefreshInterval);
-            autoRefreshInterval = setInterval(loadLogs, 30000);
+            autoRefreshInterval = setInterval(loadLogs, 30000); // 30 seconds
         }
 
         function loadLogs() {
@@ -514,44 +455,51 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
-                        logContainer.innerHTML = `<div style="background: rgba(211, 47, 47, 0.2); padding: 15px; border-radius: 8px; color: #d32f2f;">${data.error}</div>`;
+                        logContainer.innerHTML = `<div class="alert alert-warning">${data.error}</div>`;
                         return;
                     }
 
                     logs = data.logs;
-                    lastUpdatedEl.textContent = `Last updated: ${data.last_updated}`;
+                    lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
                     logFileInfoEl.textContent = `Log file: ${data.log_file.split('/').pop()}`;
 
+                    // Update status cards
                     updateStatusCards();
+
+                    // Render logs
                     renderLogs();
                 })
                 .catch(error => {
                     console.error('Error loading logs:', error);
-                    logContainer.innerHTML = `<div style="background: rgba(211, 47, 47, 0.2); padding: 15px; border-radius: 8px; color: #d32f2f;">Error loading logs: ${error.message}</div>`;
+                    logContainer.innerHTML = `<div class="alert alert-danger">Error loading logs: ${error.message}</div>`;
                 });
         }
 
         function updateStatusCards() {
+            // Count warnings and errors
             const warningCount = logs.filter(log => log.class === 'warning' || log.class === 'danger').length;
             warningCountEl.textContent = warningCount;
 
+            // Find latest crowd info
             const crowdLog = logs.reverse().find(log => log.metrics && log.metrics.crowd_density);
             if (crowdLog) {
                 currentCrowdEl.textContent = crowdLog.metrics.crowd_density;
-                crowdUpdatedEl.textContent = crowdLog.timestamp;
+                crowdUpdatedEl.textContent = new Date(crowdLog.timestamp).toLocaleTimeString();
             }
 
+            // Find latest user activity
             const activityLog = logs.reverse().find(log => log.metrics && log.metrics.behavior);
             if (activityLog) {
                 currentActivityEl.textContent = activityLog.metrics.behavior;
                 currentSpeedEl.textContent = activityLog.metrics.speed || '-';
             }
 
+            // Check for active emergency
             if (!emergencyActive) {
                 const emergencyLog = logs.find(log => log.class === 'danger');
                 if (emergencyLog) {
                     emergencyMessageEl.textContent = emergencyLog.message;
-                    emergencyAlertEl.style.display = 'block';
+                    emergencyAlertEl.classList.remove('d-none');
                     emergencyActive = true;
                 }
             }
@@ -559,20 +507,23 @@
 
         function renderLogs() {
             if (logs.length === 0) {
-                logContainer.innerHTML = '<div style="text-align: center; padding: 40px; color: #bbb;">No log entries found</div>';
+                logContainer.innerHTML = '<div class="text-center py-5 text-muted">No log entries found</div>';
                 return;
             }
 
             let html = '';
             let visibleCount = 0;
 
+            // Process logs in reverse order (newest first)
             [...logs].reverse().forEach(log => {
+                // Apply filter
                 if (currentFilter !== 'all' && log.class !== currentFilter) {
                     return;
                 }
 
                 visibleCount++;
 
+                // Create metrics badges if available
                 let metricsHtml = '';
                 if (log.metrics) {
                     for (const [key, value] of Object.entries(log.metrics)) {
@@ -584,38 +535,34 @@
                             badgeClass = speed > 0.5 ? 'bg-primary' : 'bg-info';
                         }
 
-                        metricsHtml += `<span class="metrics-badge ${badgeClass}">${key}: ${value}</span>`;
+                        metricsHtml += `<span class="badge ${badgeClass} metrics-badge">${key}: ${value}</span>`;
                     }
                 }
 
+                // Create log entry HTML
                 html += `
                     <div class="log-entry ${log.class}" data-type="${log.class}">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                            <span class="log-timestamp">${log.timestamp}</span>
-                            <span class="log-type">${log.type}</span>
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <span class="log-timestamp">${new Date(log.timestamp).toLocaleString()}</span>
+                            <span class="badge bg-${log.class} log-type">${log.type}</span>
                         </div>
                         <div class="log-message">${log.message}</div>
-                        ${metricsHtml ? `<div style="margin-top: 10px;">${metricsHtml}</div>` : ''}
+                        ${metricsHtml ? `<div class="mt-2">${metricsHtml}</div>` : ''}
                     </div>
                 `;
             });
 
             if (visibleCount === 0) {
-                html = '<div style="text-align: center; padding: 40px; color: #bbb;">No log entries match the current filter</div>';
+                html = '<div class="text-center py-5 text-muted">No log entries match the current filter</div>';
             }
 
             logContainer.innerHTML = html;
+
+            // Scroll to top if new logs were added
             if (currentFilter === 'all') {
                 logContainer.scrollTop = 0;
             }
         }
-
-        // Accessibility: Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && document.activeElement !== refreshLogsBtn && document.activeElement !== logoutBtn && document.activeElement !== acknowledgeBtn) {
-                refreshLogsBtn.focus();
-            }
-        });
     </script>
 </body>
 </html>
