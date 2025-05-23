@@ -164,6 +164,7 @@
         <div class="buttons">
             <a href="/login.html" class="button" id="login-btn">Login</a>
             <a href="/signup.html" class="button" id="signup-btn">Signup</a>
+            <a href="/caretaker_login.html" class="button" id="caretaker-login-btn">Caretaker Login</a>
         </div>
         <div class="features">
             <div class="feature-card">
@@ -264,11 +265,18 @@
             { scale: 1.15, background: '#b71c1c' },
             { duration: 300 }
         );
+        const caretakerLoginTween = KUTE.fromTo('#caretaker-login-btn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
 
         document.getElementById('login-btn').addEventListener('mouseenter', () => loginTween.start());
         document.getElementById('login-btn').addEventListener('mouseleave', () => loginTween.reverse().start());
         document.getElementById('signup-btn').addEventListener('mouseenter', () => signupTween.start());
         document.getElementById('signup-btn').addEventListener('mouseleave', () => signupTween.reverse().start());
+        document.getElementById('caretaker-login-btn').addEventListener('mouseenter', () => caretakerLoginTween.start());
+        document.getElementById('caretaker-login-btn').addEventListener('mouseleave', () => caretakerLoginTween.reverse().start());
 
         // Camera Activation and Feature Integration
         async function startCamera() {

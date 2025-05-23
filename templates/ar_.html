@@ -3,93 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Assistance System</title>
+    <title>AR Assistance System | VisioNR</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial, sans-serif;
+            background: #121212;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            opacity: 0.4;
+        }
+        .container {
+            position: relative;
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
             text-align: center;
-            margin: 20px;
-            background-color: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #d32f2f;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            animation: fadeIn 1.5s ease-in;
         }
         #videoFeed {
-            width: 640px;
-            height: 360px;
-            border: 2px solid #000;
+            width: 100%;
+            max-width: 640px;
+            aspect-ratio: 16 / 9;
+            border: 3px solid #d32f2f;
+            border-radius: 8px;
             background-color: #000;
+            margin: 0 auto;
+            display: block;
         }
         #processedFeed {
-            width: 640px;
-            height: 360px;
-            border: 2px solid #000;
-            margin-top: 20px;
+            width: 100%;
+            max-width: 640px;
+            aspect-ratio: 16 / 9;
+            border: 3px solid #d32f2f;
+            border-radius: 8px;
             background-color: #000;
+            margin: 20px auto;
+            display: block;
         }
         #alerts {
-            margin-top: 20px;
+            max-width: 640px;
+            margin: 20px auto;
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
+            padding: 15px;
+            background: #1e1e1e;
             text-align: left;
-            background-color: #fff;
+        }
+        #alerts h3 {
+            font-size: 1.5em;
+            color: #d32f2f;
+            margin-bottom: 10px;
         }
         #alertList li.danger {
-            color: #d00;
+            color: #d32f2f;
             font-weight: bold;
         }
         #alertList li.warning {
-            color: #e90;
+            color: #ff9800;
         }
         #alertList li.info {
-            color: #00a;
+            color: #4caf50;
         }
         #alertList li.secondary {
-            color: #555;
+            color: #bbb;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
         }
         button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-            border: none;
-            background-color: #007bff;
+            padding: 15px 30px;
+            font-size: 1.2em;
             color: #fff;
+            background: #d32f2f;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: box-shadow 0.3s;
+        }
+        button:hover {
+            box-shadow: 0 0 15px rgba(211, 47, 47, 0.7);
         }
         button:disabled {
-            background-color: #ccc;
+            background: #555;
             cursor: not-allowed;
+            box-shadow: none;
         }
         #status {
-            margin: 10px 0;
+            margin: 15px 0;
+            font-size: 1.1em;
+            color: #ccc;
             font-weight: bold;
         }
         #voiceFeedback {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            min-height: 20px;
+            margin: 15px auto;
+            max-width: 640px;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 8px;
+            min-height: 40px;
+            font-size: 1em;
+            color: #fff;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            #videoFeed, #processedFeed {
+                max-width: 90vw;
+            }
+            #alerts {
+                max-width: 90vw;
+            }
+            #voiceFeedback {
+                max-width: 90vw;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+        }
+        @media (max-width: 480px) {
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            #alerts {
+                max-height: 150px;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>AR Assistance System</h1>
-    <div id="status" role="status" aria-live="polite">Camera: Stopped</div>
-    <video id="videoFeed" autoplay playsinline aria-label="Live camera feed"></video>
-    <br>
-    <button id="startBtn" aria-label="Start camera feed">Start Camera</button>
-    <button id="stopBtn" disabled aria-label="Stop camera feed">Stop Camera</button>
-    <br>
-    <img id="processedFeed" src="" alt="Processed camera feed with AR overlays">
-    <div id="voiceFeedback" role="status" aria-live="assertive"></div>
-    <div id="alerts" role="log" aria-live="polite">
-        <h3>Alerts</h3>
-        <ul id="alertList"></ul>
+    <div id="particles-js"></div>
+    <canvas id="three-canvas"></canvas>
+    <div class="container">
+        <h1>AR Assistance System</h1>
+        <div id="status" role="status" aria-live="polite">Camera: Stopped</div>
+        <video id="videoFeed" autoplay playsinline aria-label="Live camera feed"></video>
+        <div class="buttons">
+            <button id="startBtn" aria-label="Start camera feed">Start Camera</button>
+            <button id="stopBtn" disabled aria-label="Stop camera feed">Stop Camera</button>
+            <button id="logoutBtn" aria-label="Log out">Logout</button>
+        </div>
+        <img id="processedFeed" src="" alt="Processed camera feed with AR overlays">
+        <div id="voiceFeedback" role="status" aria-live="assertive"></div>
+        <div id="alerts" role="log" aria-live="polite">
+            <h3>Alerts</h3>
+            <ul id="alertList"></ul>
+        </div>
     </div>
 
+    <!-- Particle.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <!-- Kute.js -->
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/kute.min.js"></script>
+    <!-- Socket.IO -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.min.js"></script>
     <script>
+        // Particle.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 120, density: { enable: true, value_area: 1000 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.6, random: true },
+                size: { value: 4, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 3, direction: 'none', random: true, out_mode: 'out' }
+            },
+            interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false } } },
+            retina_detect: true
+        });
+
+        // Three.js Configuration
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geometry = new THREE.SphereGeometry(5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        camera.position.z = 10;
+
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            sphere.rotation.x += 0.005;
+            sphere.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animateThree();
+
+        // Kute.js Animation for Buttons
+        const startTween = KUTE.fromTo('#startBtn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+        const stopTween = KUTE.fromTo('#stopBtn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+        const logoutTween = KUTE.fromTo('#logoutBtn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+
+        document.getElementById('startBtn').addEventListener('mouseenter', () => startTween.start());
+        document.getElementById('startBtn').addEventListener('mouseleave', () => startTween.reverse().start());
+        document.getElementById('stopBtn').addEventListener('mouseenter', () => stopTween.start());
+        document.getElementById('stopBtn').addEventListener('mouseleave', () => stopTween.reverse().start());
+        document.getElementById('logoutBtn').addEventListener('mouseenter', () => logoutTween.start());
+        document.getElementById('logoutBtn').addEventListener('mouseleave', () => logoutTween.reverse().start());
+
+        // WebSocket and Camera Functionality
         const socket = io('/video_feed', {
             reconnectionAttempts: 5,
             reconnectionDelay: 1000
@@ -98,6 +272,7 @@
         const processedFeed = document.getElementById('processedFeed');
         const startBtn = document.getElementById('startBtn');
         const stopBtn = document.getElementById('stopBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
         const alertList = document.getElementById('alertList');
         const statusDiv = document.getElementById('status');
         const voiceFeedback = document.getElementById('voiceFeedback');
@@ -141,7 +316,6 @@
                         alertType = 'secondary';
                     }
                     addAlert(alert, alertType);
-                    // Update voice feedback with the latest announcement
                     if (alert !== voiceFeedback.textContent) {
                         voiceFeedback.textContent = alert;
                     }
@@ -159,6 +333,9 @@
             addAlert('System: Logged out', 'info');
             stopCamera();
             updateStatus('Logged out');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000);
         });
 
         function addAlert(message, type = 'secondary') {
@@ -178,12 +355,13 @@
         async function startCamera() {
             try {
                 stream = await navigator.mediaDevices.getUserMedia({
-                    video: { width: 640, height: 360 },
+                    video: { width: { ideal: 640 }, height: { ideal: 360 } },
                     audio: false
                 });
                 video.srcObject = stream;
                 startBtn.disabled = true;
                 stopBtn.disabled = false;
+                logoutBtn.disabled = false;
                 isStreaming = true;
                 video.onloadedmetadata = () => {
                     console.log('Video metadata loaded, starting frame sending');
@@ -207,6 +385,7 @@
             processedFeed.src = '';
             startBtn.disabled = false;
             stopBtn.disabled = true;
+            logoutBtn.disabled = false;
             isStreaming = false;
             voiceFeedback.textContent = '';
             addAlert('System: Camera stopped', 'info');
@@ -245,8 +424,20 @@
             }
         }
 
+        function logout() {
+            socket.emit('logout');
+        }
+
         startBtn.addEventListener('click', startCamera);
         stopBtn.addEventListener('click', stopCamera);
+        logoutBtn.addEventListener('click', logout);
+
+        // Accessibility: Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement !== startBtn && document.activeElement !== stopBtn && document.activeElement !== logoutBtn) {
+                startBtn.focus();
+            }
+        });
     </script>
 </body>
 </html>

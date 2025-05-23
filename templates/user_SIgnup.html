@@ -3,37 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caretakers | Assistive Vision</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <title>Caretakers | VisioNR</title>
     <style>
-        :root {
-            --primary: #ff7b25;
-            --secondary: #ffffff;
-            --accent: #4a90e2;
-            --dark: #1a1a2e;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
         }
-
         body {
+            background: #121212;
+            color: #fff;
+            font-family: 'Segoe UI', Arial, sans-serif;
             overflow-x: hidden;
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe8d6 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            position: relative;
+            overflow-y: auto;
         }
-
         #particles-js {
             position: fixed;
             width: 100%;
@@ -41,262 +24,213 @@
             top: 0;
             left: 0;
             z-index: 1;
-            background: transparent;
         }
-
-        .caretakers-wrapper {
+        #three-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            opacity: 0.4;
+        }
+        .container {
             position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            padding: 20px;
-        }
-
-        .caretakers-container {
-            width: 100%;
-            max-width: 500px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transform-style: preserve-3d;
-        }
-
-        .caretakers-container h2 {
-            color: var(--primary);
+            z-index: 3;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
             text-align: center;
-            margin-bottom: 30px;
-            font-weight: 700;
-            font-size: 28px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-
+        .caretakers-container {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeIn 1.5s ease-in;
+        }
+        .caretakers-container h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #d32f2f;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        }
         .form-section {
             margin-bottom: 25px;
         }
-
         .section-title {
-            color: var(--primary);
-            font-size: 18px;
+            font-size: 1.5em;
             margin-bottom: 15px;
-            font-weight: 600;
-            border-bottom: 2px solid var(--primary);
+            color: #d32f2f;
+            border-bottom: 2px solid #d32f2f;
             padding-bottom: 5px;
         }
-
         .input-group {
             position: relative;
             margin-bottom: 20px;
+            text-align: left;
         }
-
         .input-group input {
             width: 100%;
-            padding: 15px 20px;
-            border: none;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            font-size: 16px;
-            outline: none;
-            transition: all 0.3s ease;
+            padding: 10px;
+            border: 2px solid #d32f2f;
+            border-radius: 8px;
+            background: #2a2a2a;
+            color: #fff;
+            font-size: 1em;
         }
-
         .input-group input:focus {
-            box-shadow: 0 5px 15px rgba(255, 123, 37, 0.3);
+            outline: none;
+            box-shadow: 0 0 10px rgba(211, 47, 47, 0.7);
         }
-
+        .input-group input:valid + label,
+        .input-group input:focus + label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.8em;
+            background: #1e1e1e;
+            padding: 0 5px;
+            color: #d32f2f;
+        }
         .input-group label {
             position: absolute;
-            top: 15px;
-            left: 20px;
-            color: #777;
+            top: 10px;
+            left: 15px;
+            color: #ccc;
             pointer-events: none;
             transition: all 0.3s ease;
         }
-
-        .input-group input:focus + label,
-        .input-group input:valid + label {
-            top: -10px;
-            left: 15px;
-            font-size: 12px;
-            background: white;
-            padding: 0 5px;
-            color: var(--primary);
-        }
-
         .btn {
             width: 100%;
             padding: 15px;
+            font-size: 1.2em;
+            color: #fff;
+            background: #d32f2f;
             border: none;
-            border-radius: 50px;
-            background: var(--primary);
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 123, 37, 0.4);
-            margin-top: 10px;
+            transition: box-shadow 0.3s;
         }
-
         .btn:hover {
-            background: #ff6a0d;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 123, 37, 0.6);
+            box-shadow: 0 0 20px rgba(211, 47, 47, 0.7);
         }
-
+        .btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
         .speech-btn {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
         }
-
         .speech-btn i {
             font-size: 18px;
         }
-
+        .speech-btn.listening {
+            background: #b71c1c;
+        }
+        .error-message, .success-message {
+            margin-bottom: 15px;
+            font-size: 1em;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
         .error-message {
-            color: #ff4757;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
-            display: none;
+            background: rgba(211, 47, 47, 0.2);
+            color: #d32f2f;
         }
-
         .success-message {
-            color: #2ed573;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 14px;
+            background: rgba(0, 128, 0, 0.2);
+            color: #00ff00;
+        }
+        .hidden {
             display: none;
         }
-
         .caretakers-list {
             margin-top: 20px;
         }
-
         .caretakers-list h3 {
-            color: var(--primary);
-            font-size: 18px;
+            font-size: 1.5em;
+            color: #d32f2f;
             margin-bottom: 15px;
-            font-weight: 600;
         }
-
         .caretakers-list ul {
             list-style: none;
             padding: 0;
         }
-
         .caretakers-list li {
-            display: flex;
-            align-items: center;
+            background: #2a2a2a;
             padding: 10px;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-bottom: 10px;
-            background: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            transition: transform 0.3s;
         }
-
         .caretakers-list li:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 123, 37, 0.3);
+            transform: translateY(-5px);
         }
-
         .caretakers-list a {
-            color: var(--dark);
+            color: #fff;
             text-decoration: none;
             display: flex;
             align-items: center;
             width: 100%;
         }
-
         .caretakers-list i {
             margin-right: 10px;
-            color: var(--primary);
+            color: #d32f2f;
             font-size: 20px;
         }
-
         .no-users {
-            color: #777;
+            color: #bbb;
             text-align: center;
-            font-size: 16px;
+            font-size: 1em;
         }
-
-        .star {
-            position: absolute;
-            background-color: var(--accent);
-            border-radius: 50%;
-            z-index: 3;
-            animation: twinkle 2s infinite alternate;
-            pointer-events: none;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.1); }
-        }
-
-        .logo {
+        .links {
+            margin-top: 20px;
             text-align: center;
-            margin-bottom: 20px;
         }
-
-        .logo i {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 10px;
+        .links a {
+            color: #d32f2f;
+            text-decoration: none;
+            font-size: 1em;
         }
-
-        @media (max-width: 600px) {
-            .caretakers-container {
-                padding: 30px 20px;
-                width: 95%;
-            }
-
+        .links a:hover {
+            text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 768px) {
             .caretakers-container h2 {
-                font-size: 24px;
-                margin-bottom: 20px;
+                font-size: 2em;
             }
-
+            .section-title, .caretakers-list h3 {
+                font-size: 1.2em;
+            }
             .input-group input {
-                padding: 12px 15px;
+                font-size: 0.9em;
             }
-        }
-
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border-width: 0;
-        }
-
-        input:focus, button:focus {
-            outline: 3px solid var(--accent);
-            outline-offset: 2px;
+            .btn {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
-    <div class="caretakers-wrapper">
-        <div class="caretakers-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-            <div class="logo">
-                <i class="fas fa-users"></i>
-            </div>
+    <canvas id="three-canvas"></canvas>
+    <div class="container">
+        <div class="caretakers-container">
             <h2>Welcome, {{ current_user }}!</h2>
-            <div class="error-message" id="error-message"></div>
-            <div class="success-message" id="success-message"></div>
+            <div id="error-message" class="error-message hidden"></div>
+            <div id="success-message" class="success-message hidden"></div>
             <form id="caretakerForm">
                 <div class="form-section">
                     <h3 class="section-title">Create Caretaker</h3>
@@ -313,7 +247,7 @@
                     <button type="button" id="record-speech" class="btn speech-btn">
                         <i class="fas fa-microphone"></i> Record Speech
                     </button>
-                    <button type="submit" class="btn">Create Caretaker</button>
+                    <button type="submit" id="submit-btn" class="btn">Create Caretaker</button>
                 </div>
             </form>
             <div class="caretakers-list">
@@ -339,121 +273,66 @@
         </div>
     </div>
 
+    <!-- Particle.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <!-- Kute.js -->
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/kute.min.js"></script>
+    <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <script>
-        // Initialize Tilt.js
-        VanillaTilt.init(document.querySelector(".caretakers-container"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
+        // Particle.js Configuration
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 120, density: { enable: true, value_area: 1000 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.6, random: true },
+                size: { value: 4, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 3, direction: 'none', random: true, out_mode: 'out' }
+            },
+            interactivity: { detect_on: 'canvas', events: { onhover: { enable: false }, onclick: { enable: false } } },
+            retina_detect: true
         });
 
-        // Create blue stars
-        function createStars() {
-            const starCount = 30;
-            const container = document.body;
+        // Three.js Configuration
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('three-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
+        const geometry = new THREE.SphereGeometry(5, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x333333, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        scene.add(sphere);
+        camera.position.z = 10;
 
-                const size = Math.random() * 4 + 2;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-
-                star.style.left = `${Math.random() * 100}vw`;
-                star.style.top = `${Math.random() * 100}vh`;
-
-                star.style.animationDelay = `${Math.random() * 2}s`;
-
-                container.appendChild(star);
-            }
+        function animateThree() {
+            requestAnimationFrame(animateThree);
+            sphere.rotation.x += 0.005;
+            sphere.rotation.y += 0.005;
+            renderer.render(scene, camera);
         }
+        animateThree();
 
-        // Initialize Particles.js
-        function initParticles() {
-            particlesJS('particles-js', {
-                "particles": {
-                    "number": {
-                        "value": 120,
-                        "density": {
-                            "enable": true,
-                            "value_area": 800
-                        }
-                    },
-                    "color": {
-                        "value": "#ff7b25"
-                    },
-                    "shape": {
-                        "type": "circle",
-                        "stroke": {
-                            "width": 0,
-                            "color": "#000000"
-                        }
-                    },
-                    "opacity": {
-                        "value": 0.8,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 1,
-                            "opacity_min": 0.3,
-                            "sync": false
-                        }
-                    },
-                    "size": {
-                        "value": 5,
-                        "random": true,
-                        "anim": {
-                            "enable": true,
-                            "speed": 2,
-                            "size_min": 1,
-                            "sync": false
-                        }
-                    },
-                    "line_linked": {
-                        "enable": false
-                    },
-                    "move": {
-                        "enable": true,
-                        "speed": 2,
-                        "direction": "none",
-                        "random": true,
-                        "straight": false,
-                        "out_mode": "out",
-                        "bounce": false,
-                        "attract": {
-                            "enable": false
-                        }
-                    }
-                },
-                "interactivity": {
-                    "detect_on": "canvas",
-                    "events": {
-                        "onhover": {
-                            "enable": true,
-                            "mode": "repulse"
-                        },
-                        "onclick": {
-                            "enable": true,
-                            "mode": "push"
-                        },
-                        "resize": true
-                    },
-                    "modes": {
-                        "repulse": {
-                            "distance": 100,
-                            "duration": 0.4
-                        },
-                        "push": {
-                            "particles_nb": 4
-                        }
-                    }
-                },
-                "retina_detect": true
-            });
-        }
+        // Kute.js Animation for Buttons
+        const submitTween = KUTE.fromTo('#submit-btn',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+        const recordTween = KUTE.fromTo('#record-speech',
+            { scale: 1, background: '#d32f2f' },
+            { scale: 1.15, background: '#b71c1c' },
+            { duration: 300 }
+        );
+
+        document.getElementById('submit-btn').addEventListener('mouseenter', () => submitTween.start());
+        document.getElementById('submit-btn').addEventListener('mouseleave', () => submitTween.reverse().start());
+        document.getElementById('record-speech').addEventListener('mouseenter', () => recordTween.start());
+        document.getElementById('record-speech').addEventListener('mouseleave', () => recordTween.reverse().start());
 
         // Speech Recognition Setup
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -469,12 +348,12 @@
             if (!isRecording) {
                 recognition.start();
                 recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
-                recordButton.style.background = '#ff4757';
+                recordButton.classList.add('listening');
                 isRecording = true;
             } else {
                 recognition.stop();
                 recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
-                recordButton.style.background = 'var(--primary)';
+                recordButton.classList.remove('listening');
                 isRecording = false;
             }
         });
@@ -482,37 +361,39 @@
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             speechText.value = transcript;
+            recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+            recordButton.classList.remove('listening');
+            isRecording = false;
         };
 
         recognition.onerror = (event) => {
             const errorMessage = document.getElementById('error-message');
             errorMessage.textContent = `Speech recognition error: ${event.error}`;
-            errorMessage.style.display = 'block';
+            errorMessage.classList.remove('hidden');
             recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
-            recordButton.style.background = 'var(--primary)';
+            recordButton.classList.remove('listening');
             isRecording = false;
         };
 
-        // Form submission with AJAX
+        // Form Submission
         document.getElementById('caretakerForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const username = document.getElementById('username').value;
             const speech_credential = document.getElementById('speech-text').value;
-
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
+            const btn = document.getElementById('submit-btn');
 
-            errorMessage.style.display = "none";
-            successMessage.style.display = "none";
+            errorMessage.classList.add('hidden');
+            successMessage.classList.add('hidden');
 
             if (!username || !speech_credential) {
-                errorMessage.textContent = "Please fill in all fields and record a speech phrase";
-                errorMessage.style.display = "block";
+                errorMessage.textContent = 'Please fill in all fields and record a speech phrase';
+                errorMessage.classList.remove('hidden');
                 return;
             }
 
-            const btn = document.querySelector('button[type="submit"]');
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Caretaker...';
 
@@ -531,46 +412,34 @@
             .then(data => ({ status: response.status, body: data })))
             .then(({ status, body }) => {
                 if (status === 201 && body.success) {
-                    successMessage.textContent = "Caretaker created successfully! Refreshing...";
-                    successMessage.style.display = "block";
+                    successMessage.textContent = 'Caretaker created successfully! Refreshing...';
+                    successMessage.classList.remove('hidden');
                     document.getElementById('caretakerForm').reset();
                     setTimeout(() => {
                         window.location.reload();
                     }, 2000);
                 } else {
-                    errorMessage.textContent = body.message || "Creation failed. Please try again.";
-                    errorMessage.style.display = "block";
+                    errorMessage.textContent = body.message || 'Creation failed. Please try again.';
+                    errorMessage.classList.remove('hidden');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                errorMessage.textContent = "An error occurred. Please try again.";
-                errorMessage.style.display = "block";
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.classList.remove('hidden');
             })
             .finally(() => {
                 btn.disabled = false;
-                btn.textContent = "Create Caretaker";
+                btn.textContent = 'Create Caretaker';
             });
         });
 
-        // Initialize everything
-        window.onload = function() {
-            createStars();
-            initParticles();
-
-            KUTE.to(
-                document.querySelector('.caretakers-container'),
-                { y: -5 },
-                {
-                    duration: 3000,
-                    yoyo: true,
-                    repeat: Infinity,
-                    easing: 'easingSineInOut'
-                }
-            ).start();
-
-            document.getElementById('username').focus();
-        };
+        // Accessibility: Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && document.activeElement !== document.getElementById('username')) {
+                document.getElementById('username').focus();
+            }
+        });
     </script>
 </body>
 </html>
