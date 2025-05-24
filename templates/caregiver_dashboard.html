@@ -2,21 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Caregiver Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Dashboard - {{ username }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
     <style>
         :root {
             --primary: #ff7b25;
             --secondary: #ffffff;
             --accent: #4a90e2;
             --dark: #1a1a2e;
-            --success: #28a745;
-            --info: #17a2b8;
-            --warning: #ffc107;
-            --danger: #dc3545;
         }
 
         * {
@@ -28,541 +27,405 @@
 
         body {
             overflow-x: hidden;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8d6 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             min-height: 100vh;
-            color: var(--dark);
+            position: relative;
         }
 
-        .dashboard-header {
-            background: var(--primary);
-            color: white;
-            padding: 1.5rem 0;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 20px rgba(255, 123, 37, 0.3);
-        }
-
-        .dashboard-header h1 {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .dashboard-header p {
-            opacity: 0.9;
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: transparent;
         }
 
         .container {
+            position: relative;
+            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .status-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: none;
-            height: 100%;
-        }
-
-        .status-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .status-card .card-title {
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 15px;
+            padding: 40px 20px;
+            z-index: 10;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
         }
 
-        .status-card .display-4 {
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .status-card .card-text {
-            font-size: 0.85rem;
-            color: #6c757d;
-        }
-
-        .log-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 0;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .log-entry {
-            padding: 15px 20px;
-            border-left: 4px solid;
-            margin-bottom: 0;
-            transition: all 0.2s ease;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .log-entry:last-child {
-            border-bottom: none;
-        }
-
-        .log-entry:hover {
-            background-color: rgba(0, 0, 0, 0.02);
-        }
-
-        .log-entry.info {
-            border-left-color: var(--info);
-            background-color: rgba(23, 162, 184, 0.05);
-        }
-
-        .log-entry.warning {
-            border-left-color: var(--warning);
-            background-color: rgba(255, 193, 7, 0.05);
-        }
-
-        .log-entry.danger {
-            border-left-color: var(--danger);
-            background-color: rgba(220, 53, 69, 0.05);
-        }
-
-        .log-entry.secondary {
-            border-left-color: #6c757d;
-            background-color: rgba(108, 117, 125, 0.05);
-        }
-
-        .log-timestamp {
-            font-size: 0.75rem;
-            color: #6c757d;
-            font-weight: 500;
-        }
-
-        .log-type {
-            font-weight: 600;
-            font-size: 0.75rem;
-            padding: 3px 8px;
-            border-radius: 4px;
-        }
-
-        .metrics-badge {
-            font-size: 0.7rem;
-            margin-right: 0.3rem;
-            margin-bottom: 0.3rem;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .emergency-alert {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
-        }
-
-        .filter-btn {
+        .dashboard-container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            padding: 5px 15px;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in;
+            position: relative;
         }
 
-        .filter-btn.active {
+        .dashboard-container h1 {
+            color: var(--primary);
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        #last-updated {
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+            font-size: 1em;
+            animation: fadeIn 2s ease-in;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            animation: slideUp 1s ease-in;
+        }
+
+        th, td {
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: left;
+            font-size: 1em;
+        }
+
+        th {
+            background: var(--primary);
+            color: var(--secondary);
             font-weight: 600;
-            transform: translateY(-2px);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-primary {
-            background-color: var(--primary);
-            border-color: var(--primary);
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .danger { color: #ff4757; }
+        .warning { color: #ffa502; }
+        .info { color: #2ed573; }
+        .secondary { color: #777; }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 30px;
+            background: var(--primary);
+            color: var(--secondary);
+            border: none;
             border-radius: 50px;
-            padding: 8px 20px;
+            font-size: 16px;
             font-weight: 600;
-        }
-
-        .btn-primary:hover {
-            background-color: #ff6a0d;
-            border-color: #ff6a0d;
-            transform: translateY(-2px);
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(255, 123, 37, 0.4);
         }
 
-        .form-check-input:checked {
-            background-color: var(--primary);
-            border-color: var(--primary);
+        .logout-btn:hover {
+            background: #ff6a0d;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 123, 37, 0.6);
         }
 
-        .last-updated {
-            font-size: 0.85rem;
-            opacity: 0.9;
+        .star {
+            position: absolute;
+            background-color: var(--accent);
+            border-radius: 50%;
+            z-index: 3;
+            animation: twinkle 2s infinite alternate;
+            pointer-events: none;
         }
 
-        .log-file-info {
-            font-size: 0.8rem;
-            color: #6c757d;
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.1); }
         }
 
-        /* Custom badges */
-        .badge-info {
-            background-color: var(--info);
-        }
-        .badge-warning {
-            background-color: var(--warning);
-        }
-        .badge-danger {
-            background-color: var(--danger);
-        }
-        .badge-success {
-            background-color: var(--success);
-        }
-        .badge-primary {
-            background-color: var(--primary);
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Mobile responsiveness */
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
         @media (max-width: 768px) {
-            .dashboard-header h1 {
-                font-size: 1.8rem;
+            .dashboard-container {
+                padding: 30px 20px;
+                width: 95%;
             }
 
-            .status-card {
-                margin-bottom: 15px;
+            .dashboard-container h1 {
+                font-size: 2em;
             }
 
-            .log-container {
-                max-height: 60vh;
+            th, td {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+
+            .logout-btn {
+                padding: 8px 20px;
+                font-size: 14px;
             }
         }
 
-        /* Accessibility */
-        button:focus, input:focus {
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        button:focus {
             outline: 3px solid var(--accent);
             outline-offset: 2px;
         }
     </style>
 </head>
 <body>
-    <div class="dashboard-header">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1><i class="fas fa-shield-alt me-2"></i>Caregiver Dashboard</h1>
-                    <p class="mb-0">Monitoring system for assisted navigation</p>
-                </div>
-                <div class="col-md-4 text-end">
-                    <div id="lastUpdated" class="last-updated"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <div id="particles-js"></div>
     <div class="container">
-        <!-- Status Cards -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="status-card">
-                    <h5 class="card-title"><i class="fas fa-users"></i> Current Crowd</h5>
-                    <div id="currentCrowd" class="display-4">-</div>
-                    <p class="card-text">Last updated: <span id="crowdUpdated">-</span></p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="status-card">
-                    <h5 class="card-title"><i class="fas fa-walking"></i> User Activity</h5>
-                    <div id="currentActivity" class="display-4">-</div>
-                    <p class="card-text">Speed: <span id="currentSpeed">-</span></p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="status-card">
-                    <h5 class="card-title"><i class="fas fa-exclamation-triangle"></i> Warnings</h5>
-                    <div id="warningCount" class="display-4">0</div>
-                    <p class="card-text">Potential issues detected</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="status-card">
-                    <h5 class="card-title"><i class="fas fa-heartbeat"></i> System Status</h5>
-                    <div id="systemStatus" class="display-4">Active</div>
-                    <p class="card-text log-file-info" id="logFileInfo">Loading log data...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Emergency Alert -->
-        <div id="emergencyAlert" class="alert alert-danger emergency-alert d-none mb-4">
-            <div class="d-flex justify-content-between align-items-center">
-                <div>
-                    <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>Emergency Alert</h4>
-                    <p id="emergencyMessage" class="mb-0">An emergency situation has been detected!</p>
-                </div>
-                <button id="acknowledgeBtn" class="btn btn-light">Acknowledge</button>
-            </div>
-        </div>
-
-        <!-- Log Controls -->
-        <div class="card mb-4 border-0 shadow-sm">
-            <div class="card-body py-2">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <button id="refreshLogs" class="btn btn-sm btn-primary me-2">
-                            <i class="fas fa-sync-alt"></i> Refresh
-                        </button>
-                        <div class="btn-group btn-group-sm" role="group">
-                            <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
-                            <button type="button" class="btn btn-outline-info filter-btn" data-filter="info">Info</button>
-                            <button type="button" class="btn btn-outline-warning filter-btn" data-filter="warning">Warnings</button>
-                            <button type="button" class="btn btn-outline-danger filter-btn" data-filter="danger">Emergencies</button>
-                        </div>
-                    </div>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
-                        <label class="form-check-label" for="autoRefresh">Auto-refresh (30s)</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Log Display -->
-        <div class="log-container shadow-sm">
-            <div id="logContainer" class="p-3">
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <p class="mt-2">Loading log data...</p>
-                </div>
-            </div>
+        <div class="dashboard-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <button class="logout-btn" id="logout-btn" onclick="logout()" aria-describedby="logout-help">Logout</button>
+            <span id="logout-help" class="sr-only">Log out of the caregiver dashboard</span>
+            <h1>Caregiver Dashboard for {{ username }}</h1>
+            <div id="last-updated">Last updated: {{ last_updated }}</div>
+            <table id="log-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Type</th>
+                        <th>Message</th>
+                        <th>Metrics</th>
+                    </tr>
+                </thead>
+                <tbody id="log-body">
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ log.timestamp }}</td>
+                        <td class="{{ log.class }}">{{ log.type }}</td>
+                        <td>{{ log.message }}</td>
+                        <td>
+                            {% for key, value in log.metrics.items() %}
+                                {{ key }}: {{ value }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">No logs available</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/socket.io-client@4.5.1/dist/socket.io.min.js"></script>
     <script>
-        // Connect to WebSocket for real-time updates
-        const socket = io('/video_feed');
-
-        // DOM elements
-        const logContainer = document.getElementById('logContainer');
-        const lastUpdatedEl = document.getElementById('lastUpdated');
-        const currentCrowdEl = document.getElementById('currentCrowd');
-        const crowdUpdatedEl = document.getElementById('crowdUpdated');
-        const currentActivityEl = document.getElementById('currentActivity');
-        const currentSpeedEl = document.getElementById('currentSpeed');
-        const warningCountEl = document.getElementById('warningCount');
-        const systemStatusEl = document.getElementById('systemStatus');
-        const logFileInfoEl = document.getElementById('logFileInfo');
-        const emergencyAlertEl = document.getElementById('emergencyAlert');
-        const emergencyMessageEl = document.getElementById('emergencyMessage');
-        const acknowledgeBtn = document.getElementById('acknowledgeBtn');
-        const refreshLogsBtn = document.getElementById('refreshLogs');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const autoRefreshToggle = document.getElementById('autoRefresh');
-
-        // State variables
-        let logs = [];
-        let autoRefreshInterval;
-        let currentFilter = 'all';
-        let emergencyActive = false;
-
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', function() {
-            loadLogs();
-            setupAutoRefresh();
-
-            // Set up filter buttons
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentFilter = this.dataset.filter;
-                    renderLogs();
-                });
-            });
-
-            // Set up refresh button
-            refreshLogsBtn.addEventListener('click', function() {
-                loadLogs();
-                // Add visual feedback
-                this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Refreshing';
-                setTimeout(() => {
-                    this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh';
-                }, 1000);
-            });
-
-            // Set up acknowledge button
-            acknowledgeBtn.addEventListener('click', function() {
-                emergencyAlertEl.classList.add('d-none');
-                emergencyActive = false;
-                socket.emit('acknowledge_emergency');
-            });
-
-            // Set up auto-refresh toggle
-            autoRefreshToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    setupAutoRefresh();
-                } else {
-                    clearInterval(autoRefreshInterval);
-                }
-            });
-
-            // Handle WebSocket messages
-            socket.on('user_status', function(data) {
-                if (data.emergency) {
-                    emergencyMessageEl.textContent = data.emergency;
-                    emergencyAlertEl.classList.remove('d-none');
-                    emergencyActive = true;
-                }
-
-                if (data.behavior) {
-                    currentActivityEl.textContent = data.behavior;
-                }
-
-                if (data.speed) {
-                    currentSpeedEl.textContent = data.speed;
-                }
-
-                if (data.crowd_density) {
-                    currentCrowdEl.textContent = data.crowd_density;
-                    crowdUpdatedEl.textContent = new Date().toLocaleTimeString();
-                }
-            });
-
-            // Update last updated time every minute
-            setInterval(() => {
-                lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-            }, 60000);
+        // Initialize Tilt.js for dashboard container
+        VanillaTilt.init(document.querySelector(".dashboard-container"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            gyroscope: true
         });
 
-        function setupAutoRefresh() {
-            clearInterval(autoRefreshInterval);
-            autoRefreshInterval = setInterval(loadLogs, 30000); // 30 seconds
-        }
+        // Create blue stars
+        function createStars() {
+            const starCount = 30;
+            const container = document.body;
 
-        function loadLogs() {
-            fetch('/get_logs')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        logContainer.innerHTML = `<div class="alert alert-warning">${data.error}</div>`;
-                        return;
-                    }
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
 
-                    logs = data.logs;
-                    lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-                    logFileInfoEl.textContent = `Log file: ${data.log_file.split('/').pop()}`;
+                const size = Math.random() * 4 + 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
 
-                    // Update status cards
-                    updateStatusCards();
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
 
-                    // Render logs
-                    renderLogs();
-                })
-                .catch(error => {
-                    console.error('Error loading logs:', error);
-                    logContainer.innerHTML = `<div class="alert alert-danger">Error loading logs: ${error.message}</div>`;
-                });
-        }
+                star.style.animationDelay = `${Math.random() * 2}s`;
 
-        function updateStatusCards() {
-            // Count warnings and errors
-            const warningCount = logs.filter(log => log.class === 'warning' || log.class === 'danger').length;
-            warningCountEl.textContent = warningCount;
-
-            // Find latest crowd info
-            const crowdLog = logs.reverse().find(log => log.metrics && log.metrics.crowd_density);
-            if (crowdLog) {
-                currentCrowdEl.textContent = crowdLog.metrics.crowd_density;
-                crowdUpdatedEl.textContent = new Date(crowdLog.timestamp).toLocaleTimeString();
-            }
-
-            // Find latest user activity
-            const activityLog = logs.reverse().find(log => log.metrics && log.metrics.behavior);
-            if (activityLog) {
-                currentActivityEl.textContent = activityLog.metrics.behavior;
-                currentSpeedEl.textContent = activityLog.metrics.speed || '-';
-            }
-
-            // Check for active emergency
-            if (!emergencyActive) {
-                const emergencyLog = logs.find(log => log.class === 'danger');
-                if (emergencyLog) {
-                    emergencyMessageEl.textContent = emergencyLog.message;
-                    emergencyAlertEl.classList.remove('d-none');
-                    emergencyActive = true;
-                }
+                container.appendChild(star);
             }
         }
 
-        function renderLogs() {
-            if (logs.length === 0) {
-                logContainer.innerHTML = '<div class="text-center py-5 text-muted">No log entries found</div>';
-                return;
-            }
-
-            let html = '';
-            let visibleCount = 0;
-
-            // Process logs in reverse order (newest first)
-            [...logs].reverse().forEach(log => {
-                // Apply filter
-                if (currentFilter !== 'all' && log.class !== currentFilter) {
-                    return;
-                }
-
-                visibleCount++;
-
-                // Create metrics badges if available
-                let metricsHtml = '';
-                if (log.metrics) {
-                    for (const [key, value] of Object.entries(log.metrics)) {
-                        let badgeClass = 'bg-secondary';
-                        if (key === 'crowd_density') {
-                            badgeClass = value === 'High' ? 'bg-danger' : value === 'Medium' ? 'bg-warning' : 'bg-success';
-                        } else if (key === 'speed') {
-                            const speed = parseFloat(value);
-                            badgeClass = speed > 0.5 ? 'bg-primary' : 'bg-info';
+        // Initialize Particles.js
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 120,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
                         }
-
-                        metricsHtml += `<span class="badge ${badgeClass} metrics-badge">${key}: ${value}</span>`;
+                    },
+                    "color": {
+                        "value": "#ff7b25"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.8,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": false
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false
+                        }
                     }
-                }
-
-                // Create log entry HTML
-                html += `
-                    <div class="log-entry ${log.class}" data-type="${log.class}">
-                        <div class="d-flex justify-content-between align-items-start mb-1">
-                            <span class="log-timestamp">${new Date(log.timestamp).toLocaleString()}</span>
-                            <span class="badge bg-${log.class} log-type">${log.type}</span>
-                        </div>
-                        <div class="log-message">${log.message}</div>
-                        ${metricsHtml ? `<div class="mt-2">${metricsHtml}</div>` : ''}
-                    </div>
-                `;
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "repulse": {
+                            "distance": 100,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
             });
-
-            if (visibleCount === 0) {
-                html = '<div class="text-center py-5 text-muted">No log entries match the current filter</div>';
-            }
-
-            logContainer.innerHTML = html;
-
-            // Scroll to top if new logs were added
-            if (currentFilter === 'all') {
-                logContainer.scrollTop = 0;
-            }
         }
+
+        // Kute.js Animation for logout button
+        const logoutTween = KUTE.fromTo('#logout-btn',
+            { scale: 1, background: '#ff7b25' },
+            { scale: 1.15, background: '#ff6a0d' },
+            { duration: 300 }
+        );
+
+        document.getElementById('logout-btn').addEventListener('mouseenter', () => logoutTween.start());
+        document.getElementById('logout-btn').addEventListener('mouseleave', () => logoutTween.reverse().start());
+
+        // WebSocket for log updates
+        const socket = io.connect('/caregiver_dashboard/{{ username }}', { path: '/socket.io' });
+
+        socket.on('connect', () => {
+            console.log('WebSocket connected for log updates');
+        });
+
+        socket.on('log_update', (data) => {
+            const logBody = document.getElementById('log-body');
+            logBody.innerHTML = ''; // Clear existing logs
+            data.logs.forEach(log => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${log.timestamp}</td>
+                    <td class="${log.class}">${log.type}</td>
+                    <td>${log.message}</td>
+                    <td>${Object.entries(log.metrics || {}).map(([k, v]) => `${k}: ${v}`).join('<br>')}</td>
+                `;
+                logBody.appendChild(row);
+            });
+            document.getElementById('last-updated').textContent = `Last updated: ${data.last_updated}`;
+        });
+
+        function logout() {
+            fetch('/logout')
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch(error => console.error('Logout error:', error));
+        }
+
+        // Initialize everything
+        window.onload = function() {
+            createStars();
+            initParticles();
+            KUTE.to(
+                document.querySelector('.dashboard-container'),
+                { y: -5 },
+                {
+                    duration: 3000,
+                    yoyo: true,
+                    repeat: Infinity,
+                    easing: 'easingSineInOut'
+                }
+            ).start();
+
+            // Accessibility: Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    document.getElementById('logout-btn').focus();
+                }
+            });
+        };
     </script>
 </body>
 </html>

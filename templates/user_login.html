@@ -295,6 +295,13 @@
         .icon-btn i {
             font-size: 18px;
         }
+
+        .input-note {
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -313,11 +320,11 @@
                 <div class="form-section">
                     <h3 class="section-title">Authentication</h3>
                     <div class="input-group">
-                        <input type="text" id="speech-text" readonly aria-describedby="speech-help">
-                        <label for="speech-text">Speech Credential</label>
+                        <input type="text" id="speech-text" aria-describedby="speech-help">
+                        <label for="speech-text">Speech or Typed Credential</label>
                     </div>
-                    <span id="speech-help" class="sr-only">Your recorded speech phrase for login</span>
-
+                    <span id="speech-help" class="sr-only">Your recorded speech phrase or typed credential for login</span>
+                    <p class="input-note">Speak your credential or type it manually if speech is unavailable.</p>
                     <button type="button" id="record-speech" class="btn speech-btn">
                         <i class="fas fa-microphone"></i> Record Speech
                     </button>
@@ -334,7 +341,7 @@
                 <button type="submit" class="btn">Login</button>
             </form>
             <div class="links">
-                <a href="/speech-signup">Don't have an account? Sign Up</a>
+                <p>Don't have an account? Come with Caretaker</p>
             </div>
         </div>
     </div>
@@ -493,17 +500,25 @@
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;
 
-        let isClassification = false;
         let isRecording = false;
         const recordButton = document.getElementById('record-speech');
         const speechText = document.getElementById('speech-text');
 
         recordButton.addEventListener('click', () => {
             if (!isRecording) {
-                recognition.start();
-                recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
-                recordButton.style.background = '#ff4757';
-                isRecording = true;
+                try {
+                    recognition.start();
+                    recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
+                    recordButton.style.background = '#ff4757';
+                    isRecording = true;
+                } catch (error) {
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.textContent = 'Speech recognition unavailable. Please type your credential.';
+                    errorMessage.style.display = 'block';
+                    recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+                    recordButton.style.background = 'var(--primary)';
+                    isRecording = false;
+                }
             } else {
                 recognition.stop();
                 recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
@@ -515,32 +530,52 @@
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             speechText.value = transcript;
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none';
         };
 
         recognition.onerror = (event) => {
             const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = `Speech recognition error: ${event.error}`;
+            errorMessage.textContent = `Speech recognition error: ${event.error}. Please type your credential.`;
             errorMessage.style.display = 'block';
             recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
             recordButton.style.background = 'var(--primary)';
             isRecording = false;
         };
 
+        // Check session on page load
+        function checkSession() {
+            fetch('/check-session', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.logged_in) {
+                    window.location.href = '/vision_nr';
+                }
+            })
+            .catch(error => {
+                console.error('Error checking session:', error);
+            });
+        }
+
         // Form submission with AJAX
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             const speechCredential = document.getElementById('speech-text').value;
-
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
 
-            errorMessage.style.display = "none";
-            successMessage.style.display = "none";
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
 
             if (!speechCredential) {
-                errorMessage.textContent = "Please record a speech phrase";
-                errorMessage.style.display = "block";
+                errorMessage.textContent = 'Please record or type a speech phrase';
+                errorMessage.style.display = 'block';
                 return;
             }
 
@@ -560,31 +595,32 @@
             .then(response => response.json()
             .then(data => ({ status: response.status, body: data })))
             .then(({ status, body }) => {
-                if (status === 200 && body.success) {
-                    successMessage.textContent = "Login successful! Redirecting...";
-                    successMessage.style.display = "block";
+                if (status === 200 && body.success && body.redirect) {
+                    successMessage.textContent = 'Login successful! Redirecting...';
+                    successMessage.style.display = 'block';
                     document.getElementById('loginForm').reset();
                     setTimeout(() => {
-                        window.location.href = '/dashboard'; // Adjust to your dashboard route
+                        window.location.href = body.redirect; // Use redirect from backend
                     }, 2000);
                 } else {
-                    errorMessage.textContent = body.message || "Login failed. Please try again.";
-                    errorMessage.style.display = "block";
+                    errorMessage.textContent = body.message || 'Login failed. Please try again.';
+                    errorMessage.style.display = 'block';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                errorMessage.textContent = "An error occurred. Please try again.";
-                errorMessage.style.display = "block";
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
             })
             .finally(() => {
                 btn.disabled = false;
-                btn.textContent = "Login";
+                btn.textContent = 'Login';
             });
         });
 
         // Initialize everything
         window.onload = function() {
+            checkSession(); // Check if already logged in
             createStars();
             initThreeJS();
             initParticles();

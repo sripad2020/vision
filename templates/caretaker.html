@@ -3,76 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caretakers | Assistive Vision</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Registered Caretakers | Assistive Vision</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
     <style>
+        :root {
+            --primary: #ff7b25;
+            --secondary: #ffffff;
+            --accent: #4a90e2;
+            --dark: #1a1a2e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
+            overflow-x: hidden;
             background: linear-gradient(135deg, #fff5f5 0%, #ffe8d6 100%);
-            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
         }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background: transparent;
+        }
+
+        .caretakers-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .caretakers-container {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform-style: preserve-3d;
+        }
+
+        .caretakers-container h2 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+
+        .error-message {
+            color: #ff4757;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            color: #2ed573;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .caretakers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
         .user-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
         }
+
         .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 123, 37, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 123, 37, 0.3);
         }
+
+        .user-card i {
+            color: var(--primary);
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .user-card span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
         .no-users {
             color: #777;
             text-align: center;
-            font-size: 1.25rem;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .star {
+            position: absolute;
+            background-color: var(--accent);
+            border-radius: 50%;
+            z-index: 3;
+            animation: twinkle 2s infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .links a {
+            color: var(--primary);
+            text-decoration: none;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #ff6a0d;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .caretakers-container {
+                padding: 30px 20px;
+                width: 95%;
+            }
+
+            .caretakers-container h2 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .user-card {
+                padding: 15px;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        a:focus {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
-    <!-- Header with Navigation Links -->
-    <header class="bg-white shadow-md p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-orange-500">Assistive Vision</h1>
-            <nav class="flex space-x-4">
-                {% if current_user %}
-                    <a href="/create_caretaker" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Create Caretaker</a>
-                    <a href="/logout" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Logout</a>
-                        <a href="/" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Home</a>
-                {% else %}
-                    <a href="/login" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Login</a>
-                    <a href="/signup" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600">Sign Up</a>
-                    <a href="/" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">Home</a>
-                {% endif %}
-            </nav>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="container mx-auto py-8 flex-grow flex items-center justify-center">
-        <div class="w-full max-w-4xl">
-            <h2 class="text-3xl font-bold text-center text-orange-500 mb-8">Registered Care takers</h2>
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <p class="text-center text-{{ 'red-500' if category == 'error' else 'green-500' }} mb-4">{{ message }}</p>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+<body>
+    <div id="particles-js"></div>
+    <div class="caretakers-wrapper">
+        <div class="caretakers-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="logo">
+                <i class="fas fa-users"></i>
+            </div>
+            <h2>Registered Caretakers</h2>
+            <div class="error-message" id="error-message">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <p class="{{ 'error-message' if category == 'error' else 'success-message' }}" style="display: block;">
+                                {{ message }}
+                            </p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="success-message" id="success-message"></div>
             {% if users %}
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="caretakers-grid">
                     {% for user in users %}
-                        <a href="{{ url_for('caregiver_dashboard', username=user) }}" class="user-card bg-white rounded-lg shadow-md p-6 flex items-center space-x-4">
-                            <i class="fas fa-user text-orange-500 text-2xl"></i>
-                            <span class="text-lg font-medium text-gray-800">{{ user }}</span>
+                        <a href="{{ url_for('caregiver_dashboard', caretaker_username=user.username) }}" class="user-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+                            <i class="fas fa-user"></i>
+                            <span>{{ user.username }}</span>
                         </a>
                     {% endfor %}
                 </div>
             {% else %}
-                <p class="no-users">No caregivers registered</p>
+                <p class="no-users">No caretakers registered</p>
             {% endif %}
+            <div class="links">
+                {% if current_user %}
+                    <a href="{{ url_for('create_caretaker') }}" aria-describedby="create-caretaker-help">Create Caretaker</a>
+                    <span id="create-caretaker-help" class="sr-only">Navigate to create a new caretaker</span>
+                    <a href="{{ url_for('logout') }}" aria-describedby="logout-help">Logout</a>
+                    <span id="logout-help" class="sr-only">Log out of your account</span>
+                    <a href="{{ url_for('index') }}" aria-describedby="home-help">Home</a>
+                    <span id="home-help" class="sr-only">Return to the home page</span>
+                {% else %}
+                    <a href="{{ url_for('login') }}" aria-describedby="login-help">Login</a>
+                    <span id="login-help" class="sr-only">Navigate to the login page</span>
+                    <a href="{{ url_for('signup') }}" aria-describedby="signup-help">Sign Up</a>
+                    <span id="signup-help" class="sr-only">Navigate to the signup page</span>
+                    <a href="{{ url_for('index') }}" aria-describedby="home-help">Home</a>
+                    <span id="home-help" class="sr-only">Return to the home page</span>
+                {% endif %}
+            </div>
         </div>
-    </main>
+    </div>
 
-    <!-- Footer -->
-    <footer class="bg-white shadow-inner p-4 text-center">
-        <p class="text-gray-600">© 2025 Assistive Vision. All rights reserved.</p>
-    </footer>
+    <script>
+        // Initialize Tilt.js for container and caretaker cards
+        VanillaTilt.init(document.querySelector(".caretakers-container"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            gyroscope: true
+        });
+        VanillaTilt.init(document.querySelectorAll(".user-card"), {
+            max: 5,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2,
+            gyroscope: true
+        });
+
+        // Create blue stars
+        function createStars() {
+            const starCount = 30;
+            const container = document.body;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+
+                const size = Math.random() * 4 + 2;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+
+                star.style.animationDelay = `${Math.random() * 2}s`;
+
+                container.appendChild(star);
+            }
+        }
+
+        // Initialize Particles.js
+        function initParticles() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 120,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ff7b25"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.8,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.3,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 5,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": false
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 2,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "repulse"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "repulse": {
+                            "distance": 100,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+        }
+
+        // Inactivity redirect (5 minutes)
+        let inactivityTimer;
+
+        function resetInactivityTimer() {
+            clearTimeout(inactivityTimer);
+            inactivityTimer = setTimeout(() => {
+                window.location.href = '/dashboard';
+            }, 300000); // 5 minutes = 300,000 milliseconds
+        }
+
+        // Reset timer on these events
+        ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'].forEach(event => {
+            document.addEventListener(event, resetInactivityTimer);
+        });
+
+        // Initialize everything
+        window.onload = function() {
+            createStars();
+            initParticles();
+            KUTE.to(
+                document.querySelector('.caretakers-container'),
+                { y: -5 },
+                {
+                    duration: 3000,
+                    yoyo: true,
+                    repeat: Infinity,
+                    easing: 'easingSineInOut'
+                }
+            ).start();
+            resetInactivityTimer(); // Start the inactivity timer
+        };
+    </script>
 </body>
 </html>

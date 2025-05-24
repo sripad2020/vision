@@ -1,0 +1,238 @@
+2025-05-25 03:42:01,407 - INFO - Logger initialized for caregiver_carthik_caretaker_alpha.txt
+2025-05-25 03:42:01,407 - INFO - Caretaker alpha logged in successfully
+2025-05-25 03:42:05,328 - INFO - Caretaker alpha accessed vision page
+2025-05-25 03:42:06,308 - INFO - WebSocket client connected
+2025-05-25 03:42:12,099 - INFO - Received video frame from client
+2025-05-25 03:42:12,726 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:12,786 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:13,061 - INFO - Received video frame from client
+2025-05-25 03:42:13,110 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:14,049 - INFO - Received video frame from client
+2025-05-25 03:42:14,089 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:15,058 - INFO - Received video frame from client
+2025-05-25 03:42:15,112 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:16,050 - INFO - Received video frame from client
+2025-05-25 03:42:16,107 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:17,058 - INFO - Received video frame from client
+2025-05-25 03:42:17,106 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:18,080 - INFO - Received video frame from client
+2025-05-25 03:42:19,058 - INFO - Received video frame from client
+2025-05-25 03:42:19,094 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:19,139 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:19,820 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:19,863 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:20,053 - INFO - Received video frame from client
+2025-05-25 03:42:20,100 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:21,047 - INFO - Received video frame from client
+2025-05-25 03:42:21,089 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:22,078 - INFO - Received video frame from client
+2025-05-25 03:42:22,132 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:23,057 - INFO - Received video frame from client
+2025-05-25 03:42:23,099 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:24,049 - INFO - Received video frame from client
+2025-05-25 03:42:24,093 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:25,056 - INFO - Received video frame from client
+2025-05-25 03:42:25,439 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:25,482 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:26,065 - INFO - Received video frame from client
+2025-05-25 03:42:26,107 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:27,073 - INFO - Received video frame from client
+2025-05-25 03:42:27,114 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:28,057 - INFO - Received video frame from client
+2025-05-25 03:42:28,106 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:29,060 - INFO - Received video frame from client
+2025-05-25 03:42:29,100 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:30,049 - INFO - Received video frame from client
+2025-05-25 03:42:30,089 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:31,094 - INFO - Received video frame from client
+2025-05-25 03:42:31,468 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:31,516 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:32,013 - INFO - Received video frame from client
+2025-05-25 03:42:32,074 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:32,267 - INFO - Received video frame from client
+2025-05-25 03:42:32,316 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:32,343 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:32,480 - INFO - Received video frame from client
+2025-05-25 03:42:32,532 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:32,557 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:32,558 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:32,686 - INFO - Received video frame from client
+2025-05-25 03:42:32,742 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:32,755 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:32,756 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:32,898 - INFO - Received video frame from client
+2025-05-25 03:42:32,949 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:33,007 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:33,008 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:33,104 - INFO - Received video frame from client
+2025-05-25 03:42:33,160 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-25 03:42:33,194 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:33,319 - INFO - Received video frame from client
+2025-05-25 03:42:33,376 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:33,555 - INFO - Received video frame from client
+2025-05-25 03:42:33,566 - INFO - OCR text: hy
+2025-05-25 03:42:33,566 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:33,567 - INFO - Alert: Text detected: hy
+2025-05-25 03:42:33,567 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:33,620 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:33,663 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:33,664 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:33,736 - INFO - Received video frame from client
+2025-05-25 03:42:33,796 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:33,849 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:33,850 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:33,948 - INFO - Received video frame from client
+2025-05-25 03:42:34,006 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:34,037 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:34,039 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:34,160 - INFO - Received video frame from client
+2025-05-25 03:42:34,241 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:34,273 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:34,274 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:34,371 - INFO - Received video frame from client
+2025-05-25 03:42:34,427 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:34,470 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:34,584 - INFO - Received video frame from client
+2025-05-25 03:42:34,645 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:34,693 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:34,795 - INFO - Received video frame from client
+2025-05-25 03:42:34,841 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:34,855 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:35,001 - INFO - Received video frame from client
+2025-05-25 03:42:35,059 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:35,103 - INFO - User behavior: Looking forward and Crouching, Speed: 0.00
+2025-05-25 03:42:35,104 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:35,104 - INFO - Alert: User behavior: Looking forward and Crouching
+2025-05-25 03:42:35,215 - INFO - Received video frame from client
+2025-05-25 03:42:35,264 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:35,287 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.52
+2025-05-25 03:42:35,287 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:35,289 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:35,289 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-25 03:42:35,431 - INFO - Received video frame from client
+2025-05-25 03:42:35,506 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:35,544 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.07
+2025-05-25 03:42:35,544 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:35,545 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:35,545 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-25 03:42:35,649 - INFO - Received video frame from client
+2025-05-25 03:42:35,703 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:35,855 - INFO - Received video frame from client
+2025-05-25 03:42:35,923 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:36,071 - INFO - Received video frame from client
+2025-05-25 03:42:36,114 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:36,289 - INFO - Received video frame from client
+2025-05-25 03:42:36,335 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:36,508 - INFO - Received video frame from client
+2025-05-25 03:42:36,722 - INFO - Received video frame from client
+2025-05-25 03:42:36,876 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:36,918 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:36,946 - INFO - Received video frame from client
+2025-05-25 03:42:37,004 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:37,096 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:37,135 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:37,166 - INFO - Received video frame from client
+2025-05-25 03:42:37,219 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:37,380 - INFO - Received video frame from client
+2025-05-25 03:42:37,427 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:37,604 - INFO - Received video frame from client
+2025-05-25 03:42:37,676 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:47,584 - INFO - Received video frame from client
+2025-05-25 03:42:47,672 - INFO - Received video frame from client
+2025-05-25 03:42:47,790 - INFO - Received video frame from client
+2025-05-25 03:42:47,884 - INFO - Received video frame from client
+2025-05-25 03:42:48,001 - INFO - Received video frame from client
+2025-05-25 03:42:48,051 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:48,099 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-25 03:42:48,136 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:48,287 - INFO - Received video frame from client
+2025-05-25 03:42:48,292 - INFO - Received video frame from client
+2025-05-25 03:42:48,349 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-25 03:42:48,376 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,378 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:48,379 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:48,380 - INFO - Location updated: [12.9719, 77.5937]
+2025-05-25 03:42:48,421 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:48,458 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.09
+2025-05-25 03:42:48,458 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:48,459 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,459 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-25 03:42:48,459 - INFO - Detection: person, Distance: 1.9m
+2025-05-25 03:42:48,460 - INFO - Received video frame from client
+2025-05-25 03:42:48,527 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:48,555 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.72
+2025-05-25 03:42:48,555 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:48,556 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,556 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-25 03:42:48,557 - INFO - Detection: person, Distance: 1.9m
+2025-05-25 03:42:48,558 - INFO - Received video frame from client
+2025-05-25 03:42:48,567 - INFO - Received video frame from client
+2025-05-25 03:42:48,668 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:48,706 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.40
+2025-05-25 03:42:48,706 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:48,707 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,707 - INFO - Alert: User behavior: Looking forward and Slowing down
+2025-05-25 03:42:48,753 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:48,774 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:48,776 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,833 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:48,868 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,936 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:48,989 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:48,991 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:48,994 - INFO - Received video frame from client
+2025-05-25 03:42:48,999 - INFO - Received video frame from client
+2025-05-25 03:42:49,001 - INFO - Received video frame from client
+2025-05-25 03:42:49,070 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:49,084 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:49,086 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,087 - INFO - Received video frame from client
+2025-05-25 03:42:49,136 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:49,149 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:49,150 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,152 - INFO - Received video frame from client
+2025-05-25 03:42:49,217 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:49,274 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:49,275 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,324 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:49,359 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:49,360 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,410 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:49,456 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:49,457 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,520 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:49,571 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:49,572 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,573 - INFO - Received video frame from client
+2025-05-25 03:42:49,576 - INFO - Received video frame from client
+2025-05-25 03:42:49,580 - INFO - Received video frame from client
+2025-05-25 03:42:49,636 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-25 03:42:49,675 - INFO - Emergency detected: person too close at 1.9m
+2025-05-25 03:42:49,676 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,702 - INFO - Received video frame from client
+2025-05-25 03:42:49,714 - INFO - Received video frame from client
+2025-05-25 03:42:49,791 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:49,866 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:49,869 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:49,939 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:49,974 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:49,975 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:50,016 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:50,061 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:50,062 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:50,070 - INFO - Received video frame from client
+2025-05-25 03:42:50,118 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:50,154 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:50,155 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:50,157 - INFO - Received video frame from client
+2025-05-25 03:42:50,217 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:50,255 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:50,256 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:50,306 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:50,349 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:50,350 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:50,401 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-25 03:42:50,447 - INFO - Emergency detected: person too close at 1.8m
+2025-05-25 03:42:50,448 - INFO - Alert: Crowded area ahead, slow down
+2025-05-25 03:42:55,578 - ERROR - WebSocket error: handle_disconnect() takes 0 positional arguments but 1 was given
+2025-05-25 03:42:55,592 - INFO - User logged out

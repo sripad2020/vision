@@ -28,21 +28,26 @@ import pyttsx3
 import sqlite3
 import secrets
 from werkzeug.security import generate_password_hash, check_password_hash
+import socket
 
 # Configure Tesseract path
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-# Configure logging
-log_filename = f"caregiver_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-logger = logging.getLogger('CaregiverLogger')
-logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler(log_filename)
-stream_handler = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-file_handler.setFormatter(formatter)
-stream_handler.setFormatter(formatter)
-logger.addHandler(file_handler)
-logger.addHandler(stream_handler)
+# Configure logging for each caregiver-caretaker pair
+def configure_logging(caregiver_username, caretaker_username):
+    log_filename = f"caregiver_{caregiver_username}_caretaker_{caretaker_username}.txt"
+    logger = logging.getLogger(f'CaregiverLogger_{caregiver_username}_{caretaker_username}')
+    logger.setLevel(logging.INFO)
+    file_handler = logging.FileHandler(log_filename, mode='a')  # Append mode
+    stream_handler = logging.StreamHandler()
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+    file_handler.setFormatter(formatter)
+    stream_handler.setFormatter(formatter)
+    logger.handlers = []  # Clear existing handlers
+    logger.addHandler(file_handler)
+    logger.addHandler(stream_handler)
+    logger.info(f"Logger initialized for {log_filename}")
+    return logger
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
@@ -51,10 +56,22 @@ socketio = SocketIO(
     ping_timeout=20,
     ping_interval=10,
     async_mode='eventlet',
-    cors_allowed_origins=['http://localhost:5000', 'http://127.0.0.1:5000']
+    cors_allowed_origins='*'
 )
 
 DATABASE = 'users.db'
+
+def get_local_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+        return local_ip
+    except Exception as e:
+        logger = logging.getLogger('CaregiverLogger')
+        logger.error(f"Failed to get local IP: {str(e)}")
+        return "Unknown"
 
 def init_db():
     conn = sqlite3.connect(DATABASE, check_same_thread=False)
@@ -67,7 +84,8 @@ def init_db():
     )''')
     c.execute('''CREATE TABLE IF NOT EXISTS users_info (
         username TEXT PRIMARY KEY,
-        speech_credential TEXT NOT NULL
+        speech_credential TEXT NOT NULL,
+        caregiver_username TEXT NOT NULL
     )''')
     conn.commit()
     conn.close()
@@ -94,8 +112,10 @@ def init_engine():
         voices = engine.getProperty('voices')
         if len(voices) > 1:
             engine.setProperty('voice', voices[1].id)
+        logger = logging.getLogger('CaregiverLogger')
         logger.info("Speech engine initialized")
     except Exception as e:
+        logger = logging.getLogger('CaregiverLogger')
         logger.error(f"Failed to initialize speech engine: {str(e)}")
         engine = None
 
@@ -130,14 +150,17 @@ def _process_speech_queue():
             time.sleep(0.1)
         except RuntimeError as e:
             if 'run loop already started' in str(e):
+                logger = logging.getLogger('CaregiverLogger')
                 logger.warning("Speech engine busy, retrying...")
                 with speech_lock:
                     speech_queue.insert(0, text)
                 time.sleep(0.5)
                 continue
+            logger = logging.getLogger('CaregiverLogger')
             logger.error(f"Speech error: {str(e)}")
             engine = None
         except Exception as e:
+            logger = logging.getLogger('CaregiverLogger')
             logger.error(f"Speech error: {str(e)}")
             engine = None
 
@@ -147,6 +170,7 @@ recognizer = sr.Recognizer()
 # Initialize MediaPipe Object Detection
 model_path = 'efficientdet_lite0.tflite'
 if not os.path.exists(model_path):
+    logger = logging.getLogger('CaregiverLogger')
     logger.error(f"Model file {model_path} not found")
     raise FileNotFoundError(f"Model file {model_path} not found")
 base_options = python.BaseOptions(model_asset_path=model_path)
@@ -231,8 +255,10 @@ def download_3d_objects():
         if not os.path.exists(f"3d_objects/{name}.png"):
             try:
                 urllib.request.urlretrieve(url, f"3d_objects/{name}.png")
+                logger = logging.getLogger('CaregiverLogger')
                 logger.info(f"Downloaded {name}.png")
             except Exception as e:
+                logger = logging.getLogger('CaregiverLogger')
                 logger.error(f"Failed to download {name}.png: {str(e)}")
 
 download_3d_objects()
@@ -274,9 +300,9 @@ def signup():
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT username FROM users')
-    caretakers = [row['username'] for row in c.fetchall()]
+    caregivers = [row['username'] for row in c.fetchall()]
     conn.close()
-    return render_template('caregiver_signup.html', caretakers=caretakers)
+    return render_template('caregiver_signup.html', caregivers=caregivers)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -289,12 +315,13 @@ def login():
 
         conn = get_db_connection()
         c = conn.cursor()
-        c.execute('SELECT password FROM users WHERE username = ?', (username,))
+        c.execute('SELECT id, password FROM users WHERE username = ?', (username,))
         user = c.fetchone()
         conn.close()
 
         if user and check_password_hash(user['password'], password):
             session['username'] = username
+            session['user_id'] = user['id']
             return jsonify({'success': True, 'message': 'Login successful', 'redirect': url_for('caretakers')}), 200
         else:
             return jsonify({'message': 'Invalid username or password'}), 401
@@ -308,8 +335,8 @@ def caretakers():
         return redirect(url_for('login'))
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('SELECT username FROM users_info')
-    users = [row['username'] for row in c.fetchall()]
+    c.execute('SELECT username FROM users_info ')
+    users = [{'username': row['username']} for row in c.fetchall()]
     conn.close()
     return render_template('caretaker.html', users=users, current_user=session['username'])
 
@@ -332,10 +359,12 @@ def create_caretaker():
                 conn.close()
                 return jsonify({'message': 'Username already exists'}), 400
 
-            c.execute('INSERT INTO users_info (username, speech_credential) VALUES (?, ?)',
-                      (username, speech_credential))
+            c.execute('INSERT INTO users_info (username, speech_credential, caregiver_username) VALUES (?, ?, ?)',
+                      (username, speech_credential, session['username']))
             conn.commit()
             conn.close()
+            # Initialize logger for new caretaker
+            configure_logging(session['username'], username)
             return jsonify({'success': True, 'message': 'Caretaker created successfully'}), 201
         except sqlite3.Error as e:
             conn.close()
@@ -343,7 +372,7 @@ def create_caretaker():
 
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('SELECT username FROM users_info')
+    c.execute('SELECT username FROM users_info WHERE caregiver_username = ?', (session['username'],))
     caretakers = [row['username'] for row in c.fetchall()]
     conn.close()
     return render_template('user_SIgnup.html', caretakers=caretakers, current_user=session['username'])
@@ -353,33 +382,36 @@ def care_login():
     return render_template('user_login.html')
 
 @app.route('/speech-login', methods=['POST'])
-def login_caretaker():
-    if request.method == 'POST':
-        username = request.json.get('speech-text')
-        if not username:
-            return jsonify({'message': 'Username is required'}), 400
-        conn = get_db_connection()
-        c = conn.cursor()
-        try:
-            c.execute('SELECT username FROM users_info WHERE username = ?', (username,))
-            user = c.fetchone()
-            conn.close()
-            if user:
-                session['username'] = username
-                return jsonify({'success': True, 'redirect': '/vision_nr'}), 200  # Return JSON instead of redirect
-            else:
-                return jsonify({'message': 'Invalid username'}), 401
-        except sqlite3.Error as e:
-            conn.close()
-            return jsonify({'message': f'Database error: {str(e)}'}), 500
+def speech_login():
+    username = request.json.get('speech_credential')
+    logger = logging.getLogger('CaregiverLogger')
 
-@app.route('/logout')
-def logout():
-    session.pop('username', None)
-    speak("Goodbye. Logging out.")
-    logger.info("User logged out")
-    socketio.emit('logout', namespace='/video_feed')
-    return redirect(url_for('care_login'))
+    if not username:
+        logger.error("No speech credential provided in speech login")
+        return jsonify({'message': 'Speech credential is required'}), 400
+
+    conn = get_db_connection()
+    c = conn.cursor()
+    try:
+        c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (username,))
+        user = c.fetchone()
+        if user:
+            # Initialize logger for this caregiver-caretaker pair
+            configure_logging(user['caregiver_username'], user['username'])
+            logger = logging.getLogger(f'CaregiverLogger_{user["caregiver_username"]}_{user["username"]}')
+            session['username'] = user['username']
+            session['caregiver_username'] = user['caregiver_username']
+            logger.info(f"Caretaker {user['username']} logged in successfully")
+            conn.close()
+            return jsonify({'success': True, 'message': 'Login successful', 'redirect': url_for('vision')}), 200
+        else:
+            logger.error(f"Invalid speech credential: {username}")
+            conn.close()
+            return jsonify({'message': 'Invalid speech credential'}), 401
+    except Exception as e:
+        logger.error(f"Error during speech login: {str(e)}")
+        conn.close()
+        return jsonify({'message': 'An error occurred during login'}), 500
 
 def login_required(f):
     def wrap(*args, **kwargs):
@@ -392,26 +424,121 @@ def login_required(f):
 @app.route('/vision_nr')
 @login_required
 def vision():
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    logger.info(f"Caretaker {session['username']} accessed vision page")
     return render_template('ar_.html')
 
-@app.route('/caregiver_dashboard')
+
+@app.route('/caregiver_dashboard/<caretaker_username>')
 @login_required
-def caregiver_dashboard():
+def caregiver_dashboard(caretaker_username):
     global log_update_thread, log_update_running
+    conn = get_db_connection()
+    c = conn.cursor()
+    c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (caretaker_username,))
+    caretaker = c.fetchone()
+    conn.close()
+    if not caretaker or caretaker['caregiver_username'] != session['username']:
+        flash('Unauthorized access to this caretaker', 'error')
+        return redirect(url_for('caretakers'))
+
+    logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
+    logger.info(f"Caregiver {session['username']} accessed dashboard for caretaker {caretaker_username}")
+
+    # Retrieve logs from the log file
+    log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
+    processed_logs = []
+    log_file = None
+    if log_files:
+        log_file = log_files[0]  # Single log file
+        try:
+            with open(log_file, 'r') as f:
+                logs = [line.strip() for line in f.readlines() if line.strip()][-20:]  # Last 20 logs
+            for log in logs:
+                try:
+                    parts = log.split(' - ', 2)
+                    if len(parts) != 3:
+                        continue
+                    timestamp, log_type, message = parts
+                    log_type = log_type.strip()
+                    if 'emergency' in message.lower() or 'warning' in log_type.lower():
+                        log_class = 'danger'
+                    elif 'error' in log_type.lower():
+                        log_class = 'warning'
+                    elif 'info' in log_type.lower():
+                        log_class = 'info'
+                    else:
+                        log_class = 'secondary'
+                    metrics = {}
+                    if "Crowd density" in message:
+                        metrics['crowd_density'] = message.split("Crowd density: ")[1].split(",")[0]
+                    if "Person count" in message:
+                        metrics['person_count'] = message.split("Person count: ")[1].split(",")[0]
+                    if "Avg distance" in message:
+                        metrics['avg_distance'] = message.split("Avg distance: ")[1].split("m")[0]
+                    if "User behavior" in message:
+                        metrics['behavior'] = message.split("User behavior: ")[1].split(",")[0]
+                    if "Speed" in message:
+                        metrics['speed'] = message.split("Speed: ")[1]
+                    processed_logs.append({
+                        'timestamp': timestamp.strip(),
+                        'type': log_type,
+                        'message': message.strip(),
+                        'class': log_class,
+                        'metrics': metrics
+                    })
+                except Exception as e:
+                    logger.error(f"Error parsing log line: {log} - {str(e)}")
+                    continue
+        except Exception as e:
+            logger.error(f"Error reading log file {log_file}: {str(e)}")
+
+    # Start log updater thread if not already running
     if log_update_thread is None:
         log_update_running = True
-        log_update_thread = threading.Thread(target=log_updater, daemon=True)
+        log_update_thread = threading.Thread(target=lambda: log_updater(caretaker_username), daemon=True)
         log_update_thread.start()
-    return render_template('caregiver_dashboard.html')
 
-@app.route('/get_logs')
+    return render_template(
+        'caregiver_dashboard.html',
+        username=caretaker_username,
+        logs=processed_logs,
+        log_file=log_file,
+        last_updated=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+@app.route('/logout')
+def logout():
+    username = session.get('username')
+    caregiver_username = session.get('caregiver_username')
+    logger = logging.getLogger(f'CaregiverLogger_{caregiver_username}_{username}' if caregiver_username else 'CaregiverLogger')
+    session.pop('username', None)
+    session.pop('user_id', None)
+    session.pop('caregiver_username', None)
+    speak("Goodbye. Logging out.")
+    logger.info("User logged out")
+    socketio.emit('logout', namespace=f'/video_feed')
+    return redirect(url_for('care_login'))
+
+@app.route('/get_logs/<caretaker_username>')
 @login_required
-def get_logs():
+def get_logs(caretaker_username):
     try:
-        log_files = glob.glob("caregiver_log_*.txt")
+        conn = get_db_connection()
+        c = conn.cursor()
+        c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (caretaker_username,))
+        caretaker = c.fetchone()
+        conn.close()
+        if not caretaker or caretaker['caregiver_username'] != session['username']:
+            return jsonify({"error": "Unauthorized access to this caretaker's logs"}), 403
+
+        logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
+        log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
+        logger.info(f"Found log files: {log_files}")
         if not log_files:
-            return jsonify({"error": "No log files found"})
-        latest_log = max(log_files, key=os.path.getmtime)
+            logger.warning(f"No log files found for caretaker {caretaker_username}")
+            return jsonify({"error": "No log files found for this caretaker"})
+        latest_log = log_files[0]  # Single file
+        logger.info(f"Reading latest log file: {latest_log}")
         with open(latest_log, 'r') as f:
             logs = [line.strip() for line in f.readlines() if line.strip()]
         processed_logs = []
@@ -465,15 +592,17 @@ def get_logs():
 def caretaker_dashboard(username):
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('SELECT username FROM users_info WHERE username = ?', (username,))
+    c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (username,))
     caretaker = c.fetchone()
     conn.close()
-    if not caretaker:
-        flash('Caretaker not found', 'error')
+    if not caretaker or caretaker['caregiver_username'] != session['username']:
+        flash('Unauthorized access to this caretaker', 'error')
         return redirect(url_for('caretakers'))
-    return render_template('caregiver_dashboard.html', username=caretaker['username'])
+    logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{username}')
+    logger.info(f"Caregiver {session['username']} accessed dashboard for caretaker {username}")
+    return render_template('caregiver_dashboard.html', username=caretaker['caregiver_username'], current_user=session['username'])
 
-# Helper functions (unchanged)
+# Helper functions
 def listen_for_command():
     with sr.Microphone() as source:
         recognizer.adjust_for_ambient_noise(source)
@@ -481,9 +610,11 @@ def listen_for_command():
         try:
             audio = recognizer.listen(source, timeout=5)
             command = recognizer.recognize_google(audio).lower()
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info(f"Voice command: {command}")
             return command
         except (sr.WaitTimeoutError, sr.UnknownValueError, sr.RequestError) as e:
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info(f"No voice command recognized: {str(e)}")
             return None
 
@@ -495,6 +626,7 @@ def estimate_distance(object_width_pixels, object_type):
         distance = (real_width * FOCAL_LENGTH) / object_width_pixels if object_width_pixels > 0 else None
         return round(distance, 1) if distance else None
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Distance estimation error: {str(e)}")
         return None
 
@@ -511,6 +643,7 @@ def estimate_depth(landmarks, frame_width):
         depth = (real_shoulder_width * FOCAL_LENGTH) / shoulder_width_pixels
         return round(depth, 1)
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Depth estimation error: {str(e)}")
         return None
 
@@ -584,9 +717,11 @@ def analyze_user_behavior(pose_landmarks, frame_width, frame_height, prev_positi
             behavior += f" and {gesture}"
         if crouching:
             behavior += f" and {crouching}"
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.info(f"User behavior: {behavior}, Speed: {avg_speed:.2f}")
         return behavior, avg_speed, gesture
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"User behavior analysis error: {str(e)}")
         return "No user detected", 0, None
 
@@ -607,6 +742,7 @@ def predict_person_behavior(pose_landmarks, prev_positions, frame_width):
             return "Stationary", hip_mid_x
         return "Stationary", hip_mid_x
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Person behavior prediction error: {str(e)}")
         return "No person detected", None
 
@@ -621,6 +757,7 @@ def detect_speed_breakers(frame, gray):
                     return True
         return False
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Speed breaker detection error: {str(e)}")
         return False
 
@@ -635,6 +772,7 @@ def detect_potholes(frame, gray):
                 return True
         return False
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Pothole detection error: {str(e)}")
         return False
 
@@ -649,6 +787,7 @@ def detect_curbs(frame, gray):
                     return True
         return False
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Curb detection error: {str(e)}")
         return False
 
@@ -662,6 +801,7 @@ def detect_stairs(frame, gray):
                 return True
         return False
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Stairs detection error: {str(e)}")
         return False
 
@@ -672,6 +812,7 @@ def is_road_context(frame, speed_breaker, gray):
         line_count = len(lines) if lines is not None else 0
         return line_count > 5 or speed_breaker or line_count < 10
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Road context detection error: {str(e)}")
         return False
 
@@ -680,10 +821,12 @@ def read_text(frame, gray):
         text = pytesseract.image_to_string(gray, config='--psm 6')
         text = text.strip() if text.strip() else None
         if text and re.match(r'^[a-zA-Z\s0-9\.,!?]+$', text):
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info(f"OCR text: {text}")
             return text
         return None
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"OCR error: {str(e)}")
         return None
 
@@ -695,10 +838,12 @@ def get_directions(destination):
             dest_loc = g.latlng
             distance = math.sqrt((dest_loc[0] - user_loc[0]) ** 2 + (dest_loc[1] - user_loc[1]) ** 2) * 111
             steps = ["Turn left in 50 meters", "Continue straight for 200 meters"]
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info(f"Navigation steps for {destination}: {steps}")
             return {"distance": round(distance, 1), "steps": steps}
         return None
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Geocoder error: {str(e)}")
         return None
 
@@ -726,9 +871,11 @@ def analyze_crowd_density(detections):
         else:
             density = "Low"
             warning = None
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.info(f"Crowd density: {density}, Person count: {person_count}, Avg distance: {avg_distance:.1f}m")
         return density, warning, person_count, avg_distance
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Crowd density analysis error: {str(e)}")
         return "Low", None, 0, 0
 
@@ -764,6 +911,7 @@ def compute_optical_flow(prev_frame, curr_frame):
                             moving_objects.append((label, direction, avg_roi_mag, (x + w_b // 2, y + h_b // 2)))
         return moving_objects, flow
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Optical flow error: {str(e)}")
         return None, None
 
@@ -773,12 +921,15 @@ def draw_object_detections(frame, detections, user_behavior, navigation_steps, r
         height, width = frame.shape[:2]
         if road_context and navigation_steps:
             annotated_image = overlay_3d_object(annotated_image, arrow_texture, (25, 25), size=75)
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info("Applied AR arrow overlay")
         if road_context and detect_lanes(frame):
             annotated_image = overlay_3d_object(annotated_image, cone_texture, (width // 2, height - 50), size=60)
+            logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info("Applied AR cone overlay")
         return annotated_image
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Draw detections error: {str(e)}")
         return frame
 
@@ -798,7 +949,8 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
                 current_objects.append(obj_desc)
                 if obj_desc not in detection_history["objects"]:
                     announcements.append(f"{obj_type} detected at {distance} meters")
-                    logger.info(f"detection: {obj_type}, Distance: {distance}m")
+                    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+                    logger.info(f"Detection: {obj_type}, Distance: {distance}m")
         detection_history["objects"].append(current_objects)
         current_obstacles = []
         for obstacle, detected, distance in obstacles:
@@ -834,6 +986,7 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
             speak(announcement)
             last_announce_time = time.time()
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Announce detections error: {str(e)}")
 
 def settings_menu():
@@ -851,6 +1004,7 @@ def settings_menu():
                 directions = get_directions(destination)
                 if directions:
                     speak(f"Destination set to {destination}. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
+                    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
                     logger.info(f"Navigation set to {destination}, Distance: {directions['distance']}km")
                     return directions
             speak("Could not find destination.")
@@ -861,6 +1015,7 @@ def settings_menu():
             if phone:
                 user_data["caregiver_phone"] = phone
                 speak(f"Caregiver phone updated to {phone}")
+                logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
                 logger.info(f"Caregiver phone updated to {phone}")
             return False
         elif "3" in command or "three" in command:
@@ -868,6 +1023,7 @@ def settings_menu():
         speak("Invalid option.")
         return False
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Settings menu error: {str(e)}")
         return False
 
@@ -894,6 +1050,7 @@ def overlay_3d_object(frame, texture, position, size=50):
                 )
         return frame
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Overlay 3D object error: {str(e)}")
         return frame
 
@@ -916,6 +1073,7 @@ def detect_lanes(frame):
                 right_lanes += 1
         return left_lanes >= 1 and right_lanes >= 1
     except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Lane detection error: {str(e)}")
         return False
 
@@ -924,15 +1082,18 @@ def handle_connect():
     if not session.get('username'):
         emit('error', {'message': 'Unauthorized'}, namespace='/video_feed')
         return False
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
     logger.info('WebSocket client connected')
     emit('status', {'message': 'Connected'}, namespace='/video_feed')
 
 @socketio.on('disconnect', namespace='/video_feed')
 def handle_disconnect():
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
     logger.info('WebSocket client disconnected')
 
 @socketio.on_error(namespace='/video_feed')
 def handle_error(e):
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
     logger.error(f"WebSocket error: {str(e)}")
 
 @socketio.on('message', namespace='/video_feed')
@@ -941,6 +1102,8 @@ def handle_frame(data):
         emit('error', {'message': 'Unauthorized'}, namespace='/video_feed')
         return
     global last_ocr_time, last_optical_flow_time, last_location_update, prev_gray, alerts, navigation_steps, emergency_detected, prev_frame
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    logger.info("Received video frame from client")
     try:
         if not isinstance(data, str) or ',' not in data or not data.startswith('data:image'):
             logger.error("Invalid frame data format")
@@ -1077,15 +1240,15 @@ def handle_frame(data):
         logger.error(f"Frame processing error: {str(e)}\n{traceback.format_exc()}")
         emit('error', {'message': 'Frame processing failed'}, namespace='/video_feed')
 
-def log_updater():
+def log_updater(caretaker_username):
     global last_log_update, log_update_running
     while log_update_running:
         try:
             current_time = time.time()
             if current_time - last_log_update >= log_update_interval:
-                log_files = glob.glob("caregiver_log_*.txt")
+                log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
                 if log_files:
-                    latest_log = max(log_files, key=os.path.getmtime)
+                    latest_log = log_files[0]
                     with open(latest_log, 'r') as f:
                         logs = f.readlines()[-20:]
                     processed_logs = []
@@ -1114,22 +1277,32 @@ def log_updater():
                     socketio.emit('log_update', {
                         'logs': processed_logs,
                         'last_updated': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    }, namespace='/caregiver_dashboard')
+                    }, namespace=f'/caregiver_dashboard/{caretaker_username}')
                 last_log_update = current_time
             time.sleep(0.5)
         except Exception as e:
+            logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
             logger.error(f"Log updater error: {str(e)}")
             time.sleep(5)
 
 if __name__ == '__main__':
     try:
         init_engine()
+        local_ip = get_local_ip()
+        logger = logging.getLogger('CaregiverLogger')
+        logger.info(f"Server running at http://{local_ip}:5000")
+        print(f"Access the application at http://{local_ip}:5000 from devices on the same network")
         socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
     except KeyboardInterrupt:
+        logger = logging.getLogger('CaregiverLogger')
         logger.info("Application shutdown initiated")
+    except Exception as e:
+        logger = logging.getLogger('CaregiverLogger')
+        logger.error(f"Server startup error: {str(e)}")
     finally:
         if pose:
             pose.close()
         if object_detector:
             object_detector.close()
+        logger = logging.getLogger('CaregiverLogger')
         logger.info("Resources cleaned up")
