@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
     <style>
         :root {
             --primary: #ff7b25;
@@ -64,7 +63,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            transform-style: preserve-3d;
         }
 
         .caretakers-container h2 {
@@ -95,7 +93,7 @@
 
         .input-group input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 15px 50px 15px 20px;
             border: none;
             border-radius: 50px;
             background: rgba(255, 255, 255, 0.9);
@@ -125,6 +123,22 @@
             font-size: 12px;
             background: white;
             padding: 0 5px;
+            color: var(--primary);
+        }
+
+        .toggle-password,
+        .toggle-speech {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .toggle-password:hover,
+        .toggle-speech:hover {
             color: var(--primary);
         }
 
@@ -291,7 +305,7 @@
             }
 
             .input-group input {
-                padding: 12px 15px;
+                padding: 12px 45px 12px 15px;
             }
         }
 
@@ -316,7 +330,7 @@
 <body>
     <div id="particles-js"></div>
     <div class="caretakers-wrapper">
-        <div class="caretakers-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+        <div class="caretakers-container">
             <div class="logo">
                 <i class="fas fa-users"></i>
             </div>
@@ -329,13 +343,14 @@
                     <div class="input-group">
                         <input type="text" id="username" required aria-describedby="username-help">
                         <label for="username">Username</label>
+                        <span id="username-help" class="sr-only">Choose a username for the caretaker</span>
                     </div>
-                    <span id="username-help" class="sr-only">Choose a username for the caretaker</span>
                     <div class="input-group">
-                        <input type="text" id="speech-text" readonly aria-describedby="speech-help">
+                        <input type="password" id="speech-text" required aria-describedby="speech-help">
                         <label for="speech-text">Speech Credential</label>
+                        <i class="fas fa-eye toggle-speech" id="toggle-speech"></i>
+                        <span id="speech-help" class="sr-only">Record or type a speech phrase</span>
                     </div>
-                    <span id="speech-help" class="sr-only">Record a speech phrase</span>
                     <button type="button" id="record-speech" class="btn speech-btn">
                         <i class="fas fa-microphone"></i> Record Speech
                     </button>
@@ -356,26 +371,16 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p class="no-users">No caretakers</p>
+                    <p class="no-users">No caretakers registered</p>
                 {% endif %}
             </div>
-            <div class="icon-button">
-                <a href="/">
-                    <i class="fas fa-home"></i>
-                </a>
+            <div class="links">
+                <a href="/" class="dashboard-btn">Home</a>
             </div>
         </div>
+    </div>
 
     <script>
-        // Initialize Tilt.js
-        VanillaTilt.init(document.querySelector(".caretakers-container"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-        });
-
         // Create blue stars
         function createStars() {
             const starCount = 30;
@@ -482,6 +487,35 @@
             });
         }
 
+        // Password and speech credential toggle functionality
+        const togglePassword = document.getElementById('toggle-password');
+        const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+        const toggleSpeech = document.getElementById('toggle-speech');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const speechInput = document.getElementById('speech-text');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            toggleConfirmPassword.classList.toggle('fa-eye');
+            toggleConfirmPassword.classList.toggle('fa-eye-slash');
+        });
+
+        toggleSpeech.addEventListener('click', () => {
+            const type = speechInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            speechInput.setAttribute('type', type);
+            toggleSpeech.classList.toggle('fa-eye');
+            toggleSpeech.classList.toggle('fa-eye-slash');
+        });
+
         // Speech Recognition Setup
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = 'en-US';
@@ -494,10 +528,19 @@
 
         recordButton.addEventListener('click', () => {
             if (!isRecording) {
-                recognition.start();
-                recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
-                recordButton.style.background = '#ff4757';
-                isRecording = true;
+                try {
+                    recognition.start();
+                    recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
+                    recordButton.style.background = '#ff4757';
+                    isRecording = true;
+                } catch (error) {
+                    const errorMessage = document.getElementById('error-message');
+                    errorMessage.textContent = 'Speech recognition unavailable. Please type the credential.';
+                    errorMessage.style.display = 'block';
+                    recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+                    recordButton.style.background = 'var(--primary)';
+                    isRecording = false;
+                }
             } else {
                 recognition.stop();
                 recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
@@ -509,11 +552,13 @@
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
             speechText.value = transcript;
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.style.display = 'none';
         };
 
         recognition.onerror = (event) => {
             const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = `Speech recognition error: ${event.error}`;
+            errorMessage.textContent = `Speech recognition error: ${event.error}. Please type the credential.`;
             errorMessage.style.display = 'block';
             recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
             recordButton.style.background = 'var(--primary)';
@@ -525,17 +570,24 @@
             e.preventDefault();
 
             const username = document.getElementById('username').value;
-            const speech_credential = document.getElementById('speech-text').value;
-
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const speechCredential = document.getElementById('speech-text').value;
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
 
-            errorMessage.style.display = "none";
-            successMessage.style.display = "none";
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
 
-            if (!username || !speech_credential) {
-                errorMessage.textContent = "Please fill in all fields and record a speech phrase";
-                errorMessage.style.display = "block";
+            if (!username || !password || !confirmPassword || !speechCredential) {
+                errorMessage.textContent = 'Please fill in all fields';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
                 return;
             }
 
@@ -551,32 +603,33 @@
                 },
                 body: JSON.stringify({
                     username: username,
-                    speech_credential: speech_credential
+                    password: password,
+                    speech_credential: speechCredential
                 })
             })
             .then(response => response.json()
             .then(data => ({ status: response.status, body: data })))
             .then(({ status, body }) => {
                 if (status === 201 && body.success) {
-                    successMessage.textContent = "Caretaker created successfully! Refreshing...";
-                    successMessage.style.display = "block";
+                    successMessage.textContent = 'Caretaker created successfully! Refreshing...';
+                    successMessage.style.display = 'block';
                     document.getElementById('caretakerForm').reset();
                     setTimeout(() => {
                         window.location.reload();
                     }, 2000);
                 } else {
-                    errorMessage.textContent = body.message || "Creation failed. Please try again.";
-                    errorMessage.style.display = "block";
+                    errorMessage.textContent = body.message || 'Creation failed. Please try again.';
+                    errorMessage.style.display = 'block';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                errorMessage.textContent = "An error occurred. Please try again.";
-                errorMessage.style.display = "block";
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
             })
             .finally(() => {
                 btn.disabled = false;
-                btn.textContent = "Create Caretaker";
+                btn.textContent = 'Create Caretaker';
             });
         });
 
@@ -587,10 +640,9 @@
             clearTimeout(inactivityTimer);
             inactivityTimer = setTimeout(() => {
                 window.location.href = '/dashboard';
-            }, 300000); // 5 minutes = 300,000 milliseconds
+            }, 300000); // 5 minutes
         }
 
-        // Reset timer on these events
         ['mousemove', 'keypress', 'click', 'scroll', 'touchstart'].forEach(event => {
             document.addEventListener(event, resetInactivityTimer);
         });
@@ -599,7 +651,7 @@
         window.onload = function() {
             createStars();
             initParticles();
-            resetInactivityTimer(); // Start the inactivity timer
+            resetInactivityTimer();
 
             KUTE.to(
                 document.querySelector('.caretakers-container'),

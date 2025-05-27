@@ -14,13 +14,11 @@ import geocoder
 import math
 import re
 import pytesseract
-import traceback
 import glob
 from datetime import datetime
 from collections import deque
 from flask import Flask, render_template, jsonify, request, session, flash, redirect, url_for
 from flask_socketio import SocketIO, emit
-from mediapipe import solutions as mp_solutions
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import speech_recognition as sr
@@ -29,8 +27,14 @@ import sqlite3
 import secrets
 from werkzeug.security import generate_password_hash, check_password_hash
 import socket
+import colorsys
+import networkx as nx
+import pyaudio
+import tensorflow as tf
+import tensorflow_hub as hub
+from scipy.spatial.distance import cdist
 
-# Configure Tesseract path
+# Configure Tesseract path (update for your system)
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 # Configure logging for each caregiver-caretaker pair
@@ -38,12 +42,12 @@ def configure_logging(caregiver_username, caretaker_username):
     log_filename = f"caregiver_{caregiver_username}_caretaker_{caretaker_username}.txt"
     logger = logging.getLogger(f'CaregiverLogger_{caregiver_username}_{caretaker_username}')
     logger.setLevel(logging.INFO)
-    file_handler = logging.FileHandler(log_filename, mode='a')  # Append mode
+    file_handler = logging.FileHandler(log_filename, mode='a')
     stream_handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
     stream_handler.setFormatter(formatter)
-    logger.handlers = []  # Clear existing handlers
+    logger.handlers = []
     logger.addHandler(file_handler)
     logger.addHandler(stream_handler)
     logger.info(f"Logger initialized for {log_filename}")
@@ -95,7 +99,6 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-# Initialize database
 init_db()
 
 # Speech synthesis system
@@ -164,7 +167,6 @@ def _process_speech_queue():
             logger.error(f"Speech error: {str(e)}")
             engine = None
 
-# Initialize speech recognizer
 recognizer = sr.Recognizer()
 
 # Initialize MediaPipe Object Detection
@@ -180,25 +182,44 @@ options = vision.ObjectDetectorOptions(
     category_allowlist=[
         "person", "car", "truck", "motorcycle", "bicycle",
         "tree", "bench", "traffic light", "stop sign",
-        "pole", "debris", "barrier"
+        "pole", "debris", "barrier", "table", "chair",
+        "sofa", "bed"
     ]
 )
 object_detector = vision.ObjectDetector.create_from_options(options)
 
 # Initialize MediaPipe Pose
-mp_pose = mp_solutions.pose
+mp_pose = mp.solutions.pose
 pose = mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5)
 
-# Camera parameters
+# Initialize Sound Recognition (YAMNet)
+yamnet_model = hub.load('https://tfhub.dev/google/yamnet/1')
+
+# parameters
 KNOWN_WIDTHS = {
     "car": 1.8, "truck": 2.5, "motorcycle": 0.8, "bicycle": 0.7,
     "person": 0.5, "tree": 1.0, "stop sign": 0.75, "bench": 1.5,
     "traffic light": 0.5, "pole": 0.3, "debris": 0.5, "barrier": 1.0,
-    "pothole": 0.5, "curb": 0.3, "stairs": 1.0
+    "pothole": 0.5, "curb": 0.3, "stairs": 1.0, "table": 1.2,
+    "chair": 0.6, "sofa": 2.0, "bed": 1.9
 }
 FOCAL_LENGTH = 1000
 FRAME_WIDTH = 320
 FRAME_HEIGHT = 180
+
+# Indoor navigation map (example graph)
+indoor_map = nx.Graph()
+indoor_map.add_nodes_from([
+    ("living_room", {"features": None}),
+    ("kitchen", {"features": None}),
+    ("bedroom", {"features": None}),
+    ("bathroom", {"features": None})
+])
+indoor_map.add_edges_from([
+    ("living_room", "kitchen", {"distance": 5}),
+    ("kitchen", "bathroom", {"distance": 3}),
+    ("living_room", "bedroom", {"distance": 4})
+])
 
 # User and caregiver data
 user_data = {
@@ -206,7 +227,9 @@ user_data = {
     "caregiver_phone": "caregiver_phone_number",
     "destination": None,
     "location": None,
-    "behavior": "No user detected"
+    "behavior": "No user detected",
+    "indoor_location": "unknown",
+    "find_object": None
 }
 
 # Behavior tracking
@@ -224,7 +247,15 @@ detection_history = {
     "crowd_density": deque(maxlen=5),
     "text": deque(maxlen=5),
     "moving_objects": deque(maxlen=5),
-    "user_behavior": deque(maxlen=5)
+    "user_behavior": deque(maxlen=5),
+    "person_near_objects": deque(maxlen=5),
+    "colors": deque(maxlen=5),
+    "currency": deque(maxlen=5),
+    "signage": deque(maxlen=5),
+    "light_level": deque(maxlen=5),
+    "scene": deque(maxlen=5),
+    "emergency": deque(maxlen=5),
+    "sounds": deque(maxlen=5)
 }
 
 # Optimization variables
@@ -234,6 +265,8 @@ last_optical_flow_time = time.time()
 optical_flow_interval = 0.2
 last_location_update = time.time()
 location_update_interval = 5
+last_sound_time = time.time()
+sound_interval = 10
 prev_gray = None
 alerts = []
 navigation_steps = []
@@ -241,7 +274,7 @@ prev_frame = None
 log_update_thread = None
 log_update_running = True
 last_log_update = time.time()
-log_update_interval = 2
+log_update_interval = 0.9
 
 # Download 3D object textures
 def download_3d_objects():
@@ -266,6 +299,206 @@ arrow_texture = cv2.imread("3d_objects/arrow.png", cv2.IMREAD_UNCHANGED)
 cone_texture = cv2.imread("3d_objects/cone.png", cv2.IMREAD_UNCHANGED)
 marker_texture = cv2.imread("3d_objects/marker.png", cv2.IMREAD_UNCHANGED)
 
+# Helper functions for accessibility features
+def detect_color(frame):
+    try:
+        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+        hist = cv2.calcHist([hsv], [0], None, [180], [0, 180])
+        hue = np.argmax(hist)
+        hsv_color = np.uint8([[[hue, 255, 255]]])
+        rgb_color = cv2.cvtColor(hsv_color, cv2.COLOR_HSV2RGB)[0][0]
+        rgb_color = rgb_color / 255.0
+        h, s, v = colorsys.rgb_to_hsv(rgb_color[0], rgb_color[1], rgb_color[2])
+        if v < 0.2:
+            return "black"
+        elif s < 0.2 and v > 0.8:
+            return "white"
+        elif h < 10 or h > 350:
+            return "red"
+        elif 10 <= h < 30:
+            return "orange"
+        elif 30 <= h < 90:
+            return "yellow"
+        elif 90 <= h < 150:
+            return "green"
+        elif 150 <= h < 270:
+            return "blue"
+        else:
+            return "purple"
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Color detection error: {str(e)}")
+        return None
+
+def detect_currency(frame):
+    try:
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        # Placeholder: Use template matching or CNN
+        return None  # Replace with actual model
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Currency detection error: {str(e)}")
+        return None
+
+def recognize_place(frame):
+    try:
+        orb = cv2.ORB_create()
+        keypoints, descriptors = orb.detectAndCompute(frame, None)
+        if descriptors is None:
+            return "unknown"
+        for place in indoor_map.nodes:
+            if indoor_map.nodes[place]["features"] is None:
+                indoor_map.nodes[place]["features"] = descriptors
+            dist = cdist(descriptors, indoor_map.nodes[place]["features"], metric='hamming')
+            if np.mean(dist) < 0.1:
+                return place
+        return "unknown"
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Place recognition error: {str(e)}")
+        return "unknown"
+
+def navigate_indoors(start, destination):
+    try:
+        path = nx.astar_path(indoor_map, start, destination, weight='distance')
+        steps = []
+        for i in range(len(path) - 1):
+            dist = indoor_map[path[i]][path[i+1]]['distance']
+            steps.append(f"Move to {path[i+1]} in {dist} meters")
+        return steps
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Indoor navigation error: {str(e)}")
+        return []
+
+def detect_light_level(gray):
+    try:
+        intensity = np.mean(gray)
+        if intensity > 150:
+            return "bright"
+        elif intensity > 50:
+            return "dim"
+        else:
+            return "dark"
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Light level detection error: {str(e)}")
+        return None
+
+def locate_object(detections, target):
+    try:
+        for detection in detections.detections:
+            if detection.categories[0].category_name == target:
+                distance = estimate_distance(detection.bounding_box.width, target)
+                direction = get_direction(detection.bounding_box, FRAME_WIDTH, FRAME_HEIGHT)
+                return distance, direction
+        return None, None
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Object locator error: {str(e)}")
+        return None, None
+
+def describe_scene(detections, place, crowd_density):
+    try:
+        objects = [d.categories[0].category_name for d in detections.detections]
+        person_count = crowd_density[2]
+        desc = f"You are in a {place} with {', '.join(objects) if objects else 'no objects'} and {person_count} people."
+        return desc
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Scene description error: {str(e)}")
+        return None
+
+def detect_emergency(pose_landmarks, detections, crowd_density):
+    try:
+        if pose_landmarks:
+            left_hip = pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_HIP]
+            right_hip = pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP]
+            if left_hip.y > 0.8 and right_hip.y > 0.8:
+                return "Fall detected"
+        for detection in detections.detections:
+            distance = estimate_distance(detection.bounding_box.width, detection.categories[0].category_name)
+            if distance and distance < 1:
+                return f"Close object: {detection.categories[0].category_name}"
+        if crowd_density[0] == "High":
+            return "Crowded area"
+        return None
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Emergency detection error: {str(e)}")
+        return None
+
+def navigate_crowd(detections):
+    try:
+        person_detections = [d for d in detections.detections if d.categories[0].category_name == "person"]
+        if not person_detections:
+            return None
+        centers = [(d.bounding_box.origin_x + d.bounding_box.width // 2) / FRAME_WIDTH for d in person_detections]
+        if np.mean(centers) < 0.4:
+            return "right"
+        elif np.mean(centers) > 0.6:
+            return "left"
+        return "forward"
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Crowd navigation error: {str(e)}")
+        return None
+
+def detect_sound():
+    try:
+        p = pyaudio.PyAudio()
+        stream = p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=1024)
+        frames = []
+        for _ in range(int(16000 / 1024 * 1)):
+            data = stream.read(1024, exception_on_overflow=False)
+            frames.append(np.frombuffer(data, dtype=np.int16))
+        stream.stop_stream()
+        stream.close()
+        p.terminate()
+        audio = np.concatenate(frames).astype(np.float32) / 32768.0
+        scores, _, _ = yamnet_model(audio)
+        sound_id = np.argmax(scores[0])
+        sound_labels = ["doorbell", "car horn", "footsteps"]
+        if sound_id < len(sound_labels):
+            return sound_labels[sound_id]
+        return None
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Sound detection error: {str(e)}")
+        return None
+
+def get_direction(bbox, frame_width, frame_height):
+    try:
+        center_x = bbox.origin_x + bbox.width // 2
+        center_y = bbox.origin_y + bbox.height // 2
+        x_ratio = center_x / frame_width
+        y_ratio = center_y / frame_height
+        if y_ratio < 0.4:
+            if x_ratio < 0.3:
+                return "front-left"
+            elif x_ratio > 0.7:
+                return "front-right"
+            else:
+                return "front"
+        elif y_ratio > 0.6:
+            if x_ratio < 0.3:
+                return "back-left"
+            elif x_ratio > 0.7:
+                return "back-right"
+            else:
+                return "back"
+        else:
+            if x_ratio < 0.3:
+                return "left"
+            elif x_ratio > 0.7:
+                return "right"
+            else:
+                return "center"
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Direction calculation error: {str(e)}")
+        return "unknown"
+
 # Routes
 @app.route('/')
 def index():
@@ -274,13 +507,11 @@ def index():
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
-        username = request.json.get('username')
-        email = request.json.get('email')
-        password = request.json.get('password')
-
+        username = request.json.get('username').lower()
+        email = request.json.get('email').lower()
+        password = request.json.get('password').lower()
         if not username or not email or not password:
             return jsonify({'message': 'All fields are required'}), 400
-
         try:
             conn = get_db_connection()
             c = conn.cursor()
@@ -296,7 +527,6 @@ def signup():
         except Exception as e:
             conn.close()
             return jsonify({'message': f'An error occurred: {str(e)}'}), 500
-
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT username FROM users')
@@ -307,25 +537,21 @@ def signup():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.json.get('username')
-        password = request.json.get('password')
-
+        username = request.json.get('username').lower()
+        password = request.json.get('password').lower()
         if not username or not password:
             return jsonify({'message': 'Username and password are required'}), 400
-
         conn = get_db_connection()
         c = conn.cursor()
         c.execute('SELECT id, password FROM users WHERE username = ?', (username,))
         user = c.fetchone()
         conn.close()
-
         if user and check_password_hash(user['password'], password):
             session['username'] = username
             session['user_id'] = user['id']
             return jsonify({'success': True, 'message': 'Login successful', 'redirect': url_for('caretakers')}), 200
         else:
             return jsonify({'message': 'Invalid username or password'}), 401
-
     return render_template('caregiver_login.html')
 
 @app.route('/caretakers')
@@ -335,7 +561,7 @@ def caretakers():
         return redirect(url_for('login'))
     conn = get_db_connection()
     c = conn.cursor()
-    c.execute('SELECT username FROM users_info ')
+    c.execute('SELECT username FROM users_info')
     users = [{'username': row['username']} for row in c.fetchall()]
     conn.close()
     return render_template('caretaker.html', users=users, current_user=session['username'])
@@ -344,13 +570,11 @@ def caretakers():
 def create_caretaker():
     if 'username' not in session:
         return jsonify({'message': 'Please log in to create a caretaker'}), 401
-
     if request.method == 'POST':
-        username = request.json.get('username')
-        speech_credential = request.json.get('speech_credential')
+        username = request.json.get('username').lower()
+        speech_credential = request.json.get('speech_credential').lower()
         if not username or not speech_credential:
             return jsonify({'message': 'Username and speech credential are required'}), 400
-
         conn = get_db_connection()
         c = conn.cursor()
         try:
@@ -358,24 +582,21 @@ def create_caretaker():
             if c.fetchone():
                 conn.close()
                 return jsonify({'message': 'Username already exists'}), 400
-
             c.execute('INSERT INTO users_info (username, speech_credential, caregiver_username) VALUES (?, ?, ?)',
                       (username, speech_credential, session['username']))
             conn.commit()
             conn.close()
-            # Initialize logger for new caretaker
             configure_logging(session['username'], username)
             return jsonify({'success': True, 'message': 'Caretaker created successfully'}), 201
         except sqlite3.Error as e:
             conn.close()
             return jsonify({'message': f'Database error: {str(e)}'}), 500
-
     conn = get_db_connection()
     c = conn.cursor()
     c.execute('SELECT username FROM users_info WHERE caregiver_username = ?', (session['username'],))
     caretakers = [row['username'] for row in c.fetchall()]
     conn.close()
-    return render_template('user_SIgnup.html', caretakers=caretakers, current_user=session['username'])
+    return render_template('user_signup.html', caretakers=caretakers, current_user=session['username'])
 
 @app.route('/caretaker_login')
 def care_login():
@@ -383,20 +604,17 @@ def care_login():
 
 @app.route('/speech-login', methods=['POST'])
 def speech_login():
-    username = request.json.get('speech_credential')
+    username = request.json.get('speech_credential').lower()
     logger = logging.getLogger('CaregiverLogger')
-
     if not username:
         logger.error("No speech credential provided in speech login")
         return jsonify({'message': 'Speech credential is required'}), 400
-
     conn = get_db_connection()
     c = conn.cursor()
     try:
         c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (username,))
         user = c.fetchone()
         if user:
-            # Initialize logger for this caregiver-caretaker pair
             configure_logging(user['caregiver_username'], user['username'])
             logger = logging.getLogger(f'CaregiverLogger_{user["caregiver_username"]}_{user["username"]}')
             session['username'] = user['username']
@@ -421,13 +639,12 @@ def login_required(f):
     wrap.__name__ = f.__name__
     return wrap
 
-@app.route('/vision_nr')
+@app.route('/vision')
 @login_required
 def vision():
     logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
     logger.info(f"Caretaker {session['username']} accessed vision page")
     return render_template('ar_.html')
-
 
 @app.route('/caregiver_dashboard/<caretaker_username>')
 @login_required
@@ -441,19 +658,16 @@ def caregiver_dashboard(caretaker_username):
     if not caretaker or caretaker['caregiver_username'] != session['username']:
         flash('Unauthorized access to this caretaker', 'error')
         return redirect(url_for('caretakers'))
-
     logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
     logger.info(f"Caregiver {session['username']} accessed dashboard for caretaker {caretaker_username}")
-
-    # Retrieve logs from the log file
     log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
     processed_logs = []
     log_file = None
     if log_files:
-        log_file = log_files[0]  # Single log file
+        log_file = log_files[0]
         try:
             with open(log_file, 'r') as f:
-                logs = [line.strip() for line in f.readlines() if line.strip()][-20:]  # Last 20 logs
+                logs = [line.strip() for line in f.readlines() if line.strip()][-20:]
             for log in logs:
                 try:
                     parts = log.split(' - ', 2)
@@ -492,13 +706,10 @@ def caregiver_dashboard(caretaker_username):
                     continue
         except Exception as e:
             logger.error(f"Error reading log file {log_file}: {str(e)}")
-
-    # Start log updater thread if not already running
     if log_update_thread is None:
         log_update_running = True
         log_update_thread = threading.Thread(target=lambda: log_updater(caretaker_username), daemon=True)
         log_update_thread.start()
-
     return render_template(
         'caregiver_dashboard.html',
         username=caretaker_username,
@@ -506,6 +717,7 @@ def caregiver_dashboard(caretaker_username):
         log_file=log_file,
         last_updated=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )
+
 @app.route('/logout')
 def logout():
     username = session.get('username')
@@ -517,7 +729,7 @@ def logout():
     speak("Goodbye. Logging out.")
     logger.info("User logged out")
     socketio.emit('logout', namespace=f'/video_feed')
-    return redirect(url_for('care_login'))
+    return redirect('/')
 
 @app.route('/get_logs/<caretaker_username>')
 @login_required
@@ -530,14 +742,13 @@ def get_logs(caretaker_username):
         conn.close()
         if not caretaker or caretaker['caregiver_username'] != session['username']:
             return jsonify({"error": "Unauthorized access to this caretaker's logs"}), 403
-
         logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
         log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
         logger.info(f"Found log files: {log_files}")
         if not log_files:
             logger.warning(f"No log files found for caretaker {caretaker_username}")
             return jsonify({"error": "No log files found for this caretaker"})
-        latest_log = log_files[0]  # Single file
+        latest_log = log_files[0]
         logger.info(f"Reading latest log file: {latest_log}")
         with open(latest_log, 'r') as f:
             logs = [line.strip() for line in f.readlines() if line.strip()]
@@ -586,21 +797,6 @@ def get_logs(caretaker_username):
     except Exception as e:
         logger.error(f"Get logs error: {str(e)}")
         return jsonify({"error": str(e)}), 500
-
-@app.route('/caretaker/<username>')
-@login_required
-def caretaker_dashboard(username):
-    conn = get_db_connection()
-    c = conn.cursor()
-    c.execute('SELECT username, caregiver_username FROM users_info WHERE username = ?', (username,))
-    caretaker = c.fetchone()
-    conn.close()
-    if not caretaker or caretaker['caregiver_username'] != session['username']:
-        flash('Unauthorized access to this caretaker', 'error')
-        return redirect(url_for('caretakers'))
-    logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{username}')
-    logger.info(f"Caregiver {session['username']} accessed dashboard for caretaker {username}")
-    return render_template('caregiver_dashboard.html', username=caretaker['caregiver_username'], current_user=session['username'])
 
 # Helper functions
 def listen_for_command():
@@ -820,7 +1016,7 @@ def read_text(frame, gray):
     try:
         text = pytesseract.image_to_string(gray, config='--psm 6')
         text = text.strip() if text.strip() else None
-        if text and re.match(r'^[a-zA-Z\s0-9\.,!?]+$', text):
+        if text and re.match(r'^[a-zA-Z0-9\s.,!?]+$', text):
             logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info(f"OCR text: {text}")
             return text
@@ -860,7 +1056,7 @@ def analyze_crowd_density(detections):
             avg_distance = np.mean(distances) if distances else 0
         if person_count > 10:
             density = "High"
-            warning = f"Crowded area with {person_count} people detected"
+            warning = f"Crowded area with {person_count} people detected."
             speak(warning)
         elif person_count >= 5 or (person_count > 0 and avg_distance < 3):
             density = "High"
@@ -878,6 +1074,42 @@ def analyze_crowd_density(detections):
         logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
         logger.error(f"Crowd density analysis error: {str(e)}")
         return "Low", None, 0, 0
+
+def detect_person_near_object(detections, pose_landmarks, frame_width, frame_height):
+    try:
+        person_near_objects = []
+        person_detections = [d for d in detections.detections if d.categories[0].category_name == "person"]
+        object_detections = [d for d in detections.detections if d.categories[0].category_name in ["table", "chair", "sofa", "bed"]]
+        for person in person_detections:
+            person_bbox = person.bounding_box
+            person_center = (person_bbox.origin_x + person_bbox.width // 2, person_bbox.origin_y + person_bbox.height // 2)
+            person_distance = estimate_distance(person_bbox.width, "person")
+            for obj in object_detections:
+                obj_bbox = obj.bounding_box
+                obj_center = (obj_bbox.origin_x + obj_bbox.width // 2, obj_bbox.origin_y + obj_bbox.height // 2)
+                obj_distance = estimate_distance(obj_bbox.width, obj.categories[0].category_name)
+                pixel_distance = math.sqrt((person_center[0] - obj_center[0]) ** 2 + (person_center[1] - obj_center[1]) ** 2)
+                if pixel_distance < 50 and person_distance and obj_distance and abs(person_distance - obj_distance) < 1.0:
+                    interaction = "near"
+                    if pose_landmarks:
+                        left_hip = pose_landmarks.landmark[mp_pose.PoseLandmark.LEFT_HIP]
+                        right_hip = pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_HIP]
+                        hip_height = (left_hip.y + right_hip.y) / 2 * frame_height
+                        if obj.categories[0].category_name in ["chair", "sofa"] and hip_height > frame_height * 0.6:
+                            interaction = "sitting on"
+                        elif obj.categories[0].category_name == "bed" and hip_height > frame_height * 0.7:
+                            interaction = "lying on"
+                    person_near_objects.append({
+                        "person_distance": person_distance,
+                        "object_type": obj.categories[0].category_name,
+                        "object_distance": obj_distance,
+                        "interaction": interaction
+                    })
+        return person_near_objects
+    except Exception as e:
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger.error(f"Person near object error: {str(e)}")
+        return []
 
 def compute_optical_flow(prev_frame, curr_frame):
     global prev_gray
@@ -920,11 +1152,11 @@ def draw_object_detections(frame, detections, user_behavior, navigation_steps, r
         annotated_image = frame.copy()
         height, width = frame.shape[:2]
         if road_context and navigation_steps:
-            annotated_image = overlay_3d_object(annotated_image, arrow_texture, (25, 25), size=75)
+            annotated_image = overlay_3d_object(annotated_image, arrow_texture, (25, 25), size=10)
             logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info("Applied AR arrow overlay")
         if road_context and detect_lanes(frame):
-            annotated_image = overlay_3d_object(annotated_image, cone_texture, (width // 2, height - 50), size=60)
+            annotated_image = overlay_3d_object(annotated_image, cone_texture, (width // 2, height - 50), size=10)
             logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
             logger.info("Applied AR cone overlay")
         return annotated_image
@@ -933,7 +1165,7 @@ def draw_object_detections(frame, detections, user_behavior, navigation_steps, r
         logger.error(f"Draw detections error: {str(e)}")
         return frame
 
-def announce_detections(detections, user_behavior, person_behavior, text, obstacles, navigation_steps, crowd_density, moving_objects):
+def announce_detections(detections, user_behavior, person_behavior, text, obstacles, navigation_steps, crowd_density, moving_objects, person_near_objects, color, currency, signage, light_level, object_distance, object_direction, scene_desc, emergency, crowd_direction, sound):
     global last_announce_time, detection_history
     if time.time() - last_announce_time < 5:
         return
@@ -944,34 +1176,35 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
             category = detection.categories[0]
             distance = estimate_distance(detection.bounding_box.width, category.category_name)
             if distance and distance < 5 and category.score > 0.7:
+                direction = get_direction(detection.bounding_box, FRAME_WIDTH, FRAME_HEIGHT)
                 obj_type = classify_vehicle(category.category_name)
-                obj_desc = f"{obj_type} at {distance}m"
+                obj_desc = f"{obj_type} on your {direction} at {distance}m"
                 current_objects.append(obj_desc)
                 if obj_desc not in detection_history["objects"]:
-                    announcements.append(f"{obj_type} detected at {distance} meters")
+                    announcements.append(f"{obj_type} detected on your {direction} at {distance} meters")
                     logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-                    logger.info(f"Detection: {obj_type}, Distance: {distance}m")
+                    logger.info(f"Detection: {obj_type}, Direction: {direction}, Distance: {distance}m")
         detection_history["objects"].append(current_objects)
         current_obstacles = []
         for obstacle, detected, distance in obstacles:
             if detected and distance and distance < 5:
-                obs_desc = f"{obstacle} at {distance}m"
+                obs_desc = f"{obstacle} on your front at {distance}m"
                 current_obstacles.append(obs_desc)
                 if obs_desc not in detection_history["obstacles"]:
-                    announcements.append(f": {obstacle} detected at {distance} meters")
+                    announcements.append(f"{obstacle} detected on your front at {distance} meters")
         detection_history["obstacles"].append(current_obstacles)
         if user_behavior != "No user detected":
             if user_behavior not in detection_history["user_behavior"]:
-                announcements.append(f": User behavior: {user_behavior}")
+                announcements.append(f"User behavior: {user_behavior}")
             detection_history["user_behavior"].append(user_behavior)
         if text:
             if text not in detection_history["text"]:
-                announcements.append(f": Text detected: {text}")
+                announcements.append(f"Sign detected: {text}")
             detection_history["text"].append(text)
         if crowd_density[1]:
             crowd_desc = crowd_density[1]
             if crowd_desc not in detection_history["crowd_density"]:
-                announcements.append(f": {crowd_desc}")
+                announcements.append(f"{crowd_desc}")
             detection_history["crowd_density"].append(crowd_desc)
         current_moving = []
         if moving_objects:
@@ -979,11 +1212,43 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
                 move_desc = f"{label} from {direction}"
                 current_moving.append(move_desc)
                 if move_desc not in detection_history["moving_objects"]:
-                    announcements.append(f": {label} approaching from the {direction}")
+                    announcements.append(f"{label} approaching from the {direction}")
         detection_history["moving_objects"].append(current_moving)
+        current_person_near_objects = []
+        for pno in person_near_objects:
+            desc = f"Person {pno['interaction']} {pno['object_type']} at {pno['object_distance']} meters"
+            current_person_near_objects.append(desc)
+            if desc not in detection_history["person_near_objects"]:
+                announcements.append(desc)
+                logger.info(f"Person near object: {desc}")
+        detection_history["person_near_objects"].append(current_person_near_objects)
+        if color and color not in detection_history["colors"]:
+            announcements.append(f"Dominant color: {color}")
+            detection_history["colors"].append(color)
+        if currency and currency not in detection_history["currency"]:
+            announcements.append(f"Currency detected: {currency}")
+            detection_history["currency"].append(currency)
+        if light_level and light_level not in detection_history["light_level"]:
+            announcements.append(f"Light level: {light_level}")
+            detection_history["light_level"].append(light_level)
+        if object_distance and object_direction:
+            obj_loc_desc = f"{user_data['find_object']} located on your {object_direction} at {object_distance} meters"
+            announcements.append(obj_loc_desc)
+        if scene_desc and scene_desc not in detection_history["scene"]:
+            announcements.append(scene_desc)
+            detection_history["scene"].append(scene_desc)
+        if emergency and emergency not in detection_history["emergency"]:
+            announcements.append(f"Emergency: {emergency}")
+            detection_history["emergency"].append(emergency)
+            socketio.emit('emergency', {'message': emergency}, namespace=f'/caregiver_dashboard/{session["username"]}')
+        if crowd_direction:
+            announcements.append(f"Crowded area ahead, move {crowd_direction} to avoid")
+        if sound and sound not in detection_history["sounds"]:
+            announcements.append(f"Sound detected: {sound}")
+            detection_history["sounds"].append(sound)
         if announcements:
             announcement = ". ".join(announcements[:5])
-            speak(announcement)
+            speak(announcement, priority=emergency is not None)
             last_announce_time = time.time()
     except Exception as e:
         logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
@@ -991,11 +1256,11 @@ def announce_detections(detections, user_behavior, person_behavior, text, obstac
 
 def settings_menu():
     try:
-        speak("Settings menu. Say a number from 1 to 3. 1: Navigate to a destination. 2: Update caregiver details. 3: Logout.")
+        speak("Settings menu. Say a number from 1 to 4. 1: Navigate to a destination. 2: Update caregiver details. 3: Find an object. 4: Logout")
         command = listen_for_command()
         if not command:
-            speak("No command recognized.")
-            return False
+            speak("No command recognized")
+            return None
         if "1" in command or "one" in command:
             speak("Where do you wish to go?")
             destination = listen_for_command()
@@ -1003,57 +1268,68 @@ def settings_menu():
                 user_data["destination"] = destination
                 directions = get_directions(destination)
                 if directions:
-                    speak(f"Destination set to {destination}. Distance is {directions['distance']} kilometers. Follow: {', '.join(directions['steps'])}")
-                    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-                    logger.info(f"Navigation set to {destination}, Distance: {directions['distance']}km")
-                    return directions
-            speak("Could not find destination.")
-            return False
+                    navigation_steps = directions["steps"]
+                    speak(f"Destination set to {destination}. Distance is {directions["distance"]} kilometers. Follow: {', '.join(directions["steps"])}")
+                    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}').info(f"Navigation set to {destination}, Distance: {directions['distance']}km")
+                    return navigation_steps
+                speak("Could not find destination")
+                return None
         elif "2" in command or "two" in command:
             speak("Say the caregiver phone number.")
             phone = listen_for_command()
             if phone:
                 user_data["caregiver_phone"] = phone
                 speak(f"Caregiver phone updated to {phone}")
-                logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-                logger.info(f"Caregiver phone updated to {phone}")
-            return False
+                logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}').info(f"Caregiver phone updated: to {phone}")
+                return None
+            return None
         elif "3" in command or "three" in command:
+            speak("What object do you wish to find?")
+            object = listen_for_command()
+            if object:
+                user_data["find_object"] = object
+                speak(f"Looking for {object}")
+                logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}').info(f"Object search initiated: {object}")
+                return None
+            return None
+        elif "4" in command or "four" in command:
             return "logout"
-        speak("Invalid option.")
-        return False
+        else:
+            speak("Invalid option")
+            return None
     except Exception as e:
-        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-        logger.error(f"Settings menu error: {str(e)}")
-        return False
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}').error(f"Settings menu error: {str(e)}")
+        return None
 
-def overlay_3d_object(frame, texture, position, size=50):
+def overlay_3d_object(frame, texture, position, size=10):
     if texture is None:
         return frame
     try:
         texture = cv2.resize(texture, (size, size))
         if texture.shape[2] == 4:
-            alpha = texture[:, :, 3] / 255.0
-            texture = texture[:, :, :3]
+            alpha = texture[:, :, :, 3] / 255.0
+            texture = texture[:, :, :, 0:3]
         else:
             alpha = np.ones((size, size)) * 0.7
         x, y = position
         y1, y2 = max(0, y - size // 2), min(frame.shape[0], y + size // 2)
         x1, x2 = max(0, x - size // 2), min(frame.shape[1], x + size // 2)
         if y2 - y1 > 0 and x2 - x1 > 0:
-            texture_roi = texture[0:(y2 - y1), 0:(x2 - x1)]
-            alpha_roi = alpha[0:(y2 - y1), 0:(x2 - x1)]
-            for c in range(3):
-                frame[y1:y2, x1:x2, c] = (
+            texture_roi = cv2.resize((texture, (y2 - y1, x2 - x1)))
+            alpha_roi = cv2.resize((alpha, (y2 - y1, x2 - x1)))
+            for c in range(0, 3):
+                frame[y1:y2:y2, x1:x2:x2, c] = (
                     alpha_roi * texture_roi[:, :, c] +
-                    (1 - alpha_roi) * frame[y1:y2, x1:x2, c]
+                    (1 - alpha_roi) * frame[y1:y2:y2, x1:x2:x2, c]
                 )
         return frame
     except Exception as e:
-        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-        logger.error(f"Overlay 3D object error: {str(e)}")
+        logger = logging.getLogger(
+            f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session.get("username", "unknown")}')
+        logger.error(f"Overlay 3D object error: {str(e)})")
         return frame
 
+import numpy as np
 def detect_lanes(frame):
     try:
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -1073,42 +1349,40 @@ def detect_lanes(frame):
                 right_lanes += 1
         return left_lanes >= 1 and right_lanes >= 1
     except Exception as e:
-        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+        logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session.get("username", "unknown")}')
         logger.error(f"Lane detection error: {str(e)}")
         return False
 
 @socketio.on('connect', namespace='/video_feed')
 def handle_connect():
-    if not session.get('username'):
-        emit('error', {'message': 'Unauthorized'}, namespace='/video_feed')
-        return False
-    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-    logger.info('WebSocket client connected')
-    emit('status', {'message': 'Connected'}, namespace='/video_feed')
+    try:
+        if not session.get('username'):
+            emit('error', {'message': 'Unauthorized'}, namespace='/video_feed')
+            return False
+        logger = logging.getLogger(f'CaregiverLogger_{session.get('caregiver_username', "unknown")}_{session["username"]}')
+        logger.info(f'WebSocket client connected')
+        emit('connected', {'message': 'Connected'}, namespace='/video_feed')
+    except Exception as e:
+        logger.error(f"WebSocket connect error: {str(e)}")
 
 @socketio.on('disconnect', namespace='/video_feed')
 def handle_disconnect():
     logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-    logger.info('WebSocket client disconnected')
+    logger.info(f'WebSocket client disconnected')
 
 @socketio.on_error(namespace='/video_feed')
 def handle_error(e):
-    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
-    logger.error(f"WebSocket error: {str(e)}")
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}').error(f"WebSocket error: {str(e)}")
 
 @socketio.on('message', namespace='/video_feed')
 def handle_frame(data):
-    if not session.get('username'):
-        emit('error', {'message': 'Unauthorized'}, namespace='/video_feed')
-        return
-    global last_ocr_time, last_optical_flow_time, last_location_update, prev_gray, alerts, navigation_steps, emergency_detected, prev_frame
-    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    global last_ocr_time, last_optical_flow_time, last_location_update, prev_gray, alerts, navigation_steps, emergency_steps_detected, prev_frame, last_sound_time
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session.get("username", "unknown")}')
     logger.info("Received video frame from client")
     try:
         if not isinstance(data, str) or ',' not in data or not data.startswith('data:image'):
             logger.error("Invalid frame data format")
-            emit('error', {'message': 'Invalid frame data format'}, namespace='/video_feed')
-            return
+            raise ValueError("Invalid frame format")
         try:
             img_data = base64.b64decode(data.split(',')[1])
             npimg = np.frombuffer(img_data, dtype=np.uint8)
@@ -1118,37 +1392,52 @@ def handle_frame(data):
             frame = cv2.flip(frame, 1)
             frame = cv2.resize(frame, (FRAME_WIDTH, FRAME_HEIGHT))
         except Exception as e:
-            logger.error(f"Image decoding error: {str(e)}")
+            logger.error(f"Frame decoding error: {str(e)}")
             emit('error', {'message': 'Failed to decode frame'}, namespace='/video_feed')
             return
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         if time.time() - last_location_update > location_update_interval:
             try:
                 user_data["location"] = geocoder.ip('me').latlng
-                logger.info(f"Location updated: {user_data['location']}")
+                user_data["indoor_location"] = recognize_place(frame)
+                logger.info(f"Location updated: {user_data['location']}, indoor: {user_data['indoor_location']}")
                 last_location_update = time.time()
             except Exception as e:
                 logger.error(f"Location update error: {str(e)}")
-        obstacle_results = [None] * 4
-        def detect_obstacles(idx, func, name):
+        obstacle_results = [[] for _ in range(4)]  # Initialize for 4 obstacle types
+
+        def detect_obstacles(idx, func, name, obstacle_results):
             try:
                 detected = func(frame, gray)
-                distance = estimate_distance(100 if name in ["Speed breaker", "Pothole"] else 50 if name == "Curb" else 200, name.lower()) if detected else None
-                obstacle_results[idx] = (name, detected, distance)
+                distance = estimate_distance(
+                    100 if name in ["Speed breaker", "Pothole"] else 50 if name == "Curb" else 200,
+                    name.lower()) if detected else None
+                obstacle_results[idx].append((name, detected, distance))
             except Exception as e:
-                logger.error(f"{name} detection error: {str(e)}")
-                obstacle_results[idx] = (name, False, None)
+                logger = logging.getLogger(
+                    f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session.get("username", "unknown")}')
+                logger.error(f"Error detecting {name}: {str(e)}")
+                obstacle_results[idx].append((name, False, None))
+
         obstacle_threads = [
-            threading.Thread(target=detect_obstacles, args=(0, detect_speed_breakers, "Speed breaker")),
-            threading.Thread(target=detect_obstacles, args=(1, detect_potholes, "Pothole")),
-            threading.Thread(target=detect_obstacles, args=(2, detect_curbs, "Curb")),
-            threading.Thread(target=detect_obstacles, args=(3, detect_stairs, "Stairs"))
+            threading.Thread(target=detect_obstacles, args=(0, detect_speed_breakers, "Speed breaker", obstacle_results)),
+            threading.Thread(target=detect_obstacles, args=(1, detect_potholes, "Pothole", obstacle_results)),
+            threading.Thread(target=detect_obstacles, args=(2, detect_curbs, "Curb", obstacle_results)),
+            threading.Thread(target=detect_obstacles, args=(3, detect_stairs, "Stairs", obstacle_results))
         ]
         for t in obstacle_threads:
             t.start()
         for t in obstacle_threads:
             t.join()
-        obstacles = obstacle_results
+        obstacles = [result[0] for result in obstacle_results if result]  # Flatten results
+        try:
+            color = detect_color(frame)
+            currency = detect_currency(frame)
+            signage = read_text(frame, gray)
+            light_level = detect_light_level(gray)
+        except Exception as e:
+            logger.error(f"Feature detection error: {str(e)}")
+            color = currency = signage = light_level = None
         try:
             mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=frame)
             detection_result = object_detector.detect(mp_image)
@@ -1156,10 +1445,16 @@ def handle_frame(data):
             logger.error(f"Object detection error: {str(e)}")
             detection_result = type('obj', (), {'detections': []})()
         crowd_density = analyze_crowd_density(detection_result)
-        moving_objects, flow = None, None
+        crowd_direction = navigate_crowd(detection_result)
+        moving_objects = None
+        flow = None
         if time.time() - last_optical_flow_time > optical_flow_interval and prev_frame is not None:
             moving_objects, flow = compute_optical_flow(prev_frame, frame)
             last_optical_flow_time = time.time()
+        sound = detect_sound() if time.time() - last_sound_time > sound_interval else None
+        if sound:
+            logger.info(f"Sound detected: {sound}")
+            last_sound_time = time.time()
         try:
             pose_results = pose.process(frame)
         except Exception as e:
@@ -1174,11 +1469,20 @@ def handle_frame(data):
             person_behavior = predict_person_behavior(pose_results.pose_landmarks, prev_person_positions, FRAME_WIDTH)
             if person_behavior[1] is not None:
                 prev_person_positions.append(person_behavior[1])
+        person_near_objects = detect_person_near_object(detection_result, pose_results.pose_landmarks, FRAME_WIDTH, FRAME_HEIGHT)
         depth = estimate_depth(pose_results.pose_landmarks, FRAME_WIDTH)
+        object_distance, object_direction = None, None
+        if user_data["find_object"]:
+            object_distance, object_direction = locate_object(detection_result, user_data["find_object"])
+        scene_desc = describe_scene(detection_result, user_data["indoor_location"], crowd_density)
+        emergency = detect_emergency(pose_results.pose_landmarks, detection_result, crowd_density)
+        if user_data["destination"] and user_data["indoor_location"] != "unknown":
+            navigation_steps = navigate_indoors(user_data["indoor_location"], user_data["destination"])
         text = None
         if time.time() - last_ocr_time > ocr_interval:
             text = read_text(frame, gray)
             last_ocr_time = time.time()
+        emergency_detected = False
         for detection in detection_result.detections:
             category = detection.categories[0]
             distance = estimate_distance(detection.bounding_box.width, category.category_name)
@@ -1186,7 +1490,6 @@ def handle_frame(data):
                 emergency_detected = True
                 logger.info(f"Emergency detected: {category.category_name} too close at {distance}m")
                 alerts.append(f"Warning: {category.category_name} detected at {distance} meters")
-                emergency_detected = False
         speed_breaker_detected = any(o[1] for o in obstacles if o[0] == "Speed breaker")
         road_context = is_road_context(frame, speed_breaker_detected, gray)
         overlays = {"objects": [], "navigation": []}
@@ -1195,18 +1498,20 @@ def handle_frame(data):
             category = detection.categories[0]
             label = classify_vehicle(category.category_name)
             distance = estimate_distance(bbox.width, category.category_name)
-            if distance and distance < 5 and category.score > 0.7:
+            if distance and distance < 8 and category.score > 0.7:
+                direction = get_direction(bbox, FRAME_WIDTH, FRAME_HEIGHT)
                 overlays["objects"].append({
                     "label": label,
-                    "score": round(category.score, 2),
-                    "distance": distance
+                    "score": category.score,
+                    "direction": direction,
+                    "distance": round(distance, 1)
                 })
         for obstacle, detected, distance in obstacles:
             if detected and distance and distance < 5:
                 overlays["objects"].append({
                     "label": obstacle,
                     "score": 0.9,
-                    "distance": distance
+                    "distance": round(distance, 1)
                 })
         if navigation_steps and road_context:
             overlays["navigation"].append({"type": "arrow", "direction": "left", "x": 25, "y": 25})
@@ -1214,95 +1519,153 @@ def handle_frame(data):
         alerts = []
         for obstacle, detected, distance in obstacles:
             if detected and distance and distance < 5:
-                alerts.append(f"{obstacle} ahead at less than 5 meters")
-        if text:
-            alerts.append(f"Text detected: {text}")
-        if crowd_density[1]:
-            alerts.append(crowd_density[1])
-        if moving_objects:
-            for label, direction, _, _ in moving_objects:
-                alerts.append(f"{label} approaching from the {direction}")
-        if user_behavior != "No user detected":
-            alerts.append(f"User behavior: {user_behavior}")
-        for alert in alerts:
-            logger.info(f"Alert: {alert}")
-        announce_detections(detection_result, user_behavior, person_behavior, text, obstacles, navigation_steps, crowd_density, moving_objects)
+                alerts.append(f"{obstacle} ahead at {distance} meters")
+        for pno in person_near_objects:
+            alerts.append(f"Person {pno['interaction']} {pno['object_type']} at {pno['object_distance']} meters")
+        if emergency:
+            alerts.append(f"Emergency: {emergency}")
+            socketio.emit('emergency', {'message': emergency}, namespace=f'/caregiver_dashboard/{session.get("username", "unknown")}')
+        if crowd_direction:
+            alerts.append(f"Move {crowd_direction} to avoid crowd")
+        if object_distance and object_direction:
+            alerts.append(f"{user_data['find_object']} on your {object_direction} at {object_distance} meters")
+        if color:
+            alerts.append(f"Dominant color: {color}")
+        if signage:
+            alerts.append(f"Signage: {signage}")
+        if light_level:
+            alerts.append(f"Light level: {light_level}")
+        if scene_desc:
+            alerts.append(scene_desc)
+        if sound:
+            alerts.append(f"Sound: {sound}")
+        announce_detections(
+            detection_result, user_behavior, person_behavior, text, obstacles, navigation_steps,
+            crowd_density, moving_objects, person_near_objects, color, currency, signage, light_level,
+            object_distance, object_direction, scene_desc, emergency, crowd_direction, sound
+        )
         try:
-            _, buffer = cv2.imencode('.jpg', frame_with_detections, [int(cv2.IMWRITE_JPEG_QUALITY), 70])
-            frame_base64 = base64.b64encode(buffer).decode('utf-8')
+            _, buffer = cv2.imencode('.jpg', frame_with_detections)
+            frame_b64 = base64.b64encode(buffer).decode('utf-8')
+            emit('frame', {
+                'image': f'data:image/jpeg;base64,{frame_b64}',
+                'overlays': overlays,
+                'alerts': alerts[:5],
+                'user_behavior': user_behavior,
+                'person_behavior': person_behavior[0],
+                'depth': depth,
+                'location': user_data["location"],
+                'indoor_location': user_data["indoor_location"],
+                'destination': user_data["destination"],
+                'crowd_density': crowd_density[0],
+                'person_count': crowd_density[2],
+                'avg_distance': round(crowd_density[3], 1),
+                'navigation_steps': navigation_steps,
+                'caregiver_phone': user_data["caregiver_phone"],
+                'find_object': user_data["find_object"]
+            }, namespace='/video_feed')
+            socketio.emit('update', {
+                'alerts': alerts[:5],
+                'user_behavior': user_behavior,
+                'person_behavior': person_behavior[0],
+                'depth': depth,
+                'location': user_data["location"],
+                'indoor_location': user_data["indoor_location"],
+                'destination': user_data["destination"],
+                'crowd_density': crowd_density[0],
+                'person_count': crowd_density[2],
+                'avg_distance': round(crowd_density[3], 1)
+            }, namespace=f'/caregiver_dashboard/{session.get("username", "unknown")}')
+            logger.info(f"Frame processed and sent: {len(detection_result.detections)} detections, {len(alerts)} alerts")
         except Exception as e:
             logger.error(f"Frame encoding error: {str(e)}")
             emit('error', {'message': 'Failed to encode frame'}, namespace='/video_feed')
-            return
-        emit('frame', {'image': frame_base64, 'alerts': alerts}, namespace='/video_feed')
         prev_frame = frame.copy()
     except Exception as e:
-        logger.error(f"Frame processing error: {str(e)}\n{traceback.format_exc()}")
-        emit('error', {'message': 'Frame processing failed'}, namespace='/video_feed')
+        logger.error(f"Frame processing error: {str(e)}")
+        emit('error', {'message': str(e)}, namespace='/video_feed')
+@socketio.on('command', namespace='/video_feed')
+def handle_command(data):
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    try:
+        command = data.get('command', '').lower()
+        logger.info(f"Received command: {command}")
+        if command == "settings":
+            result = settings_menu()
+            if result == "logout":
+                emit('logout', namespace='/video_feed')
+                session.pop('username', None)
+                session.pop('caregiver_username', None)
+                logger.info("User logged out via settings menu")
+            elif result:
+                emit('navigation', {'steps': result}, namespace='/video_feed')
+        elif command.startswith("navigate to"):
+            destination = command.replace("navigate to", "").strip()
+            if destination:
+                user_data["destination"] = destination
+                directions = get_directions(destination)
+                if directions:
+                    navigation_steps.extend(directions['steps'])
+                    speak(f"Navigating to {destination}. Distance: {directions['distance']} kilometers.")
+                    logger.info(f"Navigation command: {destination}, Distance: {directions['distance']}km")
+                    emit('navigation', {'steps': directions['steps']}, namespace='/video_feed')
+                else:
+                    speak("Could not find destination")
+                    logger.error(f"Navigation failed for destination: {destination}")
+        elif command.startswith("find"):
+            object = command.replace("find", "").strip()
+            if object:
+                user_data["find_object"] = object
+                speak(f"Searching for {object}")
+                logger.info(f"Find object command: {object}")
+                emit('find_object', {'object': object}, namespace='/video_feed')
+        elif command == "stop":
+            user_data["destination"] = None
+            user_data["find_object"] = None
+            navigation_steps.clear()
+            speak("Stopped navigation and object search")
+            logger.info("Stopped navigation and object search")
+            emit('stop', namespace='/video_feed')
+        else:
+            speak("Unknown command")
+            logger.warning(f"Unknown command: {command}")
+    except Exception as e:
+        logger.error(f"Command error: {str(e)}")
+        emit('error', {'message': str(e)}, namespace='/video_feed')
+
 
 def log_updater(caretaker_username):
-    global last_log_update, log_update_running
+    global last_log_update
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("username", "unknown")}_{caretaker_username}')
     while log_update_running:
         try:
-            current_time = time.time()
-            if current_time - last_log_update >= log_update_interval:
-                log_files = glob.glob(f"caregiver_{session['username']}_caretaker_{caretaker_username}.txt")
-                if log_files:
-                    latest_log = log_files[0]
-                    with open(latest_log, 'r') as f:
-                        logs = f.readlines()[-20:]
-                    processed_logs = []
-                    for log in logs:
-                        try:
-                            parts = log.split(' - ', 2)
-                            if len(parts) == 3:
-                                timestamp, log_type, message = parts
-                                log_type = log_type.strip()
-                                if 'emergency' in message.lower() or 'warning' in log_type.lower():
-                                    log_class = 'danger'
-                                elif 'error' in log_type.lower():
-                                    log_class = 'warning'
-                                elif 'info' in log_type.lower():
-                                    log_class = 'info'
-                                else:
-                                    log_class = 'secondary'
-                                processed_logs.append({
-                                    'timestamp': timestamp.strip(),
-                                    'type': log_type,
-                                    'message': message.strip(),
-                                    'class': log_class
-                                })
-                        except:
-                            continue
-                    socketio.emit('log_update', {
-                        'logs': processed_logs,
-                        'last_updated': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                    }, namespace=f'/caregiver_dashboard/{caretaker_username}')
-                last_log_update = current_time
-            time.sleep(0.5)
+            if time.time() - last_log_update >= log_update_interval:
+                socketio.emit('log_update', {}, namespace=f'/caregiver_dashboard/{caretaker_username}')
+                last_log_update = time.time()
+                logger.info(f"Log update triggered for {caretaker_username}")
+            socketio.sleep(1)
         except Exception as e:
-            logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
             logger.error(f"Log updater error: {str(e)}")
-            time.sleep(5)
+            socketio.sleep(5)
+
+
+@socketio.on('connect', namespace='/caregiver_dashboard')
+def handle_dashboard_connect():
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    logger.info("Caregiver dashboard connected")
+    emit('connected', {'message': 'Dashboard connected'}, namespace='/caregiver_dashboard')
+
+
+@socketio.on('disconnect', namespace='/caregiver_dashboard')
+def handle_dashboard_disconnect():
+    logger = logging.getLogger(f'CaregiverLogger_{session.get("caregiver_username", "unknown")}_{session["username"]}')
+    logger.info("Caregiver dashboard disconnected")
+
 
 if __name__ == '__main__':
-    try:
-        init_engine()
-        local_ip = get_local_ip()
-        logger = logging.getLogger('CaregiverLogger')
-        logger.info(f"Server running at http://{local_ip}:5000")
-        print(f"Access the application at http://{local_ip}:5000 from devices on the same network")
-        socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
-    except KeyboardInterrupt:
-        logger = logging.getLogger('CaregiverLogger')
-        logger.info("Application shutdown initiated")
-    except Exception as e:
-        logger = logging.getLogger('CaregiverLogger')
-        logger.error(f"Server startup error: {str(e)}")
-    finally:
-        if pose:
-            pose.close()
-        if object_detector:
-            object_detector.close()
-        logger = logging.getLogger('CaregiverLogger')
-        logger.info("Resources cleaned up")
+    init_engine()
+    local_ip = get_local_ip()
+    logger = logging.getLogger('CaregiverLogger')
+    logger.info(f"Starting server on http://{local_ip}:5000")
+    print(f"You can also view the application in mobile by opening browser and typing--> URL  http://{local_ip}:5000 ")
+    socketio.run(app, host='0.0.0.0', port=5000, debug=False, use_reloader=False)

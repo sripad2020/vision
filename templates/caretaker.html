@@ -246,7 +246,7 @@
                 {% if current_user %}
                     <a href="{{ url_for('create_caretaker') }}" aria-describedby="create-caretaker-help">Create Caretaker</a>
                     <span id="create-caretaker-help" class="sr-only">Navigate to create a new caretaker</span>
-                    <a href="{{ url_for('logout') }}" aria-describedby="logout-help">Logout</a>
+                    <a href="/logout" aria-describedby="logout-help">Logout</a>
                     <span id="logout-help" class="sr-only">Log out of your account</span>
                     <a href="{{ url_for('index') }}" aria-describedby="home-help">Home</a>
                     <span id="home-help" class="sr-only">Return to the home page</span>

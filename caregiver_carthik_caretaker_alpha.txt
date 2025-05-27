@@ -236,3 +236,976 @@
 2025-05-25 03:42:50,448 - INFO - Alert: Crowded area ahead, slow down
 2025-05-25 03:42:55,578 - ERROR - WebSocket error: handle_disconnect() takes 0 positional arguments but 1 was given
 2025-05-25 03:42:55,592 - INFO - User logged out
+2025-05-28 03:32:34,710 - INFO - Logger initialized for caregiver_carthik_caretaker_alpha.txt
+2025-05-28 03:32:34,712 - INFO - Caretaker alpha logged in successfully
+2025-05-28 03:32:36,732 - INFO - Caretaker alpha accessed vision page
+2025-05-28 03:36:13,034 - INFO - Logger initialized for caregiver_carthik_caretaker_alpha.txt
+2025-05-28 03:36:13,035 - INFO - Caretaker alpha logged in successfully
+2025-05-28 03:36:15,075 - INFO - Caretaker alpha accessed vision page
+2025-05-28 03:36:15,254 - INFO - WebSocket client connected
+2025-05-28 03:36:22,623 - INFO - Received video frame from client
+2025-05-28 03:36:22,847 - INFO - Received video frame from client
+2025-05-28 03:36:23,060 - INFO - Received video frame from client
+2025-05-28 03:36:23,281 - INFO - Received video frame from client
+2025-05-28 03:36:23,547 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:23,559 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:23,562 - INFO - Received video frame from client
+2025-05-28 03:36:24,527 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:24,538 - INFO - Received video frame from client
+2025-05-28 03:36:24,542 - INFO - Received video frame from client
+2025-05-28 03:36:24,546 - INFO - Received video frame from client
+2025-05-28 03:36:24,552 - INFO - Received video frame from client
+2025-05-28 03:36:24,870 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:27,082 - INFO - User behavior: Looking forward and Crouching, Speed: 0.00
+2025-05-28 03:36:27,098 - INFO - Received video frame from client
+2025-05-28 03:36:27,104 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:27,207 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:28,394 - INFO - Received video frame from client
+2025-05-28 03:36:28,398 - INFO - Received video frame from client
+2025-05-28 03:36:28,401 - INFO - Received video frame from client
+2025-05-28 03:36:28,403 - INFO - Received video frame from client
+2025-05-28 03:36:28,406 - INFO - Received video frame from client
+2025-05-28 03:36:28,409 - INFO - Received video frame from client
+2025-05-28 03:36:28,411 - INFO - Received video frame from client
+2025-05-28 03:36:28,414 - INFO - Received video frame from client
+2025-05-28 03:36:28,416 - INFO - Received video frame from client
+2025-05-28 03:36:28,418 - INFO - Received video frame from client
+2025-05-28 03:36:28,422 - INFO - Received video frame from client
+2025-05-28 03:36:28,427 - INFO - Received video frame from client
+2025-05-28 03:36:28,508 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:29,716 - INFO - Received video frame from client
+2025-05-28 03:36:29,721 - INFO - Received video frame from client
+2025-05-28 03:36:29,725 - INFO - Received video frame from client
+2025-05-28 03:36:29,728 - INFO - Received video frame from client
+2025-05-28 03:36:29,732 - INFO - Received video frame from client
+2025-05-28 03:36:29,736 - INFO - Received video frame from client
+2025-05-28 03:36:29,904 - INFO - Received video frame from client
+2025-05-28 03:36:29,908 - INFO - Received video frame from client
+2025-05-28 03:36:29,911 - INFO - Received video frame from client
+2025-05-28 03:36:29,914 - INFO - Received video frame from client
+2025-05-28 03:36:29,917 - INFO - Received video frame from client
+2025-05-28 03:36:29,922 - INFO - Received video frame from client
+2025-05-28 03:36:29,963 - INFO - Received video frame from client
+2025-05-28 03:36:30,063 - INFO - Frame processed and sent: 0 detections, 3 alerts
+2025-05-28 03:36:30,091 - INFO - Frame processed and sent: 0 detections, 3 alerts
+2025-05-28 03:36:30,389 - INFO - Frame processed and sent: 0 detections, 3 alerts
+2025-05-28 03:36:30,451 - INFO - Received video frame from client
+2025-05-28 03:36:30,797 - INFO - Received video frame from client
+2025-05-28 03:36:30,861 - INFO - Received video frame from client
+2025-05-28 03:36:30,881 - INFO - Received video frame from client
+2025-05-28 03:36:31,036 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:32,280 - INFO - Frame processed and sent: 0 detections, 3 alerts
+2025-05-28 03:36:32,729 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:34,045 - INFO - Frame processed and sent: 0 detections, 3 alerts
+2025-05-28 03:36:34,112 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 03:36:35,275 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:36:35,357 - INFO - OCR text: os
+2025-05-28 03:36:35,442 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:36,693 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:36:36,705 - INFO - OCR text: gl ii
+2025-05-28 03:36:36,753 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:37,911 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:36:37,960 - INFO - Received video frame from client
+2025-05-28 03:36:37,969 - INFO - Received video frame from client
+2025-05-28 03:36:37,978 - INFO - Received video frame from client
+2025-05-28 03:36:37,985 - INFO - Received video frame from client
+2025-05-28 03:36:37,994 - INFO - Received video frame from client
+2025-05-28 03:36:38,001 - INFO - Received video frame from client
+2025-05-28 03:36:38,009 - INFO - Received video frame from client
+2025-05-28 03:36:38,016 - INFO - Received video frame from client
+2025-05-28 03:36:38,352 - INFO - Received video frame from client
+2025-05-28 03:36:38,360 - INFO - Received video frame from client
+2025-05-28 03:36:38,367 - INFO - Received video frame from client
+2025-05-28 03:36:38,376 - INFO - Received video frame from client
+2025-05-28 03:36:38,384 - INFO - Received video frame from client
+2025-05-28 03:36:38,392 - INFO - Received video frame from client
+2025-05-28 03:36:38,400 - INFO - Received video frame from client
+2025-05-28 03:36:38,410 - INFO - Received video frame from client
+2025-05-28 03:36:38,419 - INFO - Received video frame from client
+2025-05-28 03:36:38,430 - INFO - Received video frame from client
+2025-05-28 03:36:38,441 - INFO - Received video frame from client
+2025-05-28 03:36:38,449 - INFO - Received video frame from client
+2025-05-28 03:36:38,460 - INFO - Received video frame from client
+2025-05-28 03:36:38,468 - INFO - Received video frame from client
+2025-05-28 03:36:38,479 - INFO - Received video frame from client
+2025-05-28 03:36:38,489 - INFO - Received video frame from client
+2025-05-28 03:36:38,498 - INFO - Received video frame from client
+2025-05-28 03:36:38,507 - INFO - Received video frame from client
+2025-05-28 03:36:38,514 - INFO - Received video frame from client
+2025-05-28 03:36:38,523 - INFO - Received video frame from client
+2025-05-28 03:36:38,534 - INFO - Received video frame from client
+2025-05-28 03:36:38,542 - INFO - Received video frame from client
+2025-05-28 03:36:38,549 - INFO - Received video frame from client
+2025-05-28 03:36:38,559 - INFO - Received video frame from client
+2025-05-28 03:36:38,574 - INFO - Received video frame from client
+2025-05-28 03:36:38,591 - INFO - Received video frame from client
+2025-05-28 03:36:38,599 - INFO - Received video frame from client
+2025-05-28 03:36:38,660 - INFO - OCR text: oy
+2025-05-28 03:36:38,749 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:39,946 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:36:40,014 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 03:36:41,183 - INFO - Received video frame from client
+2025-05-28 03:36:41,191 - INFO - Received video frame from client
+2025-05-28 03:36:41,252 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,257 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,262 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,266 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,272 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,278 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,281 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,284 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,288 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,291 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,295 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,300 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,305 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,309 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,316 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,325 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,329 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,335 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,339 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,345 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,351 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,357 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,362 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,367 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,371 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,377 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,383 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,387 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,392 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,397 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,402 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:41,423 - INFO - OCR text: re
+2025-05-28 03:36:41,500 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:36:42,714 - INFO - User behavior: Looking forward and Moving forward, Speed: 29.09
+2025-05-28 03:36:42,743 - INFO - OCR text: gh i
+2025-05-28 03:36:42,812 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:36:44,042 - INFO - User behavior: Looking forward and Moving backward, Speed: 15.30
+2025-05-28 03:36:44,067 - INFO - OCR text: oo
+2025-05-28 03:36:44,137 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 03:36:45,312 - INFO - User behavior: Looking forward and Turning right, Speed: 10.40
+2025-05-28 03:36:45,429 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:46,630 - INFO - User behavior: Looking forward and Moving backward, Speed: 7.85
+2025-05-28 03:36:46,654 - INFO - OCR text: a
+2025-05-28 03:36:46,717 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-28 03:36:47,908 - INFO - User behavior: Looking forward and Turning right, Speed: 6.44
+2025-05-28 03:36:47,936 - INFO - OCR text: Et
+2025-05-28 03:36:48,011 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:49,283 - INFO - User behavior: Looking forward and Turning right, Speed: 5.58
+2025-05-28 03:36:49,389 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:50,669 - INFO - User behavior: Looking forward and Slowing down, Speed: 4.84
+2025-05-28 03:36:50,755 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.2m
+2025-05-28 03:36:52,005 - INFO - User behavior: Looking forward and Slowing down, Speed: 4.33
+2025-05-28 03:36:52,032 - INFO - OCR text: pee
+2025-05-28 03:36:52,094 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 03:36:53,290 - INFO - User behavior: Looking forward and Slowing down, Speed: 3.90
+2025-05-28 03:36:53,376 - INFO - Crowd density: Low, Person count: 0, Avg distance: 0.0m
+2025-05-28 03:36:54,559 - INFO - User behavior: Looking forward and Slowing down, Speed: 3.62
+2025-05-28 03:36:54,580 - INFO - OCR text: x
+hi
+2025-05-28 03:36:54,639 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:36:55,835 - INFO - User behavior: Looking forward and Crouching, Speed: 0.75
+2025-05-28 03:36:55,863 - INFO - OCR text: Ft
+ro
+2025-05-28 03:36:55,921 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:36:57,187 - INFO - User behavior: Looking forward and Crouching, Speed: 0.93
+2025-05-28 03:36:57,201 - INFO - Received video frame from client
+2025-05-28 03:36:57,208 - INFO - Received video frame from client
+2025-05-28 03:36:57,212 - INFO - Received video frame from client
+2025-05-28 03:36:57,217 - INFO - Received video frame from client
+2025-05-28 03:36:57,223 - INFO - Received video frame from client
+2025-05-28 03:36:57,230 - INFO - Received video frame from client
+2025-05-28 03:36:57,235 - INFO - Received video frame from client
+2025-05-28 03:36:57,243 - INFO - Received video frame from client
+2025-05-28 03:36:57,249 - INFO - Received video frame from client
+2025-05-28 03:36:57,255 - INFO - Received video frame from client
+2025-05-28 03:36:57,262 - INFO - Received video frame from client
+2025-05-28 03:36:57,268 - INFO - Received video frame from client
+2025-05-28 03:36:57,567 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:57,570 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:57,573 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:57,576 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:36:57,643 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:36:58,897 - INFO - User behavior: Looking forward and Crouching, Speed: 0.93
+2025-05-28 03:36:59,007 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:00,243 - INFO - User behavior: Looking forward and Crouching, Speed: 1.02
+2025-05-28 03:37:00,268 - INFO - OCR text: eh
+i,
+2025-05-28 03:37:00,332 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:01,520 - INFO - User behavior: Looking forward and Crouching, Speed: 0.97
+2025-05-28 03:37:01,543 - INFO - OCR text: ats
+2025-05-28 03:37:01,608 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:02,803 - INFO - User behavior: Looking forward and Crouching, Speed: 0.89
+2025-05-28 03:37:02,834 - INFO - OCR text: 2,
+2025-05-28 03:37:02,900 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:04,125 - INFO - User behavior: Looking forward and Crouching, Speed: 0.89
+2025-05-28 03:37:04,202 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:05,374 - INFO - User behavior: Looking forward and Crouching, Speed: 0.86
+2025-05-28 03:37:05,397 - INFO - Received video frame from client
+2025-05-28 03:37:05,404 - INFO - Received video frame from client
+2025-05-28 03:37:05,412 - INFO - Received video frame from client
+2025-05-28 03:37:05,419 - INFO - Received video frame from client
+2025-05-28 03:37:05,427 - INFO - Received video frame from client
+2025-05-28 03:37:05,435 - INFO - Received video frame from client
+2025-05-28 03:37:05,442 - INFO - Received video frame from client
+2025-05-28 03:37:05,449 - INFO - Received video frame from client
+2025-05-28 03:37:05,458 - INFO - Received video frame from client
+2025-05-28 03:37:05,466 - INFO - Received video frame from client
+2025-05-28 03:37:05,473 - INFO - Received video frame from client
+2025-05-28 03:37:05,481 - INFO - Received video frame from client
+2025-05-28 03:37:05,490 - INFO - Received video frame from client
+2025-05-28 03:37:05,496 - INFO - Received video frame from client
+2025-05-28 03:37:05,504 - INFO - Received video frame from client
+2025-05-28 03:37:05,512 - INFO - Received video frame from client
+2025-05-28 03:37:05,519 - INFO - Received video frame from client
+2025-05-28 03:37:05,526 - INFO - Received video frame from client
+2025-05-28 03:37:05,533 - INFO - Received video frame from client
+2025-05-28 03:37:05,538 - INFO - Received video frame from client
+2025-05-28 03:37:05,546 - INFO - Received video frame from client
+2025-05-28 03:37:05,555 - INFO - Received video frame from client
+2025-05-28 03:37:05,563 - INFO - Received video frame from client
+2025-05-28 03:37:05,570 - INFO - Received video frame from client
+2025-05-28 03:37:05,576 - INFO - Received video frame from client
+2025-05-28 03:37:05,583 - INFO - Received video frame from client
+2025-05-28 03:37:05,590 - INFO - Received video frame from client
+2025-05-28 03:37:05,597 - INFO - Received video frame from client
+2025-05-28 03:37:05,605 - INFO - Received video frame from client
+2025-05-28 03:37:05,612 - INFO - Received video frame from client
+2025-05-28 03:37:05,619 - INFO - Received video frame from client
+2025-05-28 03:37:05,628 - INFO - Received video frame from client
+2025-05-28 03:37:05,634 - INFO - Received video frame from client
+2025-05-28 03:37:05,643 - INFO - Received video frame from client
+2025-05-28 03:37:05,649 - INFO - Received video frame from client
+2025-05-28 03:37:05,658 - INFO - Received video frame from client
+2025-05-28 03:37:05,665 - INFO - Received video frame from client
+2025-05-28 03:37:05,674 - INFO - Received video frame from client
+2025-05-28 03:37:05,682 - INFO - Received video frame from client
+2025-05-28 03:37:05,690 - INFO - Received video frame from client
+2025-05-28 03:37:05,697 - INFO - Received video frame from client
+2025-05-28 03:37:05,705 - INFO - Received video frame from client
+2025-05-28 03:37:05,713 - INFO - Received video frame from client
+2025-05-28 03:37:05,721 - INFO - Received video frame from client
+2025-05-28 03:37:05,730 - INFO - Received video frame from client
+2025-05-28 03:37:05,735 - INFO - Received video frame from client
+2025-05-28 03:37:05,745 - INFO - Received video frame from client
+2025-05-28 03:37:05,750 - INFO - Received video frame from client
+2025-05-28 03:37:05,756 - INFO - Received video frame from client
+2025-05-28 03:37:05,764 - INFO - Received video frame from client
+2025-05-28 03:37:05,770 - INFO - Received video frame from client
+2025-05-28 03:37:05,776 - INFO - Received video frame from client
+2025-05-28 03:37:05,783 - INFO - Received video frame from client
+2025-05-28 03:37:05,789 - INFO - Received video frame from client
+2025-05-28 03:37:05,798 - INFO - Received video frame from client
+2025-05-28 03:37:05,808 - INFO - Received video frame from client
+2025-05-28 03:37:05,815 - INFO - Received video frame from client
+2025-05-28 03:37:05,823 - INFO - Received video frame from client
+2025-05-28 03:37:05,834 - INFO - Received video frame from client
+2025-05-28 03:37:05,843 - INFO - Received video frame from client
+2025-05-28 03:37:05,851 - INFO - Received video frame from client
+2025-05-28 03:37:05,858 - INFO - Received video frame from client
+2025-05-28 03:37:05,865 - INFO - Received video frame from client
+2025-05-28 03:37:05,869 - INFO - Received video frame from client
+2025-05-28 03:37:05,879 - INFO - Received video frame from client
+2025-05-28 03:37:05,884 - INFO - Received video frame from client
+2025-05-28 03:37:05,891 - INFO - Received video frame from client
+2025-05-28 03:37:05,907 - INFO - Received video frame from client
+2025-05-28 03:37:05,918 - INFO - Received video frame from client
+2025-05-28 03:37:05,926 - INFO - Received video frame from client
+2025-05-28 03:37:05,933 - INFO - Received video frame from client
+2025-05-28 03:37:05,942 - INFO - Received video frame from client
+2025-05-28 03:37:05,952 - INFO - Received video frame from client
+2025-05-28 03:37:05,959 - INFO - Received video frame from client
+2025-05-28 03:37:05,965 - INFO - Received video frame from client
+2025-05-28 03:37:05,987 - INFO - Received video frame from client
+2025-05-28 03:37:05,994 - INFO - Received video frame from client
+2025-05-28 03:37:06,180 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,185 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,191 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,198 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,205 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,209 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,213 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,220 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,229 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,235 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,243 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,252 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:06,373 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:07,715 - INFO - User behavior: Looking forward and Crouching, Speed: 0.84
+2025-05-28 03:37:07,834 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:09,053 - INFO - User behavior: Looking forward and Crouching, Speed: 0.81
+2025-05-28 03:37:09,079 - INFO - OCR text: a
+2025-05-28 03:37:09,134 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:10,325 - INFO - User behavior: Looking forward and Crouching, Speed: 0.86
+2025-05-28 03:37:10,415 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:11,622 - INFO - User behavior: Looking forward and Crouching, Speed: 0.54
+2025-05-28 03:37:11,645 - INFO - OCR text: rr Ww Ss
+2025-05-28 03:37:11,712 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:12,906 - INFO - User behavior: Looking forward and Crouching, Speed: 0.64
+2025-05-28 03:37:12,948 - INFO - OCR text: rw
+2025-05-28 03:37:13,015 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:14,215 - INFO - User behavior: Looking forward and Crouching, Speed: 0.61
+2025-05-28 03:37:14,245 - INFO - Received video frame from client
+2025-05-28 03:37:14,253 - INFO - Received video frame from client
+2025-05-28 03:37:14,260 - INFO - Received video frame from client
+2025-05-28 03:37:14,267 - INFO - Received video frame from client
+2025-05-28 03:37:14,274 - INFO - Received video frame from client
+2025-05-28 03:37:14,281 - INFO - Received video frame from client
+2025-05-28 03:37:14,288 - INFO - Received video frame from client
+2025-05-28 03:37:14,297 - INFO - Received video frame from client
+2025-05-28 03:37:14,305 - INFO - Received video frame from client
+2025-05-28 03:37:14,314 - INFO - Received video frame from client
+2025-05-28 03:37:14,322 - INFO - Received video frame from client
+2025-05-28 03:37:14,331 - INFO - Received video frame from client
+2025-05-28 03:37:14,340 - INFO - Received video frame from client
+2025-05-28 03:37:14,349 - INFO - Received video frame from client
+2025-05-28 03:37:14,357 - INFO - Received video frame from client
+2025-05-28 03:37:14,364 - INFO - Received video frame from client
+2025-05-28 03:37:14,373 - INFO - Received video frame from client
+2025-05-28 03:37:14,380 - INFO - Received video frame from client
+2025-05-28 03:37:14,388 - INFO - Received video frame from client
+2025-05-28 03:37:14,395 - INFO - Received video frame from client
+2025-05-28 03:37:14,407 - INFO - Received video frame from client
+2025-05-28 03:37:14,416 - INFO - Received video frame from client
+2025-05-28 03:37:14,424 - INFO - Received video frame from client
+2025-05-28 03:37:14,432 - INFO - Received video frame from client
+2025-05-28 03:37:14,440 - INFO - Received video frame from client
+2025-05-28 03:37:14,449 - INFO - Received video frame from client
+2025-05-28 03:37:14,458 - INFO - Received video frame from client
+2025-05-28 03:37:14,466 - INFO - Received video frame from client
+2025-05-28 03:37:14,474 - INFO - Received video frame from client
+2025-05-28 03:37:14,481 - INFO - Received video frame from client
+2025-05-28 03:37:14,489 - INFO - Received video frame from client
+2025-05-28 03:37:14,499 - INFO - Received video frame from client
+2025-05-28 03:37:14,508 - INFO - Received video frame from client
+2025-05-28 03:37:14,515 - INFO - Received video frame from client
+2025-05-28 03:37:14,524 - INFO - Received video frame from client
+2025-05-28 03:37:14,564 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,567 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,570 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,576 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,579 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,582 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,586 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,589 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,593 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,596 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,599 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,604 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,607 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,610 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,614 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,617 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,621 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,624 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,628 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,630 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,633 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,638 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,641 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,644 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,647 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,652 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,655 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,658 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,661 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,665 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,669 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,674 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,677 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,681 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,685 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,689 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,693 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,697 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,699 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,704 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,707 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,712 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,716 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,721 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,725 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,728 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,732 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,735 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,739 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,745 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,749 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,752 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,756 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,759 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,763 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,766 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,770 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,774 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,777 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,780 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,783 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,786 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,789 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,793 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,795 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,797 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,799 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,803 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,806 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,809 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,812 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,814 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,816 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:14,836 - INFO - Detection: person, Direction: back, Distance: 2.1m
+2025-05-28 03:37:14,837 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:14,905 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:16,098 - INFO - User behavior: Looking forward and Crouching, Speed: 0.59
+2025-05-28 03:37:16,098 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,103 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:16,250 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,255 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,259 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,265 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,270 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,274 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,277 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,282 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,286 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,290 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,294 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,299 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,303 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,309 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,313 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,317 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,322 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,327 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,332 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,337 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,342 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,348 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,356 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,360 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,364 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,379 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,384 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,392 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,399 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,403 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,411 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,416 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,421 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,425 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,429 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,434 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,438 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,455 - INFO - OCR text: re
+2025-05-28 03:37:16,459 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,475 - INFO - OCR text: oo
+2025-05-28 03:37:16,479 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,498 - INFO - OCR text: gh i
+2025-05-28 03:37:16,500 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,512 - INFO - OCR text: Et
+2025-05-28 03:37:16,516 - INFO - Frame processed and sent: 0 detections, 5 alerts
+2025-05-28 03:37:16,534 - INFO - OCR text: a
+2025-05-28 03:37:16,538 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,561 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:37:16,671 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:37:16,697 - INFO - OCR text: pee
+2025-05-28 03:37:16,701 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,721 - INFO - Frame processed and sent: 0 detections, 4 alerts
+2025-05-28 03:37:16,735 - INFO - OCR text: Ft
+ro
+2025-05-28 03:37:16,739 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,757 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:16,774 - INFO - OCR text: x
+hi
+2025-05-28 03:37:16,778 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,844 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,847 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,852 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,855 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:37:16,869 - INFO - OCR text: 2,
+2025-05-28 03:37:16,869 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,875 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,887 - INFO - OCR text: ats
+2025-05-28 03:37:16,887 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,893 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,907 - INFO - OCR text: eh
+i,
+2025-05-28 03:37:16,907 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,912 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:16,928 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,932 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:16,947 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,952 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:16,965 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:16,970 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:17,044 - INFO - OCR text: rr Ws
+2025-05-28 03:37:17,130 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:18,372 - INFO - User behavior: Looking forward and Crouching, Speed: 0.60
+2025-05-28 03:37:18,372 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,378 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:18,410 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,415 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:18,431 - INFO - OCR text: a
+2025-05-28 03:37:18,431 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,435 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:18,450 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,455 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:18,475 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,480 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:18,514 - INFO - OCR text: rr Ww Ss
+2025-05-28 03:37:18,514 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:18,519 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:18,603 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:19,773 - INFO - User behavior: Looking forward and Crouching, Speed: 0.73
+2025-05-28 03:37:19,773 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:19,776 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:19,793 - INFO - OCR text: rw
+2025-05-28 03:37:19,793 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:19,796 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:20,673 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:22,361 - INFO - User behavior: Looking forward and Crouching, Speed: 0.81
+2025-05-28 03:37:22,361 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:22,364 - INFO - Detection: person, Direction: center, Distance: 1.6m
+2025-05-28 03:37:22,367 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:22,404 - INFO - OCR text: a.
+2025-05-28 03:37:22,532 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:23,770 - INFO - User behavior: Looking forward and Crouching, Speed: 0.95
+2025-05-28 03:37:23,771 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:23,775 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:37:27,498 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:37:30,221 - ERROR - OCR error: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\sripa\\AppData\\Local\\Temp\\tess_fvhy2sqh_input.PNG'
+2025-05-28 03:37:30,222 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:37:30,225 - INFO - Detection: person, Direction: center, Distance: 1.6m
+2025-05-28 03:37:30,228 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:37:30,251 - INFO - OCR text: hh i
+2025-05-28 03:37:30,344 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:39:15,781 - INFO - Logger initialized for caregiver_carthik_caretaker_alpha.txt
+2025-05-28 03:39:15,782 - INFO - Caretaker alpha logged in successfully
+2025-05-28 03:39:18,525 - INFO - Caretaker alpha accessed vision page
+2025-05-28 03:39:18,651 - INFO - WebSocket client connected
+2025-05-28 03:39:58,722 - INFO - Received video frame from client
+2025-05-28 03:39:58,921 - INFO - Received video frame from client
+2025-05-28 03:39:59,131 - INFO - Received video frame from client
+2025-05-28 03:39:59,264 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:39:59,309 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:39:59,472 - INFO - Received video frame from client
+2025-05-28 03:39:59,606 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-28 03:40:01,742 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:01,779 - INFO - Received video frame from client
+2025-05-28 03:40:01,928 - INFO - Received video frame from client
+2025-05-28 03:40:01,931 - INFO - Received video frame from client
+2025-05-28 03:40:01,935 - INFO - Received video frame from client
+2025-05-28 03:40:01,939 - INFO - Received video frame from client
+2025-05-28 03:40:01,942 - INFO - Received video frame from client
+2025-05-28 03:40:01,944 - INFO - Received video frame from client
+2025-05-28 03:40:01,949 - INFO - Received video frame from client
+2025-05-28 03:40:01,951 - INFO - Received video frame from client
+2025-05-28 03:40:01,954 - INFO - Received video frame from client
+2025-05-28 03:40:01,958 - INFO - Received video frame from client
+2025-05-28 03:40:01,976 - INFO - Received video frame from client
+2025-05-28 03:40:02,183 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:02,207 - INFO - Received video frame from client
+2025-05-28 03:40:02,533 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:03,723 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:03,725 - INFO - Received video frame from client
+2025-05-28 03:40:03,898 - INFO - Received video frame from client
+2025-05-28 03:40:03,947 - INFO - Received video frame from client
+2025-05-28 03:40:03,952 - INFO - Received video frame from client
+2025-05-28 03:40:03,961 - INFO - Received video frame from client
+2025-05-28 03:40:03,966 - INFO - Received video frame from client
+2025-05-28 03:40:03,999 - INFO - Received video frame from client
+2025-05-28 03:40:04,650 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:05,904 - INFO - User behavior: Looking forward, Speed: 0.00
+2025-05-28 03:40:05,907 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:05,916 - INFO - Received video frame from client
+2025-05-28 03:40:05,956 - INFO - Received video frame from client
+2025-05-28 03:40:05,969 - INFO - Received video frame from client
+2025-05-28 03:40:05,974 - INFO - Received video frame from client
+2025-05-28 03:40:05,980 - INFO - Received video frame from client
+2025-05-28 03:40:05,985 - INFO - Received video frame from client
+2025-05-28 03:40:05,990 - INFO - Received video frame from client
+2025-05-28 03:40:05,995 - INFO - Received video frame from client
+2025-05-28 03:40:05,999 - INFO - Received video frame from client
+2025-05-28 03:40:06,003 - INFO - Received video frame from client
+2025-05-28 03:40:06,029 - INFO - OCR text: Ss
+2025-05-28 03:40:06,086 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:07,247 - INFO - User behavior: Looking forward and Slowing down, Speed: 4.16
+2025-05-28 03:40:07,249 - INFO - Detection: person, Direction: back, Distance: 2.0m
+2025-05-28 03:40:07,252 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:07,263 - INFO - Received video frame from client
+2025-05-28 03:40:07,293 - INFO - OCR text: TS
+2025-05-28 03:40:07,346 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:08,509 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.57
+2025-05-28 03:40:08,512 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:08,595 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:09,747 - INFO - User behavior: Looking forward and Slowing down, Speed: 2.24
+2025-05-28 03:40:09,750 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:09,816 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:10,962 - INFO - User behavior: Looking forward, Speed: 1.97
+2025-05-28 03:40:10,966 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:10,978 - INFO - OCR text: hi
+2025-05-28 03:40:11,027 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:12,170 - INFO - User behavior: Looking forward, Speed: 1.85
+2025-05-28 03:40:12,279 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-28 03:40:13,451 - INFO - User behavior: Looking forward, Speed: 1.57
+2025-05-28 03:40:13,553 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-28 03:40:14,749 - INFO - User behavior: Looking forward, Speed: 1.60
+2025-05-28 03:40:14,770 - INFO - OCR text: YS
+2025-05-28 03:40:14,826 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:15,991 - INFO - User behavior: Looking forward, Speed: 1.49
+2025-05-28 03:40:16,019 - INFO - OCR text: Ss
+2025-05-28 03:40:16,087 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-28 03:40:17,258 - INFO - User behavior: Looking forward, Speed: 1.40
+2025-05-28 03:40:17,342 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:18,524 - INFO - User behavior: Looking forward, Speed: 1.29
+2025-05-28 03:40:18,609 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:19,793 - INFO - User behavior: Looking forward, Speed: 0.91
+2025-05-28 03:40:19,815 - INFO - OCR text: hia
+2025-05-28 03:40:19,873 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 03:40:21,060 - INFO - User behavior: Looking forward, Speed: 0.87
+2025-05-28 03:40:21,070 - INFO - Received video frame from client
+2025-05-28 03:40:21,074 - INFO - Received video frame from client
+2025-05-28 03:40:21,079 - INFO - Received video frame from client
+2025-05-28 03:40:21,083 - INFO - Received video frame from client
+2025-05-28 03:40:21,087 - INFO - Received video frame from client
+2025-05-28 03:40:21,092 - INFO - Received video frame from client
+2025-05-28 03:40:21,155 - INFO - OCR text: Se
+2025-05-28 03:40:21,244 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-28 03:40:22,491 - INFO - User behavior: Looking forward, Speed: 0.77
+2025-05-28 03:40:22,517 - INFO - Received video frame from client
+2025-05-28 03:40:22,524 - INFO - Received video frame from client
+2025-05-28 03:40:22,531 - INFO - Received video frame from client
+2025-05-28 03:40:22,537 - INFO - Received video frame from client
+2025-05-28 03:40:22,545 - INFO - Received video frame from client
+2025-05-28 03:40:22,553 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:22,803 - INFO - Detection: person, Direction: back, Distance: 2.0m
+2025-05-28 03:40:22,806 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:22,846 - INFO - Emergency detected: person too close at 1.9m
+2025-05-28 03:40:22,851 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:22,900 - INFO - OCR text: hi
+2025-05-28 03:40:22,904 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:22,934 - INFO - Emergency detected: person too close at 1.9m
+2025-05-28 03:40:22,939 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:22,968 - INFO - OCR text: YS
+2025-05-28 03:40:22,972 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:23,003 - INFO - OCR text: Ss
+2025-05-28 03:40:23,003 - INFO - Emergency detected: person too close at 1.9m
+2025-05-28 03:40:23,008 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:23,033 - INFO - OCR text: hia
+2025-05-28 03:40:23,040 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:23,079 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:23,089 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,094 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,099 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,104 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,108 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,113 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,117 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,121 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,126 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,130 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,135 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 03:40:23,163 - INFO - OCR text: .
+2025-05-28 03:40:23,244 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:40:24,485 - INFO - User behavior: Looking forward, Speed: 0.87
+2025-05-28 03:40:24,485 - INFO - Emergency detected: person too close at 1.7m
+2025-05-28 03:40:24,488 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:24,525 - INFO - OCR text: Se
+2025-05-28 03:40:24,530 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:25,225 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:40:26,411 - INFO - User behavior: Looking forward and Crouching, Speed: 0.77
+2025-05-28 03:40:26,411 - INFO - Emergency detected: person too close at 1.7m
+2025-05-28 03:40:26,414 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:26,488 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:27,687 - INFO - User behavior: Looking forward and Crouching, Speed: 0.88
+2025-05-28 03:40:27,688 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:27,692 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:27,747 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:28,885 - INFO - User behavior: Looking forward and Crouching, Speed: 0.74
+2025-05-28 03:40:28,885 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:28,887 - INFO - Detection: person, Direction: center, Distance: 1.6m
+2025-05-28 03:40:28,889 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:28,955 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:30,107 - INFO - User behavior: Looking forward and Crouching, Speed: 0.81
+2025-05-28 03:40:30,108 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:30,111 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:30,192 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:31,366 - INFO - User behavior: Looking forward and Crouching, Speed: 0.94
+2025-05-28 03:40:31,367 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:31,371 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:31,441 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:40:32,594 - INFO - User behavior: Looking forward and Crouching, Speed: 1.10
+2025-05-28 03:40:32,594 - INFO - Emergency detected: person too close at 1.7m
+2025-05-28 03:40:32,598 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:32,652 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:33,791 - INFO - User behavior: Looking forward and Crouching, Speed: 1.16
+2025-05-28 03:40:33,791 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:33,796 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:33,817 - INFO - OCR text: wo
+ain
+2025-05-28 03:40:33,879 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:35,055 - INFO - User behavior: Looking forward, Speed: 1.18
+2025-05-28 03:40:35,106 - INFO - OCR text: inn
+2025-05-28 03:40:35,159 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:36,400 - INFO - User behavior: Looking forward and Crouching, Speed: 1.38
+2025-05-28 03:40:36,492 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:37,776 - INFO - User behavior: Looking forward and Crouching, Speed: 1.35
+2025-05-28 03:40:37,863 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:39,106 - INFO - User behavior: Looking forward and Crouching, Speed: 1.41
+2025-05-28 03:40:39,193 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:40,444 - INFO - User behavior: Looking forward, Speed: 1.43
+2025-05-28 03:40:40,535 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:41,738 - INFO - User behavior: Looking forward and Crouching, Speed: 1.53
+2025-05-28 03:40:41,819 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:42,998 - INFO - User behavior: Looking forward and Crouching, Speed: 1.43
+2025-05-28 03:40:43,021 - INFO - OCR text: Ti
+2025-05-28 03:40:43,076 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:44,306 - INFO - User behavior: Looking forward and Crouching, Speed: 1.33
+2025-05-28 03:40:44,394 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:45,653 - INFO - User behavior: Looking forward and Crouching, Speed: 1.33
+2025-05-28 03:40:45,749 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:46,994 - INFO - User behavior: Looking forward and Crouching, Speed: 1.30
+2025-05-28 03:40:47,814 - INFO - OCR text: inn
+2025-05-28 03:40:47,906 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:49,228 - INFO - User behavior: Looking forward and Crouching, Speed: 1.30
+2025-05-28 03:40:49,250 - INFO - OCR text: wo
+ain
+2025-05-28 03:40:49,250 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,252 - INFO - Detection: person, Direction: center, Distance: 1.6m
+2025-05-28 03:40:49,254 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:49,274 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,279 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,294 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,299 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,315 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,320 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,338 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,343 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,354 - INFO - OCR text: inn
+2025-05-28 03:40:49,354 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,358 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:49,370 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,374 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,385 - INFO - OCR text: Ti
+2025-05-28 03:40:49,389 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:49,437 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,440 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,459 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:49,464 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:49,543 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:50,770 - INFO - User behavior: Looking forward and Crouching, Speed: 1.17
+2025-05-28 03:40:50,775 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:50,855 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.7m
+2025-05-28 03:40:52,136 - INFO - User behavior: Looking forward, Speed: 1.13
+2025-05-28 03:40:52,136 - INFO - Emergency detected: person too close at 1.7m
+2025-05-28 03:40:52,139 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:52,150 - INFO - OCR text: a
+2025-05-28 03:40:52,205 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:53,343 - INFO - User behavior: Looking left and Crouching, Speed: 1.06
+2025-05-28 03:40:53,343 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:53,345 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 03:40:53,400 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.6m
+2025-05-28 03:40:54,577 - INFO - User behavior: Looking left and Crouching, Speed: 1.01
+2025-05-28 03:40:54,577 - INFO - Emergency detected: person too close at 1.6m
+2025-05-28 03:40:54,577 - INFO - Detection: person, Direction: center, Distance: 1.6m
+2025-05-28 03:40:54,579 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 03:40:54,642 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.9m
+2025-05-28 03:40:54,719 - ERROR - WebSocket error: 
+2025-05-28 03:40:54,777 - INFO - Crowd density: High, Person count: 1, Avg distance: 1.8m
+2025-05-28 04:00:14,357 - INFO - Logger initialized for caregiver_carthik_caretaker_alpha.txt
+2025-05-28 04:00:14,357 - INFO - Caretaker alpha logged in successfully
+2025-05-28 04:00:16,519 - INFO - Caretaker alpha accessed vision page
+2025-05-28 04:00:16,612 - INFO - WebSocket client connected
+2025-05-28 04:00:24,027 - INFO - Received video frame from client
+2025-05-28 04:00:24,243 - INFO - Received video frame from client
+2025-05-28 04:00:24,457 - INFO - Received video frame from client
+2025-05-28 04:00:24,690 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:24,699 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:24,703 - INFO - Received video frame from client
+2025-05-28 04:00:24,893 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:24,908 - INFO - Received video frame from client
+2025-05-28 04:00:25,140 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.0m
+2025-05-28 04:00:27,142 - INFO - User behavior: Looking forward and Waving left hand and Crouching, Speed: 0.00
+2025-05-28 04:00:27,238 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:28,389 - INFO - Received video frame from client
+2025-05-28 04:00:28,392 - INFO - Received video frame from client
+2025-05-28 04:00:28,395 - INFO - Received video frame from client
+2025-05-28 04:00:28,397 - INFO - Received video frame from client
+2025-05-28 04:00:28,399 - INFO - Received video frame from client
+2025-05-28 04:00:28,400 - INFO - Received video frame from client
+2025-05-28 04:00:28,403 - INFO - Received video frame from client
+2025-05-28 04:00:28,405 - INFO - Received video frame from client
+2025-05-28 04:00:28,407 - INFO - Received video frame from client
+2025-05-28 04:00:28,409 - INFO - Received video frame from client
+2025-05-28 04:00:28,451 - INFO - OCR text: Be
+2025-05-28 04:00:28,496 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:29,656 - INFO - User behavior: Looking forward and Moving backward, Speed: 32.36
+2025-05-28 04:00:29,673 - INFO - Received video frame from client
+2025-05-28 04:00:29,676 - INFO - Received video frame from client
+2025-05-28 04:00:29,678 - INFO - Received video frame from client
+2025-05-28 04:00:29,682 - INFO - Received video frame from client
+2025-05-28 04:00:29,686 - INFO - Received video frame from client
+2025-05-28 04:00:29,689 - INFO - Received video frame from client
+2025-05-28 04:00:29,822 - INFO - Received video frame from client
+2025-05-28 04:00:29,825 - INFO - Received video frame from client
+2025-05-28 04:00:29,827 - INFO - Received video frame from client
+2025-05-28 04:00:29,829 - INFO - Received video frame from client
+2025-05-28 04:00:29,831 - INFO - Received video frame from client
+2025-05-28 04:00:29,833 - INFO - Received video frame from client
+2025-05-28 04:00:29,857 - INFO - Received video frame from client
+2025-05-28 04:00:29,914 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:29,946 - INFO - OCR text: Be
+2025-05-28 04:00:29,950 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 04:00:29,953 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 04:00:30,099 - INFO - Received video frame from client
+2025-05-28 04:00:30,352 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.2m
+2025-05-28 04:00:31,876 - INFO - User behavior: Looking forward and Moving backward, Speed: 18.54
+2025-05-28 04:00:31,878 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:32,048 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:33,255 - INFO - User behavior: Looking forward and Moving backward, Speed: 13.35
+2025-05-28 04:00:33,260 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:33,305 - INFO - Received video frame from client
+2025-05-28 04:00:33,313 - INFO - Received video frame from client
+2025-05-28 04:00:33,321 - INFO - Received video frame from client
+2025-05-28 04:00:33,327 - INFO - Received video frame from client
+2025-05-28 04:00:33,338 - INFO - Received video frame from client
+2025-05-28 04:00:33,346 - INFO - Received video frame from client
+2025-05-28 04:00:33,351 - INFO - Received video frame from client
+2025-05-28 04:00:33,360 - INFO - Received video frame from client
+2025-05-28 04:00:33,365 - INFO - Received video frame from client
+2025-05-28 04:00:33,399 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:33,681 - INFO - Received video frame from client
+2025-05-28 04:00:33,685 - INFO - Received video frame from client
+2025-05-28 04:00:33,690 - INFO - Received video frame from client
+2025-05-28 04:00:33,695 - INFO - Received video frame from client
+2025-05-28 04:00:33,701 - INFO - Received video frame from client
+2025-05-28 04:00:33,705 - INFO - Received video frame from client
+2025-05-28 04:00:33,710 - INFO - Received video frame from client
+2025-05-28 04:00:33,948 - INFO - Received video frame from client
+2025-05-28 04:00:34,030 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:35,165 - INFO - User behavior: Looking forward and Moving backward, Speed: 10.33
+2025-05-28 04:00:35,166 - INFO - Detection: person, Direction: back, Distance: 2.1m
+2025-05-28 04:00:35,167 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:35,179 - INFO - OCR text: hats
+8
+2025-05-28 04:00:35,218 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:36,356 - INFO - User behavior: Looking forward and Moving backward, Speed: 8.56
+2025-05-28 04:00:36,358 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 04:00:36,368 - INFO - OCR text: hoi
+o
+2025-05-28 04:00:36,413 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:37,539 - INFO - User behavior: Looking forward and Moving backward, Speed: 7.32
+2025-05-28 04:00:37,541 - INFO - Frame processed and sent: 1 detections, 6 alerts
+2025-05-28 04:00:37,592 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:38,737 - INFO - User behavior: Looking forward and Moving backward, Speed: 6.40
+2025-05-28 04:00:38,740 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:38,796 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:39,929 - INFO - User behavior: Looking forward and Moving backward, Speed: 5.73
+2025-05-28 04:00:39,931 - INFO - Frame processed and sent: 1 detections, 5 alerts
+2025-05-28 04:00:39,943 - INFO - OCR text: as
+2025-05-28 04:00:39,998 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:41,128 - INFO - User behavior: Looking forward and Moving backward, Speed: 5.14
+2025-05-28 04:00:41,146 - INFO - OCR text: hols,
+2025-05-28 04:00:41,190 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:42,329 - INFO - User behavior: Looking forward and Slowing down, Speed: 4.67
+2025-05-28 04:00:42,351 - INFO - OCR text: sS
+2025-05-28 04:00:42,402 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:43,548 - INFO - User behavior: Looking forward, Speed: 1.52
+2025-05-28 04:00:43,621 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:44,745 - INFO - User behavior: Looking forward, Speed: 1.10
+2025-05-28 04:00:44,835 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:45,986 - INFO - User behavior: Looking forward, Speed: 0.86
+2025-05-28 04:00:45,995 - INFO - Received video frame from client
+2025-05-28 04:00:46,002 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,004 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,006 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,009 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,012 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,015 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,018 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,021 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,024 - INFO - Location updated: [12.9719, 77.5937], indoor: unknown
+2025-05-28 04:00:46,198 - INFO - OCR text: hk
+al
+2025-05-28 04:00:46,247 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:47,396 - INFO - User behavior: Looking forward, Speed: 0.79
+2025-05-28 04:00:47,418 - INFO - OCR text: his
+aS
+2025-05-28 04:00:47,469 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:48,636 - INFO - User behavior: Looking forward, Speed: 0.66
+2025-05-28 04:00:48,724 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:49,908 - INFO - User behavior: Looking forward, Speed: 0.57
+2025-05-28 04:00:49,936 - INFO - OCR text: fh
+2025-05-28 04:00:49,997 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:51,166 - INFO - User behavior: Looking forward, Speed: 0.50
+2025-05-28 04:00:51,184 - INFO - OCR text: es
+2025-05-28 04:00:51,235 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:52,402 - INFO - User behavior: Looking forward, Speed: 0.45
+2025-05-28 04:00:52,424 - INFO - OCR text: So .
+eal
+2025-05-28 04:00:52,471 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:53,632 - INFO - User behavior: Looking forward, Speed: 0.42
+2025-05-28 04:00:53,646 - INFO - Received video frame from client
+2025-05-28 04:00:53,649 - INFO - Received video frame from client
+2025-05-28 04:00:53,654 - INFO - Received video frame from client
+2025-05-28 04:00:53,658 - INFO - Received video frame from client
+2025-05-28 04:00:53,661 - INFO - Received video frame from client
+2025-05-28 04:00:53,665 - INFO - Received video frame from client
+2025-05-28 04:00:53,669 - INFO - Received video frame from client
+2025-05-28 04:00:53,673 - INFO - Received video frame from client
+2025-05-28 04:00:53,677 - INFO - Received video frame from client
+2025-05-28 04:00:53,681 - INFO - Received video frame from client
+2025-05-28 04:00:53,685 - INFO - Received video frame from client
+2025-05-28 04:00:53,689 - INFO - Received video frame from client
+2025-05-28 04:00:53,693 - INFO - Received video frame from client
+2025-05-28 04:00:53,697 - INFO - Received video frame from client
+2025-05-28 04:00:53,702 - INFO - Received video frame from client
+2025-05-28 04:00:53,708 - INFO - Received video frame from client
+2025-05-28 04:00:53,712 - INFO - Received video frame from client
+2025-05-28 04:00:53,717 - INFO - Received video frame from client
+2025-05-28 04:00:53,720 - INFO - Received video frame from client
+2025-05-28 04:00:53,725 - INFO - Received video frame from client
+2025-05-28 04:00:53,729 - INFO - Received video frame from client
+2025-05-28 04:00:53,734 - INFO - Received video frame from client
+2025-05-28 04:00:53,739 - INFO - Received video frame from client
+2025-05-28 04:00:53,746 - INFO - Received video frame from client
+2025-05-28 04:00:53,750 - INFO - Received video frame from client
+2025-05-28 04:00:53,755 - INFO - Received video frame from client
+2025-05-28 04:00:53,759 - INFO - Received video frame from client
+2025-05-28 04:00:53,763 - INFO - Received video frame from client
+2025-05-28 04:00:53,767 - INFO - Received video frame from client
+2025-05-28 04:00:53,772 - INFO - Received video frame from client
+2025-05-28 04:00:53,779 - INFO - Received video frame from client
+2025-05-28 04:00:53,785 - INFO - Received video frame from client
+2025-05-28 04:00:53,791 - INFO - Received video frame from client
+2025-05-28 04:00:53,796 - INFO - Received video frame from client
+2025-05-28 04:00:53,800 - INFO - Received video frame from client
+2025-05-28 04:00:53,804 - INFO - Received video frame from client
+2025-05-28 04:00:53,807 - INFO - Received video frame from client
+2025-05-28 04:00:53,811 - INFO - Received video frame from client
+2025-05-28 04:00:53,814 - INFO - Received video frame from client
+2025-05-28 04:00:53,818 - INFO - Received video frame from client
+2025-05-28 04:00:53,821 - INFO - Received video frame from client
+2025-05-28 04:00:53,825 - INFO - Received video frame from client
+2025-05-28 04:00:53,829 - INFO - Received video frame from client
+2025-05-28 04:00:53,832 - INFO - Received video frame from client
+2025-05-28 04:00:53,836 - INFO - Received video frame from client
+2025-05-28 04:00:53,840 - INFO - Received video frame from client
+2025-05-28 04:00:53,846 - INFO - Received video frame from client
+2025-05-28 04:00:53,854 - INFO - Received video frame from client
+2025-05-28 04:00:53,858 - INFO - Received video frame from client
+2025-05-28 04:00:53,862 - INFO - Received video frame from client
+2025-05-28 04:00:53,866 - INFO - Received video frame from client
+2025-05-28 04:00:53,873 - INFO - Received video frame from client
+2025-05-28 04:00:53,877 - INFO - Received video frame from client
+2025-05-28 04:00:53,883 - INFO - Received video frame from client
+2025-05-28 04:00:53,889 - INFO - Received video frame from client
+2025-05-28 04:00:53,893 - INFO - Received video frame from client
+2025-05-28 04:00:53,898 - INFO - Received video frame from client
+2025-05-28 04:00:53,903 - INFO - Received video frame from client
+2025-05-28 04:00:53,971 - INFO - OCR text: hii
+2025-05-28 04:00:54,018 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m
+2025-05-28 04:00:54,739 - ERROR - WebSocket error: 
+2025-05-28 04:00:54,802 - INFO - Crowd density: High, Person count: 1, Avg distance: 2.1m

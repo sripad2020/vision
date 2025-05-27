@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.1.2/dist/kute.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
     <style>
         :root {
             --primary: #ff7b25;
@@ -64,7 +63,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            transform-style: preserve-3d;
             margin-bottom: 40px;
         }
 
@@ -83,7 +81,7 @@
 
         .input-group input {
             width: 100%;
-            padding: 15px 20px;
+            padding: 15px 50px 15px 20px;
             border: none;
             border-radius: 50px;
             background: rgba(255, 255, 255, 0.9);
@@ -113,6 +111,20 @@
             font-size: 12px;
             background: white;
             padding: 0 5px;
+            color: var(--primary);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+            font-size: 18px;
+        }
+
+        .toggle-password:hover {
             color: var(--primary);
         }
 
@@ -261,7 +273,7 @@
             }
 
             .input-group input {
-                padding: 12px 15px;
+                padding: 12px 45px 12px 15px;
             }
 
             .caretakers-section h2 {
@@ -294,7 +306,7 @@
 <body>
     <div id="particles-js"></div>
     <div class="signup-wrapper">
-        <div class="signup-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+        <div class="signup-container">
             <div class="logo">
                 <i class="fas fa-user-plus"></i>
             </div>
@@ -315,7 +327,14 @@
                 <div class="input-group">
                     <input type="password" id="password" required aria-describedby="password-help">
                     <label for="password">Password</label>
+                    <i class="fas fa-eye toggle-password" id="toggle-password"></i>
                     <span id="password-help" class="sr-only">Enter your password</span>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="confirm-password" required aria-describedby="confirm-password-help">
+                    <label for="confirm-password">Confirm Password</label>
+                    <i class="fas fa-eye toggle-password" id="toggle-confirm-password"></i>
+                    <span id="confirm-password-help" class="sr-only">Confirm your password</span>
                 </div>
                 <button type="submit" class="btn">Sign Up</button>
             </form>
@@ -329,7 +348,7 @@
             {% if caretakers %}
                 <div class="caretakers-grid">
                     {% for caretaker in caretakers %}
-                        <a href="{{ url_for('caregiver_dashboard', username=caretaker) }}" class="user-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+                        <a href="{{ url_for('caregiver_dashboard', username=caretaker) }}" class="user-card">
                             <i class="fas fa-user"></i>
                             <span>{{ caretaker }}</span>
                         </a>
@@ -342,22 +361,6 @@
     </div>
 
     <script>
-        // Initialize Tilt.js for signup container and caregiver cards
-        VanillaTilt.init(document.querySelector(".signup-container"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-        });
-        VanillaTilt.init(document.querySelectorAll(".user-card"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-        });
-
         // Create blue stars
         function createStars() {
             const starCount = 30;
@@ -464,6 +467,26 @@
             });
         }
 
+        // Password toggle functionality
+        const togglePassword = document.getElementById('toggle-password');
+        const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.classList.toggle('fa-eye');
+            togglePassword.classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener('click', () => {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            toggleConfirmPassword.classList.toggle('fa-eye');
+            toggleConfirmPassword.classList.toggle('fa-eye-slash');
+        });
+
         // Form submission with AJAX
         document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -471,12 +494,26 @@
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
             const errorMessage = document.getElementById('error-message');
             const successMessage = document.getElementById('success-message');
             const btn = document.querySelector('button[type="submit"]');
 
             errorMessage.style.display = 'none';
             successMessage.style.display = 'none';
+
+            if (!username || !email || !password || !confirmPassword) {
+                errorMessage.textContent = 'Please fill in all fields';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up...';
 

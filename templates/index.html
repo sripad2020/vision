@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/kute.js@2.2.4/dist/kute.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vanilla-tilt@1.7.2/dist/vanilla-tilt.min.js"></script>
     <style>
         :root {
             --primary: #ff7b25;
@@ -64,7 +63,6 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            transform-style: preserve-3d;
             margin-bottom: 40px;
             text-align: center;
             animation: fadeIn 1.5s ease-in;
@@ -229,7 +227,7 @@
 <body>
     <div id="particles-js"></div>
     <div class="container">
-        <div class="hero-container" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+        <div class="hero-container">
             <div class="logo">
                 <i class="fas fa-eye"></i>
             </div>
@@ -245,43 +243,43 @@
             </div>
         </div>
         <div class="features">
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Real-Time Object Detection</h3>
                 <p>Detects 15 obstacles like cars, potholes, and stairs using YOLOv8, with distance estimation.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Text Reading</h3>
                 <p>Reads signs and billboards aloud using Tesseract OCR for real-world text recognition.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Voice Assistant</h3>
                 <p>Ask “What’s in front of me?” or “How far is the exit?” for natural language responses.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>AR Navigation</h3>
                 <p>Simulated AR overlays with directional arrows on roads, guiding you step-by-step.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Emergency Alerts</h3>
                 <p>Instant alerts to caregivers for safety, with voice-activated emergency calls.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Caregiver Dashboard</h3>
                 <p>Live monitoring of user activity, location, and alerts via a web interface.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Context-Aware Routes</h3>
                 <p>Landmark-based directions like “Walk past the tall tree” for intuitive navigation.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Indoor Navigation</h3>
                 <p>Guides through static floor plans (e.g., hospitals) with dynamic overlays.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Safe Zone Alerts</h3>
                 <p>Notifies when entering/leaving safe zones like home or school.</p>
             </div>
-            <div class="feature-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+            <div class="feature-card">
                 <h3>Behavior Analysis</h3>
                 <p>Tracks 10 behaviors (e.g., looking left, crouching) for enhanced safety.</p>
             </div>
@@ -291,22 +289,6 @@
     <div id="alerts"></div>
 
     <script>
-        // Initialize Tilt.js for hero container and feature cards
-        VanillaTilt.init(document.querySelector(".hero-container"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-        });
-        VanillaTilt.init(document.querySelectorAll(".feature-card"), {
-            max: 5,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.2,
-            gyroscope: true
-        });
-
         // Create blue stars
         function createStars() {
             const starCount = 30;
