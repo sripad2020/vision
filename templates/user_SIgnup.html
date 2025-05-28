@@ -183,7 +183,7 @@
         }
 
         .success-message {
-            color: #2ed573;
+            color: #rule
             text-align: center;
             margin-bottom: 20px;
             font-size: 14px;
@@ -346,6 +346,18 @@
                         <span id="username-help" class="sr-only">Choose a username for the caretaker</span>
                     </div>
                     <div class="input-group">
+                        <input type="password" id="password" required aria-describedby="password-help">
+                        <label for="password">Password</label>
+                        <i class="fas fa-eye toggle-password" id="toggle-password"></i>
+                        <span id="password-help" class="sr-only">Enter a secure password</span>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="confirm-password" required aria-describedby="confirm-password-help">
+                        <label for="confirm-password">Confirm Password</label>
+                        <i class="fas fa-eye toggle-password" id="toggle-confirm-password"></i>
+                        <span id="confirm-password-help" class="sr-only">Confirm your password</span>
+                    </div>
+                    <div class="input-group">
                         <input type="password" id="speech-text" required aria-describedby="speech-help">
                         <label for="speech-text">Speech Credential</label>
                         <i class="fas fa-eye toggle-speech" id="toggle-speech"></i>
@@ -496,74 +508,129 @@
         const speechInput = document.getElementById('speech-text');
 
         togglePassword.addEventListener('click', () => {
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
             togglePassword.classList.toggle('fa-eye');
             togglePassword.classList.toggle('fa-eye-slash');
         });
 
         toggleConfirmPassword.addEventListener('click', () => {
-            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            confirmPasswordInput.setAttribute('type', type);
+            const type = confirmPasswordInput.type === 'password' ? 'text' : 'password';
+            confirmPasswordInput.type = type;
             toggleConfirmPassword.classList.toggle('fa-eye');
             toggleConfirmPassword.classList.toggle('fa-eye-slash');
         });
 
         toggleSpeech.addEventListener('click', () => {
-            const type = speechInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            speechInput.setAttribute('type', type);
+            const type = speechInput.type === 'password' ? 'text' : 'password';
+            speechInput.type = type;
             toggleSpeech.classList.toggle('fa-eye');
             toggleSpeech.classList.toggle('fa-eye-slash');
         });
 
         // Speech Recognition Setup
-        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognition.maxAlternatives = 1;
-
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
         let isRecording = false;
         const recordButton = document.getElementById('record-speech');
         const speechText = document.getElementById('speech-text');
+        const errorMessage = document.getElementById('error-message');
 
-        recordButton.addEventListener('click', () => {
-            if (!isRecording) {
-                try {
-                    recognition.start();
-                    recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
-                    recordButton.style.background = '#ff4757';
-                    isRecording = true;
-                } catch (error) {
-                    const errorMessage = document.getElementById('error-message');
-                    errorMessage.textContent = 'Speech recognition unavailable. Please type the credential.';
-                    errorMessage.style.display = 'block';
+        // Check for microphone permission
+        async function checkMicrophonePermission() {
+            try {
+                const permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+                return permissionStatus.state === 'granted';
+            } catch (err) {
+                console.error('Permission check error:', err);
+                return false;
+            }
+        }
+
+        // Request microphone permission
+        async function requestMicrophonePermission() {
+            try {
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                return true;
+            } catch (err) {
+                console.error('Microphone permission error:', err);
+                return false;
+            }
+        }
+
+        // Initialize speech recognition if supported
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recordButton.addEventListener('click', async () => {
+                if (!isRecording) {
+                    // Check microphone permission
+                    let hasPermission = await checkMicrophonePermission();
+                    if (!hasPermission) {
+                        hasPermission = await requestMicrophonePermission();
+                        if (!hasPermission) {
+                            errorMessage.textContent = 'Microphone access denied. Please allow microphone access or type the credential.';
+                            errorMessage.style.display = 'block';
+                            return;
+                        }
+                    }
+
+                    try {
+                        recognition.start();
+                        recordButton.innerHTML = '<i class="fas fa-stop"></i> Stop Recording';
+                        recordButton.style.background = '#ff4757';
+                        isRecording = true;
+                        errorMessage.style.display = 'none';
+                    } catch (error) {
+                        errorMessage.textContent = 'Failed to start speech recognition. Please try again or type the credential.';
+                        errorMessage.style.display = 'block';
+                        recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+                        recordButton.style.background = 'var(--primary)';
+                        isRecording = false;
+                    }
+                } else {
+                    recognition.stop();
                     recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
                     recordButton.style.background = 'var(--primary)';
                     isRecording = false;
                 }
-            } else {
-                recognition.stop();
+            });
+
+            recognition.onresult = (event) => {
+                if (event.results[0] && event.results[0][0]) {
+                    const transcript = event.results[0][0].transcript;
+                    speechText.value = transcript;
+                    errorMessage.style.display = 'none';
+                    recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+                    recordButton.style.background = 'var(--primary)';
+                    isRecording = false;
+                }
+            };
+
+            recognition.onerror = (event) => {
+                errorMessage.textContent = `Speech recognition error: ${event.error}. Please try again or type the credential.`;
+                errorMessage.style.display = 'block';
                 recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
                 recordButton.style.background = 'var(--primary)';
                 isRecording = false;
-            }
-        });
+            };
 
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            speechText.value = transcript;
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.style.display = 'none';
-        };
-
-        recognition.onerror = (event) => {
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = `Speech recognition error: ${event.error}. Please type the credential.`;
+            recognition.onend = () => {
+                if (isRecording) {
+                    recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
+                    recordButton.style.background = 'var(--primary)';
+                    isRecording = false;
+                }
+            };
+        } else {
+            recordButton.disabled = true;
+            recordButton.style.opacity = '0.6';
+            errorMessage.textContent = 'Speech recognition not supported in this browser. Please type the credential.';
             errorMessage.style.display = 'block';
-            recordButton.innerHTML = '<i class="fas fa-microphone"></i> Record Speech';
-            recordButton.style.background = 'var(--primary)';
-            isRecording = false;
-        };
+        }
 
         // Form submission with AJAX
         document.getElementById('caretakerForm').addEventListener('submit', function(e) {

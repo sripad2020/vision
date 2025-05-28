@@ -15,7 +15,7 @@ import math
 import re
 import pytesseract
 import glob
-from datetime import datetime
+from datetime import datetime   
 from collections import deque
 from flask import Flask, render_template, jsonify, request, session, flash, redirect, url_for,send_file
 from flask_socketio import SocketIO, emit
@@ -1702,7 +1702,7 @@ def download_logs(caretaker_username):
     caretaker = c.fetchone()
     conn.close()
     if not caretaker or caretaker['caregiver_username'] != session['username']:
-        flash("Unauthorized access to this caretaker?s logs", "error")
+        flash("Unauthorized access to this caretaker�s logs", "error")
         return redirect(url_for('caretakers'))
     log_file = f"logs/caregiver_{session['username']}_caretaker_{caretaker_username}.log"
     logger = logging.getLogger(f'CaregiverLogger_{session["username"]}_{caretaker_username}')
@@ -1728,6 +1728,7 @@ def handle_dashboard_connect():
 def handle_dashboard_disconnect():
     logger = logging.getLogger(f'CaregiverLogger_{session.get("username", "unknown")}_general')
     logger.info('Caregiver dashboard WebSocket disconnected')
+
 
 if __name__ == '__main__':
     logger = logging.getLogger('CaregiverLogger')

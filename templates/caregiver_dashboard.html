@@ -349,7 +349,19 @@
     </div>
 
     <div class="container">
-        <div class="d-flex justify-content-end mb-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} mb-4">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ url_for('download_logs', caretaker_username=username) }}" class="btn btn-primary" aria-describedby="download-logs-help">
+                <i class="fas fa-download me-2"></i>Download Logs
+            </a>
+            <span id="download-logs-help" class="sr-only">Download the log file for this caretaker</span>
             <a href="#" class="logout-btn" id="logout-btn" onclick="logout()" aria-describedby="logout-help">Logout</a>
             <span id="logout-help" class="sr-only">Log out of the caregiver dashboard</span>
         </div>
@@ -391,7 +403,7 @@
                     <h4 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i>Emergency Alert</h4>
                     <p id="emergencyMessage" class="mb-0">An emergency situation has been detected!</p>
                 </div>
-                <button id="acknowledgeBtn" class="btn btn-light">Acknowledge</button>
+                <button id="acknowledgeBtn" class="btn btn-light" aria-label="Acknowledge emergency alert">Acknowledge</button>
             </div>
         </div>
 
@@ -402,7 +414,7 @@
                         <button id="refreshLogs" class="btn btn-sm btn-primary me-2">
                             <i class="fas fa-sync-alt"></i> Refresh
                         </button>
-                        <div class="btn-group btn-group-sm" role="group">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Log filter options">
                             <button type="button" class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
                             <button type="button" class="btn btn-outline-info filter-btn" data-filter="info">Info</button>
                             <button type="button" class="btn btn-outline-warning filter-btn" data-filter="warning">Warnings</button>
@@ -410,7 +422,7 @@
                         </div>
                     </div>
                     <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                        <input class="form-check-input" type="checkbox" id="autoRefresh" checked aria-label="Toggle auto-refresh every 30 seconds">
                         <label class="form-check-label" for="autoRefresh">Auto-refresh (30s)</label>
                     </div>
                 </div>
@@ -421,7 +433,7 @@
             <div id="logContainer" class="p-3">
                 <div class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+                        <span class="sr-only">Loading...</span>
                     </div>
                     <p class="mt-2">Loading log data...</p>
                 </div>
@@ -429,8 +441,10 @@
         </div>
 
         <div class="links d-flex justify-content-center mt-4">
-            <a href="/caretakers">Back to Caretakers</a>
-            <a href="/">Home</a>
+            <a href="{{ url_for('caretakers') }}" aria-describedby="caretakers-help">Back to Caretakers</a>
+            <span id="caretakers-help" class="sr-only">Return to the list of caretakers</span>
+            <a href="{{ url_for('index') }}" aria-describedby="home-help">Home</a>
+            <span id="home-help" class="sr-only">Return to the home page</span>
         </div>
     </div>
 
@@ -530,7 +544,7 @@
         document.getElementById('logout-btn').addEventListener('mouseleave', () => logoutTween.reverse().start());
 
         // Connect to WebSocket for real-time updates
-        const socket = io.connect('/caregiver_dashboard/{{ username }}', { path: '/socket.io' });
+        const socket = io('/caregiver_dashboard/{{ username }}');
 
         // DOM elements
         const logContainer = document.getElementById('logContainer');
@@ -597,31 +611,50 @@
             });
 
             // Handle WebSocket messages
-            socket.on('log_update', (data) => {
-                logs = data.logs;
-                lastUpdatedEl.textContent = `Last updated: ${data.last_updated}`;
-                updateStatusCards();
-                renderLogs();
+            socket.on('connect', () => {
+                console.log('Connected to caregiver dashboard WebSocket');
             });
 
-            socket.on('user_status', function(data) {
-                if (data.emergency) {
+            socket.on('log_update', (data) => {
+                fetch(`/get_logs/{{ username }}`)
+                    .then(response => response.json())
+                    .then(logData => {
+                        logs = logData.logs || [];
+                        lastUpdatedEl.textContent = `Last updated: ${logData.last_updated || new Date().toLocaleTimeString()}`;
+                        updateStatusCards();
+                        renderLogs();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching logs:', error);
+                        logContainer.innerHTML = `<div class="alert alert-danger">Error loading logs: ${error.message}</div>`;
+                    });
+            });
+
+            socket.on('dashboard_update', (data) => {
+                if (data.emergency && !emergencyActive) {
                     emergencyMessageEl.textContent = data.emergency;
                     emergencyAlertEl.classList.remove('d-none');
                     emergencyActive = true;
                 }
 
-                if (data.behavior) {
-                    currentActivityEl.textContent = data.behavior;
-                }
-
-                if (data.speed) {
-                    currentSpeedEl.textContent = data.speed;
+                if (data.user_behavior) {
+                    currentActivityEl.textContent = data.user_behavior;
+                    currentSpeedEl.textContent = data.avg_distance ? `${data.avg_distance.toFixed(1)} m/s` : '-';
                 }
 
                 if (data.crowd_density) {
                     currentCrowdEl.textContent = data.crowd_density;
                     crowdUpdatedEl.textContent = new Date().toLocaleTimeString();
+                }
+
+                updateStatusCards();
+            });
+
+            socket.on('emergency', (data) => {
+                if (!emergencyActive) {
+                    emergencyMessageEl.textContent = data.message;
+                    emergencyAlertEl.classList.remove('d-none');
+                    emergencyActive = true;
                 }
             });
 
@@ -644,7 +677,7 @@
         }
 
         function loadLogs() {
-            fetch('/get_logs')
+            fetch(`/get_logs/{{ username }}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -652,7 +685,7 @@
                         return;
                     }
 
-                    logs = data.logs;
+                    logs = data.logs || [];
                     lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
                     logFileInfoEl.textContent = `Log file: ${data.log_file ? data.log_file.split('/').pop() : 'N/A'}`;
 
@@ -679,15 +712,6 @@
             if (activityLog) {
                 currentActivityEl.textContent = activityLog.metrics.behavior;
                 currentSpeedEl.textContent = activityLog.metrics.speed || '-';
-            }
-
-            if (!emergencyActive) {
-                const emergencyLog = logs.find(log => log.class === 'danger');
-                if (emergencyLog) {
-                    emergencyMessageEl.textContent = emergencyLog.message;
-                    emergencyAlertEl.classList.remove('d-none');
-                    emergencyActive = true;
-                }
             }
 
             systemStatusEl.textContent = logs.length > 0 ? 'Active' : 'Inactive';
