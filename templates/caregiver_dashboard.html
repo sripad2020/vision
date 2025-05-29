@@ -750,7 +750,7 @@
                 html += `
                     <div class="log-entry ${log.class}" data-type="${log.class}">
                         <div class="d-flex justify-content-between align-items-start mb-1">
-                            <span class="log-timestamp">${new Date(log.timestamp).toLocaleString()}</span>
+                            <span class="log-timestamp">{{log_date_now}}</span>
                             <span class="badge bg-${log.class} log-type">${log.type}</span>
                         </div>
                         <div class="log-message">${log.message}</div>

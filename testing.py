@@ -650,6 +650,7 @@ def vision():
     logger.info(f"Caretaker {session['username']} accessed vision page")
     return render_template('ar_.html')
 
+log_date_now = datetime.now()
 @app.route('/caregiver_dashboard/<caretaker_username>')
 @login_required
 def caregiver_dashboard(caretaker_username):
@@ -712,6 +713,7 @@ def caregiver_dashboard(caretaker_username):
                     continue
         except Exception as e:
             logger.error(f"Error reading log file {log_file}: {str(e)}")
+
     if log_update_thread is None:
         log_update_running = True
         log_update_thread = threading.Thread(target=lambda: log_updater(caretaker_username), daemon=True)
@@ -721,7 +723,8 @@ def caregiver_dashboard(caretaker_username):
         username=caretaker_username,
         logs=processed_logs,
         log_file=log_file,
-        last_updated=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        last_updated=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        log_date_now=datetime.now()
     )
 
 @app.route('/logout')
